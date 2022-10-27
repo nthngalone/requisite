@@ -1,0 +1,26 @@
+name: requisite-ui
+
+deployment:
+  enabled: true
+  image:
+    name: requisite/ui
+    tag: 1.0.0
+    pullPolicy: Never
+    #pullPolicy: IfNotPresent
+  replicaCount: 1
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  host: requisite.local
+  path: /
+
+configmap:
+  enabled: false
+
+secret:
+  enabled: false

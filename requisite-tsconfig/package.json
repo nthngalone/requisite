@@ -1,0 +1,21 @@
+{
+  "name": "@requisite/tsconfig",
+  "version": "0.0.1",
+  "description": "Base TypeScript configurations for Requisite modules",
+  "keywords": [
+    "typescript",
+    "tsconfig",
+    "requisite"
+  ],
+  "main": "tsconfig.json",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nthngalone/requisite.git"
+  },
+  "author": "NthngAlone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nthngalone/requisite/issues"
+  },
+  "homepage": "https://github.com/nthngalone/requisite/requisite-tsconfig#readme"
+}

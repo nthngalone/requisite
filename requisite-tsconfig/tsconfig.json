@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "target": "ES6",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "declaration": true,
+        "resolveJsonModule": true,
+        "paths": {
+            "@requisite/model/dist": ["node_modules/@requisite/model/src"],
+            "@requisite/page-objects/dist": ["node_modules/@requisite/page-objects/src"],
+            "@requisite/utils/dist": ["node_modules/@requisite/utils/src"]
+        }
+    }
+}

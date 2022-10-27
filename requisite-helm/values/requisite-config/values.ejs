@@ -1,0 +1,31 @@
+name: requisite
+
+deployment:
+  enabled: false
+
+service:
+  enabled: false
+
+ingress:
+  enabled: false
+
+configmap:
+  enabled: true
+  values:
+    SYSADMIN_DOMAIN: <%= SYSADMIN_DOMAIN %>
+    SYSADMIN_USERNAME: <%= SYSADMIN_USERNAME %>
+    SYSADMIN_EMAIL: <%= SYSADMIN_EMAIL %>
+    SYSADMIN_FIRST_NAME: <%= SYSADMIN_FIRST_NAME %>
+    SYSADMIN_LAST_NAME: <%= SYSADMIN_LAST_NAME %>
+    API_PORT: "<%= API_PORT %>"
+    API_LOG_LEVEL: <%= API_LOG_LEVEL %>
+    API_JWT_EXPIRY: <%= API_JWT_EXPIRY %>
+    API_DB_CONNECTION_URL: <%= API_DB_CONNECTION_URL %>
+    POSTGRES_DB: <%= POSTGRES_DB %>
+    POSTGRES_USER: <%= POSTGRES_USER %>
+    PGDATA: <%= PGDATA %>
+    PGADMIN_DEFAULT_EMAIL: <%= PGADMIN_DEFAULT_EMAIL %>
+    PGADMIN_LISTEN_PORT: "<%= PGADMIN_LISTEN_PORT %>"
+
+secret:
+  enabled: false

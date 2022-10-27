@@ -1,0 +1,21 @@
+name: requisite
+
+deployment:
+  enabled: false
+
+service:
+  enabled: false
+
+ingress:
+  enabled: false
+
+configmap:
+  enabled: false
+
+secret:
+  enabled: true
+  values:
+    SYSADMIN_PASSWORD: "<%= btoa(SYSADMIN_PASSWORD) %>"
+    DEFAULT_USER_PASSWORD: "<%= btoa(DEFAULT_USER_PASSWORD) %>"
+    POSTGRES_PASSWORD: "<%= btoa(POSTGRES_PASSWORD) %>"
+    PGADMIN_DEFAULT_PASSWORD: "<%= btoa(PGADMIN_DEFAULT_PASSWORD) %>"

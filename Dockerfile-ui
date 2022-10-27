@@ -1,0 +1,7 @@
+FROM nginx
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY ./requisite-ui/dist /etc/nginx/html
+
+COPY ./requisite-ui/server/conf /etc/nginx

@@ -1,0 +1,70 @@
+{
+  "name": "requisite",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ts-node": "^10.8.1"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.1",
+    "@types/gulp": "^4.0.9",
+    "@types/jest": "^27.5.2",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "ejs": "^3.1.8",
+    "eslint": "^8.17.0",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
+    "jest": "^28.1.3",
+    "ts-jest": "^28.0.8",
+    "typedoc": "^0.22.17",
+    "typedoc-plugin-markdown": "^3.12.1",
+    "typescript": "^4.7.3"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:api": "npm run build --workspace=requisite-api",
+    "build:model": "npm run build --workspace=requisite-model",
+    "build:page-objects": "npm run build --workspace=requisite-page-objects",
+    "build:ui": "npm run build --workspace=requisite-ui",
+    "build:utils": "npm run build --workspace=requisite-utils",
+    "build:containers": "npm run build:container --workspaces --if-present",
+    "dep-checks": "npm outdated --depth 0",
+    "docs": "npm run docs --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:api": "npm run lint --workspace=requisite-api",
+    "lint:model": "npm run lint --workspace=requisite-model",
+    "lint:page-objects": "npm run lint --workspace=requisite-page-objects",
+    "lint:ui": "npm run lint --workspace=requisite-ui",
+    "lint:utils": "npm run lint --workspace=requisite-utils",
+    "test": "npm run test --workspaces --if-present",
+    "test:api": "npm run test --workspace=requisite-api",
+    "test:ui": "npm run test --workspace=requisite-ui",
+    "test:utils": "npm run test --workspace=requisite-utils",
+    "test:e2e:api": "npm run test:api --workspace=requisite-e2e-testing",
+    "test:e2e:web": "npm run test:web --workspace=requisite-e2e-testing",
+    "nuke": "rm -rf node_modules && rm -rf **/node_modules && rm package-lock.json && rm **/package-lock.json",
+    "pipeline": "gulp -f pipeline.ts",
+    "qa": "npm run build && npm run lint && npm run test",
+    "serve:ui": "npm run serve --workspace=requisite-ui",
+    "reinstall": "npm run nuke && npm install"
+  },
+  "author": "NthngAlone",
+  "license": "MIT",
+  "workspacesComments": [
+    "// The order listed below is the proper build order for the individual modules.",
+    "// Yes, it would be easier to wildcard on all requisite-*, but I wanted to be able ",
+    "// to control what order the projects were ran in"
+  ],
+  "workspaces": [
+    "./requisite-tsconfig",
+    "./requisite-eslint-config",
+    "./requisite-model",
+    "./requisite-utils",
+    "./requisite-page-objects",
+    "./requisite-api",
+    "./requisite-ui",
+    "./requisite-e2e-testing"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+    "extends": [
+        "@requisite/eslint-config"
+    ],
+    "rules": {
+        "@typescript-eslint/no-extra-semi": "off",
+        "semi": "off",
+        "no-unused-vars": "off"
+    }
+}

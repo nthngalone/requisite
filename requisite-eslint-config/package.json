@@ -1,0 +1,21 @@
+{
+  "name": "@requisite/eslint-config",
+  "version": "0.0.1",
+  "description": "ESLint Rules for Requisite modules",
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "requisite"
+  ],
+  "main": ".eslintrc",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nthngalone/requisite.git"
+  },
+  "author": "NthngAlone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nthngalone/requisite/issues"
+  },
+  "homepage": "https://github.com/nthngalone/requisite/requisite-eslint-config#readme"
+}

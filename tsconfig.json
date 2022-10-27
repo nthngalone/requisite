@@ -1,0 +1,16 @@
+{
+    "extends": "@requisite/tsconfig",
+    "include": [ "src/**/*" ],
+    "exclude": [ "node_modules" ],
+    "compilerOptions": {
+        "outDir": "./dist",
+        "typeRoots": [
+            "./src/types",
+            "./node_modules/@types",
+            "./node_modules/**/types",
+            "./**/src/types",
+            "./**/node_modules/@types",
+            "./**/node_modules/**/types"
+        ],
+    }
+}

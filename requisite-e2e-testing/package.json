@@ -1,0 +1,23 @@
+{
+  "name": "@requisite/e2e-testing",
+  "version": "0.0.1",
+  "description": "End-to-end testing scripts for the requisite platform",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --fix --max-warnings 0 --ext .ts",
+    "test:api": "DOTENV_CONFIG_PATH=../.env jest --testPathPattern=src/api",
+    "test:api:req": "DOTENV_CONFIG_PATH=../.env jest --testPathPattern=src/api/requisite-data",
+    "test:web": "DOTENV_CONFIG_PATH=../.env jest --testPathPattern=src/web"
+  },
+  "author": "NthngAlone",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "crypto-random-string": "^3.3.1",
+    "dotenv": "^16.0.1",
+    "puppeteer": "^13.7.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^5.4.6"
+  }
+}

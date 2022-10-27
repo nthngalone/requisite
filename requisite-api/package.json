@@ -1,0 +1,59 @@
+{
+  "name": "@requisite/api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "build:container": "sudo docker-compose build",
+    "dep-graph": "depcruise --include-only \"^src\" --exclude \"\\.test\\.ts$\" --output-type dot src | dot -T svg > dependencygraph.svg",
+    "deploy": "sudo docker stack deploy requisite -c docker-compose.yml",
+    "docs": "typedoc --out docs --module commonjs --target ES6 --theme markdown src --readme none",
+    "lint": "eslint ./src --fix --max-warnings 0 --ext .ts",
+    "start": "ts-node src/index.ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nthngalone/requisite.git"
+  },
+  "author": "NthngAlone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nthngalone/requisite/issues"
+  },
+  "homepage": "https://github.com/nthngalone/requisite/requisite-api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "crypto-random-string": "^3.3.1",
+    "express": "^4.18.1",
+    "express-mung": "^0.5.1",
+    "jsonwebtoken": "^8.5.1",
+    "ldapjs": "^2.3.3",
+    "log4js": "^6.5.2",
+    "passport": "^0.5.3",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.20.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/express-mung": "^0.5.2",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/ldapjs": "^2.2.2",
+    "@types/lodash": "^4.14.182",
+    "@types/passport": "^1.0.8",
+    "@types/passport-http-bearer": "^1.0.37",
+    "@types/passport-local": "^1.0.34",
+    "@types/supertest": "^2.0.12",
+    "@types/validator": "^13.7.3",
+    "dependency-cruiser": "^11.9.0",
+    "supertest": "^6.2.4"
+  }
+}

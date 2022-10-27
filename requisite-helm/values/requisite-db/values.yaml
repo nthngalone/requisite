@@ -1,0 +1,23 @@
+name: requisite-db
+
+deployment:
+  enabled: true
+  image:
+    name: postgres
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 5432
+
+ingress:
+  enabled: false
+
+configmap:
+  enabled: false
+
+secret:
+  enabled: false

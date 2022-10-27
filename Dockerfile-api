@@ -1,0 +1,12 @@
+# Note: the context dir for this docker build is the root of requisite
+#       so that linked depenencies can be copied in
+
+FROM node:16-alpine
+
+WORKDIR /home/node
+
+COPY . .
+
+RUN npm install
+
+CMD ./node_modules/.bin/ts-node ./requisite-api/src/index.ts

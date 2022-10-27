@@ -1,0 +1,26 @@
+name: requisite-db-admin
+
+deployment:
+  enabled: true
+  image:
+    name: dpage/pgadmin4
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  host: requisite-dbadmin.local
+  path: /
+  annotations:
+
+configmap:
+  enabled: false
+
+secret:
+  enabled: false

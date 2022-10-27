@@ -1,0 +1,13 @@
+{
+  "name": "@requisite/page-objects",
+  "version": "0.0.1",
+  "description": "Page objects library for testing the requisite platform",
+  "main": "./lib/index.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "docs": "typedoc --out docs --module commonjs --target ES6 --theme markdown lib --readme none",
+    "lint": "eslint ./lib --fix --max-warnings 0 --ext .ts"
+  },
+  "author": "NthngAlone",
+  "license": "MIT"
+}

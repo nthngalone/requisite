@@ -1,0 +1,29 @@
+name: requisite-api
+
+deployment:
+  enabled: true
+  image:
+    name: requisite/api
+    tag: 1.0.0
+    pullPolicy: Never
+    #pullPolicy: IfNotPresent
+  replicaCount: 1
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  host: requisite.local
+  path: /api(/|$)(.*)
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+
+configmap:
+  enabled: false
+
+secret:
+  enabled: false

@@ -1,0 +1,29 @@
+{
+  "name": "@requisite/utils",
+  "version": "0.0.1",
+  "description": "Utilities shared between the API and UI",
+  "bin": "lib",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "docs": "typedoc --out docs --module commonjs --target ES6 --theme markdown lib --readme none",
+    "lint": "eslint ./lib --fix --max-warnings 0 --ext .ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nthngalone/requisite.git"
+  },
+  "author": "NthngAlone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nthngalone/requisite/issues"
+  },
+  "homepage": "https://github.com/nthngalone/requisite/requisite-utils#readme",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "ajv": "^8.11.0",
+    "ajv-formats": "^2.1.1"
+  }
+}

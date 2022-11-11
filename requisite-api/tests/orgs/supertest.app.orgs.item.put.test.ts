@@ -35,7 +35,7 @@ describe('PUT /orgs/:orgId', () => {
     test('returns a 403 Not Authorized response for a non org owner or sysadmin', async () => {
         return request(getApp())
             .put('/orgs/0')
-            .set('Authorization', 'Bearer valid|local|org0Member')
+            .set('Authorization', 'Bearer valid|local|org0MemberProduct0Owner')
             .expect(403, 'Not Authorized');
     });
     test('returns a 400 Bad Request response with 1 error when the request body is empty', async () => {

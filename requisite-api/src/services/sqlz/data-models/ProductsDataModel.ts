@@ -38,9 +38,9 @@ const columnMappings = {
         type: DataTypes.VIRTUAL,
         ...getDataGettersAndSetters('description')
     },
-    primaryContact: {
+    public: {
         type: DataTypes.VIRTUAL,
-        ...getDataGettersAndSetters('primaryContact')
+        ...getDataGettersAndSetters('public')
     }
 };
 
@@ -51,7 +51,7 @@ export default class ProductsDataModel extends Model implements Product {
     organization?: Organization;
     name: string;
     description: string;
-    primaryContact: User;
+    public: boolean;
     data: Record<string, unknown>;
     createdAt: Date;
     updatedAt: Date;

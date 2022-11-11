@@ -11,7 +11,7 @@ configure('ERROR');
 describe('GET /orgs/:orgId', () => {
     test('returns a 401 Unauthorized response when no auth header is present', async () => {
         return request(getApp())
-            .delete('/orgs/0')
+            .get('/orgs/0')
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when an invalid auth header is present', async () => {
@@ -84,7 +84,7 @@ describe('GET /orgs/:orgId', () => {
     test('returns a 200 with data when a valid auth header is present for an org member', async () => {
         return request(getApp())
             .get('/orgs/0')
-            .set('Authorization', 'Bearer valid|local|org0Member')
+            .set('Authorization', 'Bearer valid|local|org0MemberProduct0Owner')
             .expect(200)
             .then((res) => {
                 const result = res.body as Organization;

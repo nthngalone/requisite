@@ -1,4 +1,3 @@
-import User from '../user/User';
 import Entity from '../Entity';
 import Organization from '../org/Organization';
 import Feature from './Feature';
@@ -10,7 +9,7 @@ export default interface Product extends Entity {
     organization?: Organization;
     name: string;
     description: string;
-    primaryContact: User;
+    public: boolean;
     constituents?: Constituent[];
     features?: Feature[];
     memberships?: Membership<Product>[];
@@ -27,7 +26,14 @@ export const ProductSchema: unknown = {
         name: {
             type: 'string',
             isNotBlank: true
+        },
+        description: {
+            type: 'string',
+            isNotBlank: true
+        },
+        public: {
+            type: 'boolean'
         }
     },
-    required: ['name']
+    required: ['name', 'description', 'public']
 };

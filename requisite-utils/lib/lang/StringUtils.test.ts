@@ -1,4 +1,4 @@
-import { isEmpty, isNotEmpty, isBlank, isNotBlank } from './StringUtils';
+import { isEmpty, isNotEmpty, isBlank, isNotBlank, compare } from './StringUtils';
 
 describe('lang/StringUtils:isEmpty', () => {
 
@@ -78,4 +78,19 @@ describe('lang/StringUtils:isNotBlank', () => {
         expect(isNotBlank('abc')).toBeTruthy();
     });
 
+});
+
+describe('lang/StringUtils:compare', () => {
+
+    it('returns -1 if param1 < param2', () => {
+        expect(compare('a', 'b')).toBe(-1);
+    });
+
+    it('returns 1 if param1 > param2', () => {
+        expect(compare('b', 'a')).toBe(1);
+    });
+
+    it('returns 0 if param1 === param2', () => {
+        expect(compare('a', 'a')).toBe(0);
+    });
 });

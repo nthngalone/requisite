@@ -66,7 +66,7 @@ describe('GET /orgs', () => {
         const orgs = await getMockedOrgs();
         return request(getApp())
             .get('/orgs')
-            .set('Authorization', 'Bearer valid|local|org0Member')
+            .set('Authorization', 'Bearer valid|local|org0MemberProduct0Owner')
             .expect(200)
             .then((res) => {
                 const results = res.body as Organization[];

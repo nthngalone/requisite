@@ -47,7 +47,7 @@ describe('DELETE /orgs/:orgId', () => {
             .expect(403, 'Not Authorized');
         return request(getApp())
             .delete('/orgs/0')
-            .set('Authorization', 'Bearer valid|local|org0Member')
+            .set('Authorization', 'Bearer valid|local|org0MemberProduct0Owner')
             .expect(403, 'Not Authorized');
     });
     test('returns a 404 Not Found response for an unknown index', async () => {

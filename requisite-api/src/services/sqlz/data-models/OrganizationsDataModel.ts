@@ -41,7 +41,7 @@ export default class OrganizationsDataModel extends Model implements Organizatio
      * Convert to a JSON object and remove some DB specific fields
      */
     public static toOrganization(model: OrganizationsDataModel): Organization {
-        const org = model.toJSON ? model.toJSON() as OrganizationsDataModel : model;
+        const org = model.toJSON ? model.toJSON() : model;
         delete org.data;
         delete org.createdAt;
         delete org.updatedAt;

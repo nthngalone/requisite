@@ -69,12 +69,11 @@ export default class OrganizationsServiceSqlzImpl implements OrganizationsServic
         );
     }
     async getMembership(id: number): Promise<Membership<Organization>> {
-        return OrgMembershipsDataModel.toOrgMembership(
-            await runWithSequelize(async (sqlz) => {
-                OrgMembershipsDataModel.initialize(sqlz);
-                return OrgMembershipsDataModel.findByPk(id);
-            })
-        );
+        const membership = await runWithSequelize(async (sqlz) => {
+            OrgMembershipsDataModel.initialize(sqlz);
+            return OrgMembershipsDataModel.findByPk(id);
+        });
+        return membership ? OrgMembershipsDataModel.toOrgMembership(membership) : null;
     }
     async addMembership(
         membership: Membership<Organization>

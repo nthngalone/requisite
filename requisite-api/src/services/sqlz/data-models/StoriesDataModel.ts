@@ -90,7 +90,7 @@ export default class StoriesDataModel extends Model implements Story {
      * Convert to a JSON object and remove some DB specific fields
      */
     public static toStory(model: StoriesDataModel): Story {
-        const story = model.toJSON ? model.toJSON() as StoriesDataModel : model;
+        const story = model.toJSON ? model.toJSON() : model;
         delete story.featureId;
         delete story.constituentId;
         delete story.data;

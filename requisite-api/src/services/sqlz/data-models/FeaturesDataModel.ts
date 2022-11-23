@@ -75,7 +75,7 @@ export default class FeaturesDataModel extends Model implements Feature {
      * Convert to a JSON object and remove some DB specific fields
      */
     public static toFeature(model: FeaturesDataModel): Feature {
-        const feature = model.toJSON ? model.toJSON() as FeaturesDataModel : model;
+        const feature = model.toJSON ? model.toJSON() : model;
         delete feature.productId;
         delete feature.data;
         delete feature.createdAt;

@@ -79,9 +79,9 @@ export default class ProductMembershipsDataModel
     }
 
     public static toProductMembership(
-        dataModel: ProductMembershipsDataModel
+        model: ProductMembershipsDataModel
     ): Membership<Product> {
-        const prodMembership = dataModel.toJSON() as ProductMembershipsDataModel;
+        const prodMembership = model.toJSON ? model.toJSON() : model;
         (prodMembership as Membership<Product>).user
             = UsersDataModel.toUser(prodMembership.user);
         (prodMembership as Membership<Product>).entity

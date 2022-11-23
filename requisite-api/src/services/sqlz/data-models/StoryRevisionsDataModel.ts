@@ -110,7 +110,7 @@ export default class StoryRevisionsDataModel extends Model implements StoryRevis
      * Convert to a JSON object and remove some DB specific fields
      */
     public static toStoryRevision(model: StoryRevisionsDataModel): StoryRevision {
-        const revision = model.toJSON ? model.toJSON() as StoryRevisionsDataModel : model;
+        const revision = model.toJSON ? model.toJSON() : model;
         delete revision.storyId;
         delete revision.data;
         delete revision.createdAt;

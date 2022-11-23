@@ -80,9 +80,7 @@ export default class ProductConstituentsDataModel extends Model implements Const
      * Convert to a JSON object and remove some DB specific fields
      */
     public static toConstituent(model: ProductConstituentsDataModel): Constituent {
-        const constituent = model.toJSON
-            ? model.toJSON() as ProductConstituentsDataModel
-            : model;
+        const constituent = model.toJSON ? model.toJSON() : model;
         delete constituent.productId;
         delete constituent.data;
         delete constituent.createdAt;

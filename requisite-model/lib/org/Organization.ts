@@ -11,7 +11,7 @@ export default interface Organization extends Entity {
 
 export const OrganizationSchema: unknown = {
     title: 'Organization',
-    description: 'Request object to login a user',
+    description: 'Entity representing an organization',
     type: 'object',
     properties: {
         id: {

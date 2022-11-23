@@ -12,5 +12,13 @@ module.exports = {
     //         statements: 90
     //     }
     // },
+    coverageThreshold: {
+        global: {
+            branches: 65,
+            functions: 60,
+            lines: 75,
+            statements: 75
+        }
+    },
     testPathIgnorePatterns: ['dist']
 };

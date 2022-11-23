@@ -11,8 +11,7 @@ export default (req: ResourceRequest, res: Response, next: NextFunction): void =
     (async function() {
         try {
             logger.debug('Executing org memberships delete resource');
-            assertExists(req.securityContext, 'req.securityContext');
-            assertExists(req.organization, 'req.organization');
+            assertExists(req.entity, 'req.entity');
             const id = parseInt(req.params.membershipId);
             const organizationsService = ServiceProvider.getOrganizationsService();
             const membership = await organizationsService.getMembership(id);

@@ -80,7 +80,7 @@ export default class ProductsDataModel extends Model implements Product {
      * Convert to a JSON object and remove some DB specific fields
      */
     public static toProduct(model: ProductsDataModel): Product {
-        const product = model.toJSON ? model.toJSON() as ProductsDataModel : model;
+        const product = model.toJSON ? model.toJSON() : model;
         delete product.organizationId;
         delete product.data;
         delete product.createdAt;

@@ -1,5 +1,5 @@
 import User from './User';
-import Entity from '../Entity';
+import Entity, { EntityIdentifierSchema } from '../Entity';
 
 export default interface Membership<T> extends Entity {
     user: User;
@@ -21,3 +21,21 @@ export enum ProductRole {
     STAKEHOLDER = 'STAKEHOLDER',
     CONTRIBUTOR = 'CONTRIBUTOR'
 }
+
+export const MembershipSchema: unknown = {
+    title: 'Membership',
+    description: 'Entity representing a membership',
+    type: 'object',
+    properties: {
+        id: {
+            type: 'number'
+        },
+        user: EntityIdentifierSchema,
+        entity: EntityIdentifierSchema,
+        role: {
+            type: 'string',
+            isNotBlank: true
+        }
+    },
+    required: ['user', 'entity', 'role']
+};

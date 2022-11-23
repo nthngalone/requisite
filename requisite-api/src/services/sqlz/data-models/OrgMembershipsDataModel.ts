@@ -77,9 +77,9 @@ export default class OrgMembershipsDataModel
     }
 
     public static toOrgMembership(
-        membership: OrgMembershipsDataModel
+        model: OrgMembershipsDataModel
     ): Membership<Organization> {
-        const orgMembership = membership.toJSON() as OrgMembershipsDataModel;
+        const orgMembership = model.toJSON ? model.toJSON() : model;
         (orgMembership as Membership<Organization>).user
             = UsersDataModel.toUser(orgMembership.user);
         (orgMembership as Membership<Organization>).entity

@@ -342,6 +342,7 @@ jest.mock('sequelize', () => {
                 ...membership,
                 id: mockOrgMemberships.length,
                 userId: user.id,
+                orgId: membership.entity.id,
                 user
             } as unknown as Membership<Organization>);
         });
@@ -355,6 +356,7 @@ jest.mock('sequelize', () => {
                 ...membership,
                 id: mockProductMemberships.length,
                 userId: user.id,
+                productId: membership.entity.id,
                 user
             } as unknown as Membership<Product>);
         });

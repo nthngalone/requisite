@@ -1,15 +1,16 @@
 import { Router } from 'express';
-import { OrganizationSchema } from '@requisite/model/lib/org/Organization';
 import { getAuthenticationHandler } from '../common/ResourceAuthenticationHandler';
 import { getValidationHandler } from '../common/ResourceValidationHandler';
 import { getSecurityContextHandler } from '../common/ResourceSecurityContextHandler';
 import { getOrganizationHandler } from '../common/ResourceOrganizationHandler';
-import { OrganizationRole } from '@requisite/model/lib/user/Membership';
+import { MembershipSchema, OrganizationRole } from '@requisite/model/lib/user/Membership';
 import OrgMembershipsListResource from './organization-memberships/OrgMembershipsListResource';
 import OrgMembershipsUpdateResource from './organization-memberships/OrgMembershipsUpdateResource';
 import OrgMembershipsDeleteResource from './organization-memberships/OrgMembershipsDeleteResource';
 import OrgMembershipsGetResource from './organization-memberships/OrgMembershipsGetResource';
 import OrgMembershipsCreateResource from './organization-memberships/OrgMembershipsCreateResource';
+import { getEntityHandler } from '../common/ResourceEntityHandler';
+import ServiceProvider from '../services/ServiceProvider';
 
 export const OrgMembershipReqParamsSchema: unknown = {
     title: 'Organization Membership Id Params',
@@ -24,9 +25,23 @@ export const OrgMembershipReqParamsSchema: unknown = {
     required: ['membershipId']
 };
 
+const orgMembershipEntityHandler = getEntityHandler(
+    'orgMembership',
+    'membershipId',
+    ['orgId'],
+    async (entityId: number, contextIds: Record<string, number>) => {
+        const membership = await ServiceProvider
+            .getOrganizationsService()
+            .getMembership(entityId);
+        return membership && membership.entity.id === contextIds.orgId
+            ? membership
+            : null;
+    }
+);
+
 const getOrganizationMembershipsResourceRouter = (): Router => {
 
-    const orgMembershipsResourceRouter = Router();
+    const orgMembershipsResourceRouter = Router({ mergeParams: true });
 
     orgMembershipsResourceRouter.route('')
         .get(
@@ -38,10 +53,10 @@ const getOrganizationMembershipsResourceRouter = (): Router => {
         .post(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
-            getValidationHandler({
-                bodySchema: OrganizationSchema
-            }),
             getOrganizationHandler(OrganizationRole.OWNER),
+            getValidationHandler({
+                bodySchema: MembershipSchema
+            }),
             OrgMembershipsCreateResource
         );
 
@@ -62,18 +77,20 @@ const getOrganizationMembershipsResourceRouter = (): Router => {
                 paramsSchema: OrgMembershipReqParamsSchema
             }),
             getOrganizationHandler(OrganizationRole.OWNER),
+            orgMembershipEntityHandler,
             getValidationHandler({
-                bodySchema: OrganizationSchema
+                bodySchema: MembershipSchema
             }),
             OrgMembershipsUpdateResource
         )
         .delete(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
-            getOrganizationHandler(OrganizationRole.OWNER),
             getValidationHandler({
                 paramsSchema: OrgMembershipReqParamsSchema
             }),
+            getOrganizationHandler(OrganizationRole.OWNER),
+            orgMembershipEntityHandler,
             OrgMembershipsDeleteResource
         );
     return orgMembershipsResourceRouter;

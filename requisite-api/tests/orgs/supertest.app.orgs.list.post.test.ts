@@ -5,15 +5,7 @@ import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import Organization from '@requisite/model/lib/org/Organization';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import OrganizationsDataModel from '../../src/services/sqlz/data-models/OrganizationsDataModel';
-import { getSequelize } from '../../src/services/sqlz/SqlzUtils';
-
-async function getMockedOrgs(): Promise<Organization[]> {
-    OrganizationsDataModel.initialize(await getSequelize());
-    return (await OrganizationsDataModel.findAll()).map(
-        o => OrganizationsDataModel.toOrganization(o)
-    );
-}
+import { getMockedOrgs } from '../mockUtils';
 
 configure('ERROR');
 

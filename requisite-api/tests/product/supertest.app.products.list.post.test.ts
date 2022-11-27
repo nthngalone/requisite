@@ -3,26 +3,9 @@ import '../supertest.mock.jsonwebtoken';
 import request from 'supertest';
 import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
-import Organization from '@requisite/model/lib/org/Organization';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import { getSequelize } from '../../src/services/sqlz/SqlzUtils';
-import ProductsDataModel from '../../src/services/sqlz/data-models/ProductsDataModel';
 import Product from '@requisite/model/lib/product/Product';
-import OrganizationsDataModel from '../../src/services/sqlz/data-models/OrganizationsDataModel';
-
-async function getMockedOrgs(): Promise<Organization[]> {
-    OrganizationsDataModel.initialize(await getSequelize());
-    return (await OrganizationsDataModel.findAll()).map(
-        o => OrganizationsDataModel.toOrganization(o)
-    );
-}
-
-async function getMockedProducts(): Promise<Product[]> {
-    ProductsDataModel.initialize(await getSequelize());
-    return (await ProductsDataModel.findAll()).map(
-        p => ProductsDataModel.toProduct(p)
-    );
-}
+import { getMockedOrgs, getMockedProducts } from '../mockUtils';
 
 configure('ERROR');
 

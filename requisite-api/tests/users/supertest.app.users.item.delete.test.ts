@@ -3,15 +3,8 @@ import '../supertest.mock.jsonwebtoken';
 import request from 'supertest';
 import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
-import User from '@requisite/model/lib/user/User';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import UsersDataModel from '../../src/services/sqlz/data-models/UsersDataModel';
-import { getSequelize } from '../../src/services/sqlz/SqlzUtils';
-
-async function getMockedUsers(): Promise<User[]> {
-    UsersDataModel.initialize(await getSequelize());
-    return (await UsersDataModel.findAll()).map(o => UsersDataModel.toUser(o));
-}
+import { getMockedUsers } from '../mockUtils';
 
 configure('OFF');
 

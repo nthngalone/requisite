@@ -4,19 +4,11 @@ import request from 'supertest';
 import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
-import SystemAdminsDataModel from '../../src/services/sqlz/data-models/SystemAdminsDataModel';
-import { getSequelize } from '../../src/services/sqlz/SqlzUtils';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
+import { getMockedSystemAdminMemberships } from '../mockUtils';
 
 configure('ERROR');
-
-async function getMockedSystemAdmins(): Promise<SystemAdmin[]> {
-    SystemAdminsDataModel.initialize(await getSequelize());
-    return (await SystemAdminsDataModel.findAll()).map(
-        o => SystemAdminsDataModel.toSystemAdmin(o)
-    );
-}
 
 describe('POST /system/admins', () => {
     test('returns a 401 Unauthorized response when no auth header is present', async () => {
@@ -68,7 +60,7 @@ describe('POST /system/admins', () => {
             });
     });
     test('returns a 200 response when an valid auth header and valid body are sent', async () => {
-        const initialAdminCount = (await getMockedSystemAdmins()).length;
+        const initialAdminCount = (await getMockedSystemAdminMemberships()).length;
         const app = getApp();
 
         // First create a new user to make an admin
@@ -100,7 +92,7 @@ describe('POST /system/admins', () => {
                 const results = res.body as SystemAdmin;
                 expect(results.id).toBeGreaterThanOrEqual(0);
                 expect(results.user.id).toBe(newUserId);
-                const updatedAdmins = await getMockedSystemAdmins();
+                const updatedAdmins = await getMockedSystemAdminMemberships();
                 const updatedAdminCount = updatedAdmins.length;
                 expect(updatedAdminCount).toEqual(initialAdminCount + 1);
                 expect(updatedAdmins.find(admin => admin.id === results.id)).toBeTruthy();

@@ -3,16 +3,8 @@ import '../supertest.mock.jsonwebtoken';
 import request from 'supertest';
 import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
-import { getSequelize } from '../../src/services/sqlz/SqlzUtils';
 import Product from '@requisite/model/lib/product/Product';
-import ProductsDataModel from '../../src/services/sqlz/data-models/ProductsDataModel';
-
-async function getMockedProducts(): Promise<Product[]> {
-    ProductsDataModel.initialize(await getSequelize());
-    return (await ProductsDataModel.findAll()).map(
-        p => ProductsDataModel.toProduct(p)
-    );
-}
+import { getMockedProducts } from '../mockUtils';
 
 configure('ERROR');
 

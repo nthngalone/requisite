@@ -4,17 +4,9 @@ import request from 'supertest';
 import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
-import SystemAdminsDataModel from '../../src/services/sqlz/data-models/SystemAdminsDataModel';
-import { getSequelize } from '../../src/services/sqlz/SqlzUtils';
+import { getMockedSystemAdminMemberships } from '../mockUtils';
 
 configure('ERROR');
-
-async function getMockedSystemAdmins(): Promise<SystemAdmin[]> {
-    SystemAdminsDataModel.initialize(await getSequelize());
-    return (await SystemAdminsDataModel.findAll()).map(
-        o => SystemAdminsDataModel.toSystemAdmin(o)
-    );
-}
 
 describe('GET /system/admins', () => {
     test('returns a 401 Unauthorized response when no auth header is present', async () => {
@@ -41,7 +33,7 @@ describe('GET /system/admins', () => {
             .expect(401, 'Unauthorized');
     });
     test('returns a 200 with user data if a valid auth header is present', async () => {
-        const admins = await getMockedSystemAdmins();
+        const admins = await getMockedSystemAdminMemberships();
         return request(getApp())
             .get('/system/admins')
             .set('Authorization', 'Bearer valid|local|sysadmin')

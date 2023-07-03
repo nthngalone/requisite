@@ -177,8 +177,48 @@ describe('PUT /orgs/<orgId>/memberships/<orgMembershipId>', () => {
                 expect(Object.keys(results.errors || {}).length).toBe(1);
             });
     });
-    // TODO Tests for changing a user or entity should fail (400?).
-    // Should only be able to update the role
+    test('returns a 409 Conflict response for a valid auth header for the request resource but a different membership id in the body', async () => {
+        const org = await getMockedOrg();
+        const membership = await getMockedOrgMembership({ entity: org });
+        const sysAdmin = await getMockedUserForSystemAdmin();
+        return request(getApp())
+            .put(`/orgs/${org.id}/memberships/${membership.id}`)
+            .send({
+                id: membership.id + 1,
+                user: membership.user,
+                entity: membership.entity,
+                role: OrganizationRole.OWNER
+            })            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .expect(409);
+    });
+    test('returns a 409 Conflict response for a valid auth header for the request resource but a different entity id in the body', async () => {
+        const org = await getMockedOrg();
+        const membership = await getMockedOrgMembership({ entity: org });
+        const sysAdmin = await getMockedUserForSystemAdmin();
+        return request(getApp())
+            .put(`/orgs/${org.id}/memberships/${membership.id}`)
+            .send({
+                id: membership.id,
+                user: membership.user,
+                entity: { id: membership.entity.id + 1 },
+                role: OrganizationRole.OWNER
+            })            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .expect(409);
+    });
+    test('returns a 409 Conflict response for a valid auth header for the request resource but a different user id in the body', async () => {
+        const org = await getMockedOrg();
+        const membership = await getMockedOrgMembership({ entity: org });
+        const sysAdmin = await getMockedUserForSystemAdmin();
+        return request(getApp())
+            .put(`/orgs/${org.id}/memberships/${membership.id}`)
+            .send({
+                id: membership.id,
+                user: { id: membership.user.id + 1 },
+                entity: membership.entity,
+                role: OrganizationRole.OWNER
+            })            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .expect(409);
+    });
     test('returns a 200 with data when a valid auth header and data is present for a sys admin', async () => {
         const org = await getMockedOrg();
         const membership = await getMockedOrgMembership({ entity: org });

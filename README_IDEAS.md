@@ -86,3 +86,7 @@ These are ideas that I have or technologies that I come across that I think are 
 - look at dflex for drag'n'drop
 - look at integrating memlab for memory leak testing (https://engineering.fb.com/2022/09/12/open-source/memlab/?utm_source=tldrnewsletter)
 - look at coroot for microservice monitoring https://github.com/coroot/coroot?utm_source=tldrnewsletter
+- look at modern-errors for custom error classes https://www.npmjs.com/package/modern-errors
+- look at vale.sh - looks like linting for markdown files
+- Look at BlockSuite for creating content editors - https://github.com/toeverything/blocksuite
+- look at [inkline](https://www.inkline.io/) for a design/component library option

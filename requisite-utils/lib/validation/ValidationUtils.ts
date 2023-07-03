@@ -5,6 +5,7 @@ import { isNotBlank } from '../lang/StringUtils';
 export interface ValidationResult {
     valid: boolean;
     errors?: ValidationErrors;
+    message?: string;
 }
 
 export interface ValidationErrors {

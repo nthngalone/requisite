@@ -17,15 +17,15 @@ const getErrorHandler = () => {
             if (resourceError instanceof SystemError) {
                 logger.error(
                     'A system error was encountered',
-                    (resourceError as SystemError).error
+                    resourceError.error
                 );
             }
             res.status(resourceError.statusCode);
             if (resourceError instanceof BadRequestError
-                && (resourceError as BadRequestError).validationResult) {
-                res.json((resourceError as BadRequestError).validationResult);
+                && resourceError.validationResult) {
+                res.json(resourceError.validationResult);
             } else if (resourceError instanceof ConflictError
-                && (resourceError as ConflictError).conflictReason) {
+                && resourceError.conflictReason) {
                 res.json({ ...resourceError });
             } else {
                 res.send(resourceError.message);

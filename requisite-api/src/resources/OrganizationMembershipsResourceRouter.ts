@@ -68,6 +68,7 @@ const getOrganizationMembershipsResourceRouter = (): Router => {
                 paramsSchema: OrgMembershipReqParamsSchema
             }),
             getOrganizationHandler(),
+            orgMembershipEntityHandler,
             OrgMembershipsGetResource
         )
         .put(

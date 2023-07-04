@@ -69,6 +69,15 @@ export default class ProductsServiceSqlzImpl implements ProductsService {
             membership => ProductMembershipsDataModel.toProductMembership(membership)
         );
     }
+    async getMembership(id: number): Promise<Membership<Product>> {
+        const membership = await runWithSequelize(async (sqlz) => {
+            ProductMembershipsDataModel.initialize(sqlz);
+            return ProductMembershipsDataModel.findByPk(id);
+        });
+        return membership
+            ? ProductMembershipsDataModel.toProductMembership(membership)
+            : null;
+    }
     async addMembership(membership: Membership<Product>): Promise<Membership<Product>> {
         return ProductMembershipsDataModel.toProductMembership(
             await runWithSequelize(async (sqlz) => {

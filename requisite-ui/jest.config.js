@@ -3,14 +3,14 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: ['<rootDir>/src/**/*.{ts,vue}'],
     coverageReporters: ['html', 'text-summary', 'lcov'],
-    // coverageThreshold: {
-    //     global: {
-    //         branches: 80,
-    //         function: 80,
-    //         lines: 80,
-    //         statements: 80
-    //     }
-    // },
+    coverageThreshold: {
+        global: {
+            branches: 60,
+            function: 55,
+            lines: 75,
+            statements: 75
+        }
+    },
     transform: {
         '^.+\\.vue$': '@vue/vue3-jest'
     },

@@ -4,16 +4,16 @@ import { Response, NextFunction } from 'express';
 import ServiceProvider from '../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
 
-const logger = getLogger('resources/organization-memberships/OrgMembershipsListResource');
+const logger = getLogger('resources/product-memberships/ProdMembershipsListResource');
 
 export default (req: ResourceRequest, res: Response, next: NextFunction): void => {
     (async function() {
         try {
-            logger.debug('Executing org memberships list resource');
-            assertExists(req.organization, 'req.organization');
-            const org = req.organization;
-            const memberships
-                = await ServiceProvider.getOrganizationsService().listMemberships(org);
+            logger.debug('Executing products memberships list resource');
+            assertExists(req.product, 'req.product');
+            const memberships = await ServiceProvider
+                .getProductsService()
+                .listMemberships(req.product);
             res.status(200).send(memberships);
         } catch(error) {
             next(error);

@@ -221,6 +221,70 @@ const mockUsersRef: Record<string, User> = {
         } as unknown as Membership<Organization>],
         productMemberships: []
     } as unknown as User,
+
+    org0MemberProduct1Owner: {
+        id: 12,
+        domain: 'local',
+        userName: 'org0MemberProduct1Owner',
+        emailAddress: 'org0MemberProduct1Owner@requisite.dev',
+        password: 'pass',
+        orgMemberships: [{
+            entity: mockOrgs[0],
+            role: OrganizationRole.MEMBER
+        } as unknown as Membership<Organization>],
+        productMemberships: [{
+            entity: mockProducts[1],
+            role: ProductRole.OWNER
+        } as unknown as Membership<Organization>]
+    } as unknown as User,
+
+    org0MemberProduct1Stakeholder: {
+        id: 13,
+        domain: 'local',
+        userName: 'org0MemberProduct1Stakeholder',
+        emailAddress: 'org0MemberProduct1Stakeholder@requisite.dev',
+        password: 'pass',
+        orgMemberships: [{
+            entity: mockOrgs[0],
+            role: OrganizationRole.MEMBER
+        } as unknown as Membership<Organization>],
+        productMemberships: [{
+            entity: mockProducts[1],
+            role: ProductRole.STAKEHOLDER
+        } as unknown as Membership<Organization>]
+    } as unknown as User,
+
+    org0MemberProduct1Contributor: {
+        id: 14,
+        domain: 'local',
+        userName: 'org0MemberProduct1Contributor',
+        emailAddress: 'org0MemberProduct1Contributor@requisite.dev',
+        password: 'pass',
+        orgMemberships: [{
+            entity: mockOrgs[0],
+            role: OrganizationRole.MEMBER
+        } as unknown as Membership<Organization>],
+        productMemberships: [{
+            entity: mockProducts[1],
+            role: ProductRole.CONTRIBUTOR
+        } as unknown as Membership<Organization>]
+    } as unknown as User,
+
+    org1MemberProduct3Owner: {
+        id: 15,
+        domain: 'local',
+        userName: 'org1MemberProduct3Owner',
+        emailAddress: 'org1MemberProduct3Owner@requisite.dev',
+        password: 'pass',
+        orgMemberships: [{
+            entity: mockOrgs[1],
+            role: OrganizationRole.MEMBER
+        } as unknown as Membership<Organization>],
+        productMemberships: [{
+            entity: mockProducts[3],
+            role: ProductRole.OWNER
+        } as unknown as Membership<Organization>]
+    } as unknown as User,
 };
 
 export const mockSysAdmins: SystemAdmin[] = [{

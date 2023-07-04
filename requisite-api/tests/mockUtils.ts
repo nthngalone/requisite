@@ -5,6 +5,7 @@ import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import User from '@requisite/model/lib/user/User';
 import OrganizationsDataModel from '../src/services/sqlz/data-models/OrganizationsDataModel';
 import OrgMembershipsDataModel from '../src/services/sqlz/data-models/OrgMembershipsDataModel';
+import ProductMembershipsDataModel from '../src/services/sqlz/data-models/ProductMembershipsDataModel';
 import ProductsDataModel from '../src/services/sqlz/data-models/ProductsDataModel';
 import SystemAdminsDataModel from '../src/services/sqlz/data-models/SystemAdminsDataModel';
 import UsersDataModel from '../src/services/sqlz/data-models/UsersDataModel';
@@ -147,4 +148,55 @@ export async function getMockedProduct(
 ): Promise<Product> {
     const products = await getMockedProducts(prodOpts);
     return getRandomItem(products);
+}
+
+export async function getMockedProductMemberships(
+    membershipOpts?: Record<string, unknown>
+): Promise<Membership<Product>[]> {
+    ProductMembershipsDataModel.initialize(await getSequelize());
+    const opts: Record<string, unknown> = {};
+    if (membershipOpts) {
+        const whereOpts: Record<string, unknown> = {};
+        if (membershipOpts.entity) {
+            const product = membershipOpts.entity as Product;
+            whereOpts.productId = product.id;
+        }
+        if (membershipOpts.role) {
+            whereOpts.role = membershipOpts.role;
+        }
+        if (membershipOpts.user) {
+            const user = membershipOpts.user as User;
+            whereOpts.userId = user.id;
+        }
+        opts.where = whereOpts;
+    }
+    return (await ProductMembershipsDataModel.findAll(opts)).map(
+        m => ProductMembershipsDataModel.toProductMembership(m)
+    );
+}
+
+export async function getMockedProductMembership(
+    membershipOpts?: Record<string, unknown>
+): Promise<Membership<Organization>> {
+    const memberships = await getMockedProductMemberships(membershipOpts);
+    return getRandomItem(memberships);
+}
+
+export async function getMockedUserForProductMembership(
+    membershipOpts?: Record<string, unknown>,
+    matching = true
+): Promise<User> {
+    const productMemberships = await getMockedProductMemberships(membershipOpts);
+    let membership;
+    if (!matching) {
+        const allMemberships = await getMockedProductMemberships();
+        membership = getRandomItem(allMemberships.filter(
+            member => productMemberships.every(
+                matched => matched.user.id !== member.user.id
+            )
+        ));
+    } else {
+        membership = getRandomItem(productMemberships);
+    }
+    return membership.user;
 }

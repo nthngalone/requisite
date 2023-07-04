@@ -9,6 +9,7 @@ export default interface ProductsService {
     updateProduct(product: Product): Promise<Product>;
     deleteProduct(product: Product): Promise<void>;
     listMemberships(product: Product): Promise<Membership<Product>[]>;
+    getMembership(id: number): Promise<Membership<Product>>;
     addMembership(membership: Membership<Product>): Promise<Membership<Product>>;
     updateMembership(membership: Membership<Product>): Promise<Membership<Product>>;
     removeMembership(membership: Membership<Product>): Promise<void>;

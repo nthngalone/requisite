@@ -12,6 +12,7 @@ import { getAuditHandler } from './common/ResourceAuditHandler';
 import { getJwtResponseHandler } from './common/ResourceJwtResponseHandler';
 import { getProductsResourceRouter } from './resources/ProductsResourceRouter';
 import { getOrganizationMembershipsResourceRouter } from './resources/OrganizationMembershipsResourceRouter';
+import { getProductMembershipsResourceRouter } from './resources/ProductMembershipsResourceRouter';
 
 const getApp = (): Express => {
 
@@ -26,6 +27,7 @@ const getApp = (): Express => {
 
     // Resource Routers
     app.use('/orgs/:orgId/memberships', getOrganizationMembershipsResourceRouter());
+    app.use('/orgs/:orgId/products/:productId/memberships', getProductMembershipsResourceRouter());
     app.use('/orgs/:orgId/products', getProductsResourceRouter());
     app.use('/orgs', getOrganizationsResourceRouter());
     app.use('/security', getSecurityResourceRouter());

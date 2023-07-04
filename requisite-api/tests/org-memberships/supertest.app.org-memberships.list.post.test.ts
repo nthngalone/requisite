@@ -6,6 +6,8 @@ import { configure } from '../../src/util/Logger';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import Product from '@requisite/model/lib/product/Product';
 import { getMockedOrg, getMockedOrgMemberships, getMockedUser, getMockedUserForOrgMembership, getMockedUserForSystemAdmin } from '../mockUtils';
+import Membership from '@requisite/model/lib/user/Membership';
+import Organization from '@requisite/model/lib/org/Organization';
 
 configure('ERROR');
 
@@ -170,7 +172,7 @@ describe('POST /org/<orgId>/memberships', () => {
             })
             .expect(200)
             .then(async (res) => {
-                const result = res.body as Product;
+                const result = res.body as Membership<Organization>;
                 expect(result).toEqual({
                     id: expect.any(Number),
                     user: expect.objectContaining({
@@ -203,7 +205,7 @@ describe('POST /org/<orgId>/memberships', () => {
             })
             .expect(200)
             .then(async (res) => {
-                const result = res.body as Product;
+                const result = res.body as Membership<Organization>;
                 expect(result).toEqual({
                     id: expect.any(Number),
                     user: expect.objectContaining({

@@ -3,20 +3,19 @@ import ResourceRequest from '../../common/ResourceRequest';
 import { Response, NextFunction } from 'express';
 import ServiceProvider from '../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import Organization from '@requisite/model/lib/org/Organization';
+import Product from '@requisite/model/lib/product/Product';
 import Membership from '@requisite/model/lib/user/Membership';
 
-const logger = getLogger('resources/organization-memberships/OrgMembershipsDeleteResource');
+const logger = getLogger('resources/product-memberships/ProdMembershipsDeleteResource');
 
 export default (req: ResourceRequest, res: Response, next: NextFunction): void => {
     (async function() {
         try {
-            logger.debug('Executing org memberships delete resource');
+            logger.debug('Executing product memberships delete resource');
             assertExists(req.entity, 'req.entity');
-            const membership = req.entity as Membership<Organization>;
-            await ServiceProvider
-                .getOrganizationsService()
-                .removeMembership(membership);
+            const productsService = ServiceProvider.getProductsService();
+            const membership = req.entity as Membership<Product>;
+            await productsService.removeMembership(membership);
             res.status(200).send();
         } catch(error) {
             next(error);

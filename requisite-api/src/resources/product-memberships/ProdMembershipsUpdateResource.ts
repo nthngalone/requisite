@@ -12,7 +12,7 @@ const logger = getLogger('resources/product-memberships/ProdMembershipsUpdateRes
 export default (req: ResourceRequest, res: Response, next: NextFunction): void => {
     (async function() {
         try {
-            logger.debug('Executing product memberships create resource');
+            logger.debug('Executing product memberships update resource');
             assertExists(req.entity, 'req.entity');
             const membership = req.entity as Membership<Product>;
 

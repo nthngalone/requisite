@@ -1,4 +1,4 @@
-import Constituent from '@requisite/model/lib/product/Constituent';
+import Persona from '@requisite/model/lib/product/Persona';
 import Story from '@requisite/model/lib/story/Story';
 import StoriesService from './StoriesService';
 import { runWithSequelize } from './sqlz/SqlzUtils';
@@ -20,14 +20,14 @@ export default class StoriesServiceSqlzImpl implements StoriesService {
             return StoriesDataModel.findAll({ where: { featureId: feature.id }});
         })).map(data => StoriesDataModel.toStory(data));
     }
-    async listStoriesForConstituent(
-        feature: Feature, constituent: Constituent
+    async listStoriesForPersona(
+        feature: Feature, persona: Persona
     ): Promise<Story[]> {
         return (await runWithSequelize(async (sqlz) => {
             StoriesDataModel.initialize(sqlz);
             return StoriesDataModel.findAll({ where: {
                 featureId: feature.id,
-                constituentId: constituent.id
+                personaId: persona.id
             }});
         })).map(data => StoriesDataModel.toStory(data));
     }

@@ -8,7 +8,7 @@ import Product from '@requisite/model/lib/product/Product';
 import Feature from '@requisite/model/lib/product/Feature';
 import Story from '@requisite/model/lib/story/Story';
 import StoryRevision from '@requisite/model/lib/story/StoryRevision';
-import Constituent from '@requisite/model/lib/product/Constituent';
+import Persona from '@requisite/model/lib/product/Persona';
 import User from '@requisite/model/lib/user/User';
 import Membership from '@requisite/model/lib/user/Membership';
 
@@ -57,7 +57,7 @@ export async function init(): Promise<void> {
 
         const organizationsService = ServiceProvider.getOrganizationsService();
         const productsService = ServiceProvider.getProductsService();
-        const productConstsService = ServiceProvider.getProductConstituentsService();
+        const personasService = ServiceProvider.getPersonasService();
         const featuresService = ServiceProvider.getFeaturesService();
         const storiesService = ServiceProvider.getStoriesService();
         const storyRevisionsService = ServiceProvider.getStoryRevisionsService();
@@ -124,13 +124,13 @@ export async function init(): Promise<void> {
                         } as Membership<Product>);
                     }
                 );
-                // 6. create constituents
+                // 6. create personas
                 await asyncForEachSerial(
-                    productData.constituents,
-                    async (constituentData: Constituent) => {
-                        logger.debug('Creating constituent: ', constituentData.name);
-                        await productConstsService.createConstituent({
-                            ...constituentData,
+                    productData.personas,
+                    async (personaData: Persona) => {
+                        logger.debug('Creating persona: ', personaData.name);
+                        await personasService.createPersona({
+                            ...personaData,
                             product
                         });
                     }

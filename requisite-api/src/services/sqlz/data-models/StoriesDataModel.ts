@@ -11,9 +11,9 @@ import {
     Association
 } from 'sequelize';
 import Story from '@requisite/model/lib/story/Story';
-import Constituent from '@requisite/model/lib/product/Constituent';
+import Persona from '@requisite/model/lib/product/Persona';
 import FeaturesDataModel from './FeaturesDataModel';
-import ProductConstituentsDataModel from './ProductConstituentsDataModel';
+import PersonasDataModel from './PersonasDataModel';
 import User from '@requisite/model/lib/user/User';
 import Feature from '@requisite/model/lib/product/Feature';
 import ProductsDataModel from './ProductsDataModel';
@@ -30,7 +30,7 @@ const columnMappings = {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    constituentId: {
+    personaId: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -54,8 +54,8 @@ export default class StoriesDataModel extends Model implements Story {
     feature: Feature;
     title: string;
     description: string;
-    constituentId: number;
-    constituent: Constituent;
+    personaId: number;
+    persona: Persona;
     data: Record<string, unknown>;
     createdAt: Date;
     updatedAt: Date;
@@ -63,7 +63,7 @@ export default class StoriesDataModel extends Model implements Story {
 
     public static associations: {
         feature: Association<StoriesDataModel, FeaturesDataModel>,
-        constituent: Association<StoriesDataModel, ProductConstituentsDataModel>
+        persona: Association<StoriesDataModel, PersonasDataModel>
     };
 
     public static initialize(sequelize: Sequelize): void {
@@ -72,9 +72,9 @@ export default class StoriesDataModel extends Model implements Story {
             as: 'feature',
             foreignKey: 'featureId'
         });
-        StoriesDataModel.belongsTo(ProductConstituentsDataModel, {
-            as: 'constituent',
-            foreignKey: 'constituentId'
+        StoriesDataModel.belongsTo(PersonasDataModel, {
+            as: 'persona',
+            foreignKey: 'personaId'
         });
     }
 
@@ -82,7 +82,7 @@ export default class StoriesDataModel extends Model implements Story {
         return {
             ...story,
             featureId: story.feature.id,
-            constituentId: story.constituent.id
+            personaId: story.persona.id
         } as unknown as StoriesDataModel;
     }
 
@@ -92,7 +92,7 @@ export default class StoriesDataModel extends Model implements Story {
     public static toStory(model: StoriesDataModel): Story {
         const story = model.toJSON ? model.toJSON() : model;
         delete story.featureId;
-        delete story.constituentId;
+        delete story.personaId;
         delete story.data;
         delete story.createdAt;
         delete story.updatedAt;
@@ -113,7 +113,7 @@ enableFindIncludeOptions(StoriesDataModel, () => [
             }]
         }]
     },
-    { association: StoriesDataModel.associations.constituent }
+    { association: StoriesDataModel.associations.persona }
 ]);
 enableCreateUpdateDataModelTransformation(StoriesDataModel, (data) => {
     return StoriesDataModel.toDataModel(data);

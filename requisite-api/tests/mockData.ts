@@ -1,4 +1,5 @@
 import Organization from '@requisite/model/lib/org/Organization';
+import Persona from '@requisite/model/lib/product/Persona';
 import Product from '@requisite/model/lib/product/Product';
 import Membership, { OrganizationRole, ProductRole, SystemRole } from '@requisite/model/lib/user/Membership';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
@@ -19,6 +20,19 @@ export const mockProducts: Product[] = [{
     name: 'Org-0-Product-0-Private',
     description: 'Org-0-Product-0-Private',
     public: false,
+    personas: [{
+        name: 'User',
+        description: 'Basic user',
+        avatar: 'fa-solid fa-user'
+    }, {
+        name: 'Manager',
+        description: 'Manager',
+        avatar: 'fa-solid fa-user-tie'
+    }, {
+        name: 'Support',
+        description: 'Manager',
+        avatar: 'fa-solid fa-user-headset'
+    }]
 } as unknown as Product, {
     id: 1,
     organizationId: mockOrgs[0].id,
@@ -26,6 +40,19 @@ export const mockProducts: Product[] = [{
     name: 'Org-0-Product-1-Public',
     description: 'Org-0-Product-1-Public',
     public: true,
+    personas: [{
+        name: 'Musician',
+        description: 'A user primarily responsible for composing music',
+        avatar: 'fa-solid fa-user-music'
+    }, {
+        name: 'Writer',
+        description: 'A user primarily responsible for writing',
+        avatar: 'fa-solid fa-user-pen'
+    }, {
+        name: 'Actor',
+        description: 'A user primarily responsible for acting',
+        avatar: 'fa-solid fa-user-shakespear'
+    }]
 } as unknown as Product, {
     id: 2,
     organizationId: mockOrgs[1].id,
@@ -33,6 +60,19 @@ export const mockProducts: Product[] = [{
     name: 'Org-1-Product-2-Private',
     description: 'Org-1-Product-2-Private',
     public: false,
+    personas: [{
+        name: 'Patient',
+        description: 'A user seeking healthcare',
+        avatar: 'fa-solid fa-user-injured'
+    }, {
+        name: 'Nurse',
+        description: 'A user performing in the nursing role for providing healthcare',
+        avatar: 'fa-solid fa-user-nurse'
+    }, {
+        name: 'Doctor',
+        description: 'A user performing in a doctor or physician role for providing healthcare',
+        avatar: 'fa-solid fa-user-doctor'
+    }]
 } as unknown as Product, {
     id: 3,
     organizationId: mockOrgs[1].id,
@@ -40,7 +80,34 @@ export const mockProducts: Product[] = [{
     name: 'Org-1-Product-3-Private',
     description: 'Org-1-Product-3-Private',
     public: false,
+    personas: [{
+        name: 'Secret Agent',
+        description: 'A government secret agent or spy',
+        avatar: 'fa-solid fa-user-secret'
+    }, {
+        name: 'Pencil Pusher',
+        description: 'A government desk jockey',
+        avatar: 'fa-solid fa-user-tie'
+    }, {
+        name: 'Politician',
+        description: 'An elected government official',
+        avatar: 'fa-solid fa-handshake'
+    }]
 } as unknown as Product];
+
+export const mockPersonas = [] as Persona[];
+mockProducts.forEach((product) => {
+    if (product.personas) {
+        product.personas.forEach((persona) => {
+            persona.id = mockPersonas.length;
+            mockPersonas.push({
+                ...persona,
+                productId: product.id,
+                product: product
+            } as unknown as Persona);
+        });
+    }
+});
 
 const mockUsersRef: Record<string, User> = {
 
@@ -284,6 +351,32 @@ const mockUsersRef: Record<string, User> = {
             entity: mockProducts[3],
             role: ProductRole.OWNER
         } as unknown as Membership<Organization>]
+    } as unknown as User,
+
+    org0Member: {
+        id: 16,
+        domain: 'local',
+        userName: 'org0Member',
+        emailAddress: 'org0Member@requisite.dev',
+        password: 'pass',
+        orgMemberships: [{
+            entity: mockOrgs[0],
+            role: OrganizationRole.MEMBER
+        } as unknown as Membership<Organization>],
+        productMemberships: []
+    } as unknown as User,
+
+    org1Member: {
+        id: 17,
+        domain: 'local',
+        userName: 'org1Member',
+        emailAddress: 'org1Member@requisite.dev',
+        password: 'pass',
+        orgMemberships: [{
+            entity: mockOrgs[1],
+            role: OrganizationRole.MEMBER
+        } as unknown as Membership<Organization>],
+        productMemberships: []
     } as unknown as User,
 };
 

@@ -1,5 +1,6 @@
 import Entity from '@requisite/model/lib/Entity';
 import Organization from '@requisite/model/lib/org/Organization';
+import Persona from '@requisite/model/lib/product/Persona';
 import Product from '@requisite/model/lib/product/Product';
 import Membership from '@requisite/model/lib/user/Membership';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
@@ -7,7 +8,7 @@ import User from '@requisite/model/lib/user/User';
 import { asyncForEachSerial } from '@requisite/utils/lib/lang/ArrayUtils';
 import { assertExists, assertFalse } from '@requisite/utils/lib/validation/AssertionUtils';
 import { Association, ModelAttributeColumnOptions, IndexesOptions, InitOptions } from 'sequelize/types';
-import { mockOrgMemberships, mockOrgs, mockProductMemberships, mockProducts, mockSysAdmins, mockUsers } from './mockData';
+import { mockOrgMemberships, mockOrgs, mockProductMemberships, mockProducts, mockSysAdmins, mockUsers, mockPersonas } from './mockData';
 
 jest.mock('sequelize', () => {
 
@@ -192,6 +193,15 @@ jest.mock('sequelize', () => {
                                 new MockModel<Product>(
                                     // initial product data
                                     mockProducts,
+                                    // product membership unique keys (if any)
+                                    uniqueKeys
+                                );
+                            break;
+                        case 'PersonasDataModel':
+                            mockModels[this.name] =
+                                new MockModel<Persona>(
+                                    // initial product data
+                                    mockPersonas,
                                     // product membership unique keys (if any)
                                     uniqueKeys
                                 );

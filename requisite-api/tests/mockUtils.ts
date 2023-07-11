@@ -1,10 +1,12 @@
 import Organization from '@requisite/model/lib/org/Organization';
+import Persona from '@requisite/model/lib/product/Persona';
 import Product from '@requisite/model/lib/product/Product';
 import Membership from '@requisite/model/lib/user/Membership';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import User from '@requisite/model/lib/user/User';
 import OrganizationsDataModel from '../src/services/sqlz/data-models/OrganizationsDataModel';
 import OrgMembershipsDataModel from '../src/services/sqlz/data-models/OrgMembershipsDataModel';
+import PersonasDataModel from '../src/services/sqlz/data-models/PersonasDataModel';
 import ProductMembershipsDataModel from '../src/services/sqlz/data-models/ProductMembershipsDataModel';
 import ProductsDataModel from '../src/services/sqlz/data-models/ProductsDataModel';
 import SystemAdminsDataModel from '../src/services/sqlz/data-models/SystemAdminsDataModel';
@@ -199,4 +201,16 @@ export async function getMockedUserForProductMembership(
         membership = getRandomItem(productMemberships);
     }
     return membership.user;
+}
+
+export async function getMockedPersonas(product: Product): Promise<Persona[]> {
+    PersonasDataModel.initialize(await getSequelize());
+    return (await PersonasDataModel.findAll({ where: { productId: product.id }})).map(
+        p => PersonasDataModel.toPersona(p)
+    );
+}
+
+export async function getMockedPersona(product: Product): Promise<Persona> {
+    const personas = await getMockedPersonas(product);
+    return getRandomItem(personas);
 }

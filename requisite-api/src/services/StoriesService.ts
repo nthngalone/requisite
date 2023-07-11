@@ -1,11 +1,11 @@
-import Constituent from '@requisite/model/lib/product/Constituent';
+import Persona from '@requisite/model/lib/product/Persona';
 import Story from '@requisite/model/lib/story/Story';
 import Feature from '@requisite/model/lib/product/Feature';
 
 export default interface StoriesService {
     listStories(feature: Feature): Promise<Story[]>;
-    listStoriesForConstituent(
-        feature: Feature, constituent: Constituent
+    listStoriesForPersona(
+        feature: Feature, persona: Persona
     ): Promise<Story[]>;
     getStory(id: number): Promise<Story>;
     createStory(story: Story): Promise<Story>;

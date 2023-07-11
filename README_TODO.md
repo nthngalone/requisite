@@ -22,19 +22,11 @@
     - Create and test system admin apis
     - Create and test teams apis
     - Create and test team membership apis
-    - Create and test org membership apis
-    - Create and test product apis
-    - Create and test product membership apis
     - Create and test product feature apis
-    - Create and test product constituent apis
     - Create and test product epic apis
     - Create and test product feature stories/revisions apis
     - Create and test product story task apis
-    - Create and test security context middleware
     - create and test authz middleware
-    - create path/params validation middleware
-    - create and test org loader middleware with org and product apis
-    - create and test product loader middleware with product apis
 
 - GUIs to support Core Security Context APIs
     - create homepage GUI with orgs and products

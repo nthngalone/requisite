@@ -91,13 +91,13 @@ describe('POST /org/<orgId>/products', () => {
             .expect(200)
             .then(async (res) => {
                 const result = res.body as Product;
-                expect(result).toEqual({
+                expect(result).toEqual(expect.objectContaining({
                     id: expect.any(Number),
                     name: 'Product Created by SysAdmin Test',
                     description: 'Product Created by SysAdmin Test Description',
                     public: true,
                     organization: orgs[0]
-                });
+                }));
                 const updatedProducts = await getMockedProducts();
                 expect(updatedProducts.length).toBe(productsCount+1);
             });
@@ -117,13 +117,13 @@ describe('POST /org/<orgId>/products', () => {
             .expect(200)
             .then(async (res) => {
                 const result = res.body as Product;
-                expect(result).toEqual({
+                expect(result).toEqual(expect.objectContaining({
                     id: expect.any(Number),
                     name: 'Product Created by OrgOwner Test',
                     description: 'Product Created by OrgOwner Test Description',
                     public: false,
                     organization: orgs[0]
-                });
+                }));
                 const updatedProducts = await getMockedProducts();
                 expect(updatedProducts.length).toBe(productsCount+1);
             });

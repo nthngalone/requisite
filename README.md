@@ -12,7 +12,7 @@ In my experience (or opinion really), most work management tools today have the 
 Requisite uses an opinionated flow of events for managing the lifecycle of your product and attempts to guide you step-by-step along the way.  Guardrails prevent you from moving to the next step before the requirements of the preceeding step are complete.  The current goals for the requisite system are:
 
 1. Requirements are gathered as versioned stories.  Stories are meant to be granular use cases.  New versions are added to an overall backlog of work for the product.  The process of gathering requirements for a story revision is targeted at specific pieces of information instead of just freeform text.  Examples include:
-    - Persona (constituent) impacted
+    - Persona impacted
     - Business requirement description - including the "why's"
     - Acceptance criteria
     - Mockups if applicable

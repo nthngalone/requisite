@@ -7,7 +7,7 @@ import { NotFoundError } from '../util/ApiErrors';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import ProductsDataModel from './sqlz/data-models/ProductsDataModel';
 import { getLogger } from '../util/Logger';
-import ProductConstituentsDataModel from './sqlz/data-models/ProductConstituentsDataModel';
+import PersonasDataModel from './sqlz/data-models/PersonasDataModel';
 import StoriesDataModel from './sqlz/data-models/StoriesDataModel';
 import StoryRevisionsDataModel from './sqlz/data-models/StoryRevisionsDataModel';
 import FeaturesDataModel from './sqlz/data-models/FeaturesDataModel';
@@ -40,8 +40,8 @@ export default class SystemServiceSqlzImpl implements SystemService {
             ProductMembershipsDataModel.initialize(sqlz);
             await ProductMembershipsDataModel.sync();
 
-            ProductConstituentsDataModel.initialize(sqlz);
-            await ProductConstituentsDataModel.sync();
+            PersonasDataModel.initialize(sqlz);
+            await PersonasDataModel.sync();
 
             FeaturesDataModel.initialize(sqlz);
             await FeaturesDataModel.sync();

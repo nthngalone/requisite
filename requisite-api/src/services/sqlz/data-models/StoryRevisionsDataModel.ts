@@ -135,7 +135,7 @@ enableFindIncludeOptions(StoryRevisionsDataModel, () => [
                     }]
                 }]
             },
-            { association: StoriesDataModel.associations.constituent }
+            { association: StoriesDataModel.associations.persona }
         ]
     }
 ]);

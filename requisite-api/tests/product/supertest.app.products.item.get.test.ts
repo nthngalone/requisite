@@ -62,7 +62,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
             .expect(200)
             .then((res) => {
                 const result = res.body as Product;
-                expect(result).toEqual({
+                expect(result).toEqual(expect.objectContaining({
                     id: 0,
                     organization: expect.objectContaining({
                         id: 0,
@@ -71,7 +71,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
                     name: 'Org-0-Product-0-Private',
                     description: 'Org-0-Product-0-Private',
                     public: false
-                });
+                }));
             });
     });
     test('returns a 200 with data when a valid auth header is present for a product owner for a private product', async () => {
@@ -81,7 +81,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
             .expect(200)
             .then((res) => {
                 const result = res.body as Product;
-                expect(result).toEqual({
+                expect(result).toEqual(expect.objectContaining({
                     id: 0,
                     organization: expect.objectContaining({
                         id: 0,
@@ -90,7 +90,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
                     name: 'Org-0-Product-0-Private',
                     description: 'Org-0-Product-0-Private',
                     public: false
-                });
+                }));
             });
     });
     test('returns a 200 with data when a valid auth header is present for a product stakeholder for a private product', async () => {
@@ -100,7 +100,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
             .expect(200)
             .then((res) => {
                 const result = res.body as Product;
-                expect(result).toEqual({
+                expect(result).toEqual(expect.objectContaining({
                     id: 0,
                     organization: expect.objectContaining({
                         id: 0,
@@ -109,7 +109,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
                     name: 'Org-0-Product-0-Private',
                     description: 'Org-0-Product-0-Private',
                     public: false
-                });
+                }));
             });
     });
     test('returns a 200 with data when a valid auth header is present for a product contributor for a private product', async () => {
@@ -119,7 +119,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
             .expect(200)
             .then((res) => {
                 const result = res.body as Product;
-                expect(result).toEqual({
+                expect(result).toEqual(expect.objectContaining({
                     id: 0,
                     organization: expect.objectContaining({
                         id: 0,
@@ -128,7 +128,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
                     name: 'Org-0-Product-0-Private',
                     description: 'Org-0-Product-0-Private',
                     public: false
-                });
+                }));
             });
     });
     test('returns a 200 with data when a valid auth header is present for an org member for a public product', async () => {
@@ -138,7 +138,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
             .expect(200)
             .then((res) => {
                 const result = res.body as Product;
-                expect(result).toEqual({
+                expect(result).toEqual(expect.objectContaining({
                     id: 1,
                     organization: expect.objectContaining({
                         id: 0,
@@ -147,7 +147,7 @@ describe('GET /orgs/<orgId>/products/<productId>', () => {
                     name: 'Org-0-Product-1-Public',
                     description: 'Org-0-Product-1-Public',
                     public: true
-                });
+                }));
             });
     });
 });

@@ -60,7 +60,7 @@
                 "user": { "userName": "requisiteContributor" },
                 "role": "CONTRIBUTOR"
             }],
-            "constituents": [
+            "personas": [
                 { "name": "All" },
                 { "name": "Administrator" },
                 { "name": "Product-Owner" },
@@ -74,7 +74,7 @@
                 "stories": [{
                     "title": "Login View",
                     "description": "Displays the login form for all users",
-                    "constituent": { "id": 1, "name": "All" },
+                    "personas": [{ "id": 1, "name": "All" }],
                     "revisions": [{
                         "revisionNumber": 1,
                         "completionState": "REFINEMENT",
@@ -124,7 +124,7 @@
                 }, {
                     "title": "Invalid Credentials",
                     "description": "When invalid credentials are submitted, a warning or error is displayed to the user",
-                    "constituent": { "id": 1, "name": "All" },
+                    "personas": [{ "id": 1, "name": "All" }],
                     "revisions": [{
                         "revisionNumber": 1,
                         "completionState": "REFINEMENT",

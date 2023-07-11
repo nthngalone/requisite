@@ -1,8 +1,8 @@
 import Entity from '../Entity';
 import Organization from '../org/Organization';
 import Feature from './Feature';
-import Constituent from './Constituent';
 import Membership from '../user/Membership';
+import Persona from './Persona';
 
 export default interface Product extends Entity {
 
@@ -10,7 +10,7 @@ export default interface Product extends Entity {
     name: string;
     description: string;
     public: boolean;
-    constituents?: Constituent[];
+    personas?: Persona[];
     features?: Feature[];
     memberships?: Membership<Product>[];
 }

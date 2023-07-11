@@ -14,8 +14,8 @@ import StoriesService from './StoriesService';
 import StoriesServiceSqlzImpl from './StoriesServiceSqlzImpl';
 import StoryRevisionsServiceSqlzImpl from './StoryRevisionsServiceSqlzImpl';
 import StoryRevisionsService from './StoryRevisionsService';
-import ProductConstituentsService from './ProductConstituentsService';
-import ProductConstituentsServiceSqlzImpl from './ProductContituentsServiceSqlzImpl';
+import PersonasService from './PersonasService';
+import PersonasServiceSqlzImpl from './PersonasServiceSqlzImpl';
 
 export default {
     getSecurityService(): SecurityService {
@@ -30,8 +30,8 @@ export default {
     getProductsService(): ProductsService {
         return new ProductsServiceSqlzImpl();
     },
-    getProductConstituentsService(): ProductConstituentsService {
-        return new ProductConstituentsServiceSqlzImpl();
+    getPersonasService(): PersonasService {
+        return new PersonasServiceSqlzImpl();
     },
     getFeaturesService(): FeaturesService {
         return new FeaturesServiceSqlzImpl();

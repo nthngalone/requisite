@@ -1,12 +1,12 @@
-import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
+import { getLogger } from '../../../util/Logger';
+import ResourceRequest from '../../../common/ResourceRequest';
 import { Response, NextFunction } from 'express';
-import ServiceProvider from '../../services/ServiceProvider';
+import ServiceProvider from '../../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
 import Membership from '@requisite/model/lib/user/Membership';
 import Product from '@requisite/model/lib/product/Product';
 
-const logger = getLogger('resources/product-memberships/ProdMembershipsCreateResource');
+const logger = getLogger('resources/products/memberships/ProductMembershipsCreateResource');
 
 export default (req: ResourceRequest, res: Response, next: NextFunction): void => {
     (async function() {

@@ -1,10 +1,10 @@
-import '../supertest.mock.sqlz';
-import '../supertest.mock.jsonwebtoken';
+import '../../supertest.mock.sqlz';
+import '../../supertest.mock.jsonwebtoken';
 import request from 'supertest';
-import { getApp } from '../../src/app';
-import { configure } from '../../src/util/Logger';
+import { getApp } from '../../../src/app';
+import { configure } from '../../../src/util/Logger';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import { getAuthBearer, getMockedAuthBearerForOrgMembership, getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedOrg, getMockedOrgMembership, getMockedOrgMemberships, getMockedUserForOrgMembership } from '../mockUtils';
+import { getAuthBearer, getMockedAuthBearerForOrgMembership, getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedOrg, getMockedOrgMembership, getMockedOrgMemberships, getMockedUserForOrgMembership } from '../../mockUtils';
 
 configure('ERROR');
 

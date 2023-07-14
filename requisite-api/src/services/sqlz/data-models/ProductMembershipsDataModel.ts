@@ -69,29 +69,29 @@ export default class ProductMembershipsDataModel
     }
 
     public static toDataModel(
-        prodMembership: Membership<Product>
+        productMembership: Membership<Product>
     ): ProductMembershipsDataModel {
         return {
-            ...prodMembership,
-            productId: prodMembership.entity.id,
-            userId: prodMembership.user.id
+            ...productMembership,
+            productId: productMembership.entity.id,
+            userId: productMembership.user.id
         } as unknown as ProductMembershipsDataModel;
     }
 
     public static toProductMembership(
         model: ProductMembershipsDataModel
     ): Membership<Product> {
-        const prodMembership = model.toJSON ? model.toJSON() : model;
-        (prodMembership as Membership<Product>).user
-            = UsersDataModel.toUser(prodMembership.user);
-        (prodMembership as Membership<Product>).entity
-            = ProductsDataModel.toProduct(prodMembership.entity);
-        delete prodMembership.productId;
-        delete prodMembership.userId;
-        delete prodMembership.createdAt;
-        delete prodMembership.updatedAt;
-        delete prodMembership.updatedBy;
-        return prodMembership;
+        const productMembership = model.toJSON ? model.toJSON() : model;
+        (productMembership as Membership<Product>).user
+            = UsersDataModel.toUser(productMembership.user);
+        (productMembership as Membership<Product>).entity
+            = ProductsDataModel.toProduct(productMembership.entity);
+        delete productMembership.productId;
+        delete productMembership.userId;
+        delete productMembership.createdAt;
+        delete productMembership.updatedAt;
+        delete productMembership.updatedBy;
+        return productMembership;
     }
 
 }

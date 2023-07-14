@@ -1,10 +1,10 @@
-import '../supertest.mock.sqlz';
-import '../supertest.mock.jsonwebtoken';
+import '../../supertest.mock.sqlz';
+import '../../supertest.mock.jsonwebtoken';
 import request from 'supertest';
-import { getApp } from '../../src/app';
-import { configure } from '../../src/util/Logger';
+import { getApp } from '../../../src/app';
+import { configure } from '../../../src/util/Logger';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import { getMockedAuthBearerForProductMembership, getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedProduct, getMockedProductMembership, getMockedProductMemberships } from '../mockUtils';
+import { getMockedAuthBearerForProductMembership, getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedProduct, getMockedProductMembership, getMockedProductMemberships } from '../../mockUtils';
 import Organization from '@requisite/model/lib/org/Organization';
 import { ProductRole } from '@requisite/model/lib/user/Membership';
 

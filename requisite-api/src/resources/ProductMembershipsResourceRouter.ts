@@ -4,16 +4,16 @@ import { getValidationHandler } from '../common/ResourceValidationHandler';
 import { getSecurityContextHandler } from '../common/ResourceSecurityContextHandler';
 import { getOrganizationHandler } from '../common/ResourceOrganizationHandler';
 import { MembershipSchema, ProductRole } from '@requisite/model/lib/user/Membership';
-import ProdMembershipsListResource from './product-memberships/ProdMembershipsListResource';
-import ProdMembershipsUpdateResource from './product-memberships/ProdMembershipsUpdateResource';
-import ProdMembershipsDeleteResource from './product-memberships/ProdMembershipsDeleteResource';
-import ProdMembershipsGetResource from './product-memberships/ProdMembershipsGetResource';
-import ProdMembershipsCreateResource from './product-memberships/ProdMembershipsCreateResource';
+import ProductMembershipsListResource from './products/memberships/ProductMembershipsListResource';
+import ProductMembershipsUpdateResource from './products/memberships/ProductMembershipsUpdateResource';
+import ProductMembershipsDeleteResource from './products/memberships/ProductMembershipsDeleteResource';
+import ProductMembershipsGetResource from './products/memberships/ProductMembershipsGetResource';
+import ProductMembershipsCreateResource from './products/memberships/ProductMembershipsCreateResource';
 import { getEntityHandler } from '../common/ResourceEntityHandler';
 import ServiceProvider from '../services/ServiceProvider';
 import { getProductHandler } from '../common/ResourceProductHandler';
 
-export const ProdMembershipReqParamsSchema: unknown = {
+export const ProductMembershipReqParamsSchema: unknown = {
     title: 'Product Membership Id Params',
     description: 'Request params for product memberships',
     type: 'object',
@@ -26,8 +26,8 @@ export const ProdMembershipReqParamsSchema: unknown = {
     required: ['membershipId']
 };
 
-const prodMembershipEntityHandler = getEntityHandler(
-    'prodMembership',
+const productMembershipEntityHandler = getEntityHandler(
+    'productMembership',
     'membershipId',
     ['orgId', 'productId'],
     async (entityId: number, contextIds: Record<string, number>) => {
@@ -44,15 +44,15 @@ const prodMembershipEntityHandler = getEntityHandler(
 
 const getProductMembershipsResourceRouter = (): Router => {
 
-    const prodMembershipsResourceRouter = Router({ mergeParams: true });
+    const productMembershipsResourceRouter = Router({ mergeParams: true });
 
-    prodMembershipsResourceRouter.route('')
+    productMembershipsResourceRouter.route('')
         .get(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getOrganizationHandler(),
             getProductHandler(),
-            ProdMembershipsListResource
+            ProductMembershipsListResource
         )
         .post(
             getAuthenticationHandler('bearer'),
@@ -62,47 +62,47 @@ const getProductMembershipsResourceRouter = (): Router => {
             getValidationHandler({
                 bodySchema: MembershipSchema
             }),
-            ProdMembershipsCreateResource
+            ProductMembershipsCreateResource
         );
 
-    prodMembershipsResourceRouter.route('/:membershipId')
+    productMembershipsResourceRouter.route('/:membershipId')
         .get(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getValidationHandler({
-                paramsSchema: ProdMembershipReqParamsSchema
+                paramsSchema: ProductMembershipReqParamsSchema
             }),
             getOrganizationHandler(),
             getProductHandler(),
-            prodMembershipEntityHandler,
-            ProdMembershipsGetResource
+            productMembershipEntityHandler,
+            ProductMembershipsGetResource
         )
         .put(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getValidationHandler({
-                paramsSchema: ProdMembershipReqParamsSchema
+                paramsSchema: ProductMembershipReqParamsSchema
             }),
             getOrganizationHandler(),
             getProductHandler(ProductRole.OWNER),
-            prodMembershipEntityHandler,
+            productMembershipEntityHandler,
             getValidationHandler({
                 bodySchema: MembershipSchema
             }),
-            ProdMembershipsUpdateResource
+            ProductMembershipsUpdateResource
         )
         .delete(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getValidationHandler({
-                paramsSchema: ProdMembershipReqParamsSchema
+                paramsSchema: ProductMembershipReqParamsSchema
             }),
             getOrganizationHandler(),
             getProductHandler(ProductRole.OWNER),
-            prodMembershipEntityHandler,
-            ProdMembershipsDeleteResource
+            productMembershipEntityHandler,
+            ProductMembershipsDeleteResource
         );
-    return prodMembershipsResourceRouter;
+    return productMembershipsResourceRouter;
 };
 
 export { getProductMembershipsResourceRouter };

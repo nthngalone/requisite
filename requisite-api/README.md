@@ -7,6 +7,13 @@ RESTful Web API for the Requisite platform.
 npm run test --workspace=requisite-api -- tests/orgs/supertest.app.orgs.list.post.test.ts
 ```
 
+## MaxListenersExceededWarning
+If you see this message in your jest output: `MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 message listeners added to [EventEmitter]. Use emitter.setMaxListeners() to increase limit`, try running jest with the following node option to get a stack trace of where this warning is coming from.
+```
+cd requisite-api
+node --trace-warnings ../node_modules/.bin/jest
+```
+
 ## Verdaccio Setup
 This project requires a local NPM registry running.  The `requisite-verdaccio` project provides a quick way to get up and running with Verdaccio NPM Registry.  Clone the repo,
 then run:

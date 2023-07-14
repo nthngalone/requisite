@@ -4,11 +4,11 @@ import { getValidationHandler } from '../common/ResourceValidationHandler';
 import { getSecurityContextHandler } from '../common/ResourceSecurityContextHandler';
 import { getOrganizationHandler } from '../common/ResourceOrganizationHandler';
 import { MembershipSchema, OrganizationRole } from '@requisite/model/lib/user/Membership';
-import OrgMembershipsListResource from './organization-memberships/OrgMembershipsListResource';
-import OrgMembershipsUpdateResource from './organization-memberships/OrgMembershipsUpdateResource';
-import OrgMembershipsDeleteResource from './organization-memberships/OrgMembershipsDeleteResource';
-import OrgMembershipsGetResource from './organization-memberships/OrgMembershipsGetResource';
-import OrgMembershipsCreateResource from './organization-memberships/OrgMembershipsCreateResource';
+import OrgMembershipsListResource from './organizations/memberships/OrgMembershipsListResource';
+import OrgMembershipsUpdateResource from './organizations/memberships/OrgMembershipsUpdateResource';
+import OrgMembershipsDeleteResource from './organizations/memberships/OrgMembershipsDeleteResource';
+import OrgMembershipsGetResource from './organizations/memberships/OrgMembershipsGetResource';
+import OrgMembershipsCreateResource from './organizations/memberships/OrgMembershipsCreateResource';
 import { getEntityHandler } from '../common/ResourceEntityHandler';
 import ServiceProvider from '../services/ServiceProvider';
 

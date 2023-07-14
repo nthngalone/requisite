@@ -1,10 +1,10 @@
-import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
+import { getLogger } from '../../../util/Logger';
+import ResourceRequest from '../../../common/ResourceRequest';
 import { Response, NextFunction } from 'express';
-import ServiceProvider from '../../services/ServiceProvider';
+import ServiceProvider from '../../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
 
-const logger = getLogger('resources/product-memberships/ProdMembershipsListResource');
+const logger = getLogger('resources/products/memberships/ProductMembershipsListResource');
 
 export default (req: ResourceRequest, res: Response, next: NextFunction): void => {
     (async function() {

@@ -4,7 +4,8 @@ import request from 'supertest';
 import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import Organization from '@requisite/model/lib/org/Organization';
-import { getMockedOrgs } from '../mockUtils';
+import { getAuthBearer, getMockedAuthBearerForOrgMembership, getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedOrg, getMockedOrgMembership, getMockedOrgs, getMockedUser } from '../mockUtils';
+import { OrganizationRole } from '@requisite/model/lib/user/Membership';
 
 configure('ERROR');
 
@@ -23,20 +24,20 @@ describe('GET /orgs', () => {
     test('returns a 401 Unauthorized response when a valid auth header is present for an unknown user', async () => {
         return request(getApp())
             .get('/orgs')
-            .set('Authorization', 'Bearer valid|local|unknown')
+            .set('Authorization', await getMockedAuthBearerForUser({ unknown: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for a revoked user', async () => {
         return request(getApp())
             .get('/orgs')
-            .set('Authorization', 'Bearer valid|local|revoked')
+            .set('Authorization', await getMockedAuthBearerForUser({ revoked: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 200 with all org data if a valid auth header is present for a system admin', async () => {
         const orgs = await getMockedOrgs();
         return request(getApp())
             .get('/orgs')
-            .set('Authorization', 'Bearer valid|local|sysadmin')
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(200)
             .then((res) => {
                 const results = res.body as Organization[];
@@ -44,36 +45,56 @@ describe('GET /orgs', () => {
             });
     });
     test('returns a 200 with membership specific org data for an org owner', async () => {
-        const orgs = await getMockedOrgs();
+        const org = await getMockedOrg();
+        const orgOwnerBearer = await getMockedAuthBearerForOrgMembership({
+            entity: org,
+            role: OrganizationRole.OWNER
+        });
         return request(getApp())
             .get('/orgs')
-            .set('Authorization', 'Bearer valid|local|org0Owner')
+            .set('Authorization', orgOwnerBearer)
             .expect(200)
             .then((res) => {
                 const results = res.body as Organization[];
-                expect(results).toEqual([orgs[0]]);
+                expect(results).toEqual([org]);
             });
     });
     test('returns a 200 with membership specific org data for an org member', async () => {
-        const orgs = await getMockedOrgs();
+        const org = await getMockedOrg();
+        const orgMemberBearer = await getMockedAuthBearerForOrgMembership({
+            entity: org,
+            role: OrganizationRole.MEMBER
+        });
         return request(getApp())
             .get('/orgs')
-            .set('Authorization', 'Bearer valid|local|org0MemberProduct0Owner')
+            .set('Authorization', orgMemberBearer)
             .expect(200)
             .then((res) => {
                 const results = res.body as Organization[];
-                expect(results).toEqual([orgs[0]]);
+                expect(results).toEqual([org]);
             });
     });
     test('returns a 200 with membership specific org data for an org member with multiple orgs', async () => {
-        const orgs = await getMockedOrgs();
+        const org1 = await getMockedOrg();
+        const org2 = await getMockedOrg();
+        const user = await getMockedUser();
+        await getMockedOrgMembership({
+            user,
+            entity: org1,
+            role: OrganizationRole.MEMBER
+        });
+        await getMockedOrgMembership({
+            user,
+            entity: org2,
+            role: OrganizationRole.MEMBER
+        });
         return request(getApp())
             .get('/orgs')
-            .set('Authorization', 'Bearer valid|local|org0and1Member')
+            .set('Authorization', getAuthBearer(user))
             .expect(200)
             .then((res) => {
                 const results = res.body as Organization[];
-                expect(results).toEqual([orgs[0], orgs[1]]);
+                expect(results).toEqual([org1, org2]);
             });
     });
 });

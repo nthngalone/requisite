@@ -6,6 +6,7 @@ import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import { sign } from 'jsonwebtoken';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
+import { getMockedUser } from '../mockUtils';
 
 configure('OFF');
 
@@ -106,38 +107,41 @@ describe('POST /security/login', () => {
             });
     });
     test('with invalid domain in JSON body returns a 401 Unauthorized response', async () => {
+        const { userName } = await getMockedUser();
         return request(getApp())
             .post('/security/login')
-            .send({ domain: 'invalid', userName: 'sysadmin', password: 'pass' })
+            .send({ domain: 'invalid', userName, password: 'pass' })
             .expect(401, 'Unauthorized');
     });
     test('with invalid user name in JSON body returns a 401 Unauthorized response', async () => {
+        const { domain } = await getMockedUser();
         return request(getApp())
             .post('/security/login')
-            .send({ domain: 'local', userName: 'invalid', password: 'pass' })
+            .send({ domain, userName: 'invalid', password: 'pass' })
             .expect(401, 'Unauthorized');
     });
     test('with invalid password in JSON body returns a 401 Unauthorized response', async () => {
+        const { domain, userName } = await getMockedUser();
         return request(getApp())
             .post('/security/login')
-            .send({ domain: 'local', userName: 'sysadmin', password: 'invalid' })
+            .send({ domain, userName, password: 'invalid' })
             .expect(401, 'Unauthorized');
     });
     test('with valid credentials in JSON body for a revoked account returns a 401 Unauthorized response', async () => {
+        const { domain, userName } = await getMockedUser({ revoked: true });
         return request(getApp())
             .post('/security/login')
-            .send({ domain: 'local', userName: 'revoked', password: 'pass' })
+            .send({ domain, userName, password: 'pass' })
             .expect(401, 'Unauthorized');
     });
     test('with valid credentials in JSON body returns a 200 Success response with a signed jwt auth token', async () => {
-        const domain = 'local';
-        const userName = 'sysadmin';
+        const { domain, userName } = await getMockedUser();
         const password = 'pass';
         return request(getApp())
             .post('/security/login')
             .send({ domain, userName, password })
             .expect(200, '{"message":"Authenticated"}')
-            .expect('X-Authorization', `im-a-signed-token-for-local-${userName}`)
+            .expect('X-Authorization', `im-a-signed-token-for-${domain}-${userName}`)
             .then(() => {
                 expect(sign).toHaveBeenCalledWith(
                     { user: expect.objectContaining({ userName }) },
@@ -147,9 +151,10 @@ describe('POST /security/login', () => {
             });
     });
     test('that results in a system error returns a 500 System Error response', async () => {
+        const { domain } = await getMockedUser();
         return request(getApp())
             .post('/security/login')
-            .send({ domain: 'local', userName: 'error', password: 'error' })
+            .send({ domain, userName: 'error', password: 'error' })
             .expect(500);
     });
 });

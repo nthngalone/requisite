@@ -4,6 +4,7 @@ import UsersDeleteResource from './users/UsersDeleteResource';
 import { getAuthenticationHandler } from '../common/ResourceAuthenticationHandler';
 import { getValidationHandler } from '../common/ResourceValidationHandler';
 import { getSecurityContextHandler } from '../common/ResourceSecurityContextHandler';
+import { getSystemAdminOnlyHandler } from '../common/ResourceSystemAdminOnlyHandler';
 
 export const UserReqParamsSchema: unknown = {
     title: 'User Id Params',
@@ -28,6 +29,7 @@ const getUsersResourceRouter = (): Router => {
     usersResourceRouter.route('/:userId').delete(
         getAuthenticationHandler('bearer'),
         getSecurityContextHandler(),
+        getSystemAdminOnlyHandler(),
         getValidationHandler({
             paramsSchema: UserReqParamsSchema
         }),

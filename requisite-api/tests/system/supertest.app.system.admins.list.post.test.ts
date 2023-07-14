@@ -5,8 +5,7 @@ import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
-import { getMockedSystemAdminMemberships } from '../mockUtils';
+import { getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedSystemAdminMemberships, getMockedUser } from '../mockUtils';
 
 configure('ERROR');
 
@@ -25,19 +24,19 @@ describe('POST /system/admins', () => {
     test('returns a 401 Unauthorized response when a valid auth header is present for an unknown user', async () => {
         return request(getApp())
             .post('/system/admins')
-            .set('Authorization', 'Bearer valid|local|unknown')
+            .set('Authorization', await getMockedAuthBearerForUser({ unknown: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for a revoked user', async () => {
         return request(getApp())
             .post('/system/admins')
-            .set('Authorization', 'Bearer valid|local|revoked')
+            .set('Authorization', await getMockedAuthBearerForUser({ revoked: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 400 Bad Request response when an valid auth header but no body', async () => {
         return request(getApp())
             .post('/system/admins')
-            .set('Authorization', 'Bearer valid|local|sysadmin')
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -49,7 +48,7 @@ describe('POST /system/admins', () => {
     test('returns a 400 Bad Request response when an valid auth header but an empty body', async () => {
         return request(getApp())
             .post('/system/admins')
-            .set('Authorization', 'Bearer valid|local|sysadmin')
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({})
             .expect(400)
             .then((res) => {
@@ -60,38 +59,19 @@ describe('POST /system/admins', () => {
             });
     });
     test('returns a 200 response when an valid auth header and valid body are sent', async () => {
+        const requestorBearer = await getMockedAuthBearerSystemAdmin();
         const initialAdminCount = (await getMockedSystemAdminMemberships()).length;
-        const app = getApp();
+        const user = await getMockedUser();
 
-        // First create a new user to make an admin
-        let newUserId = -1;
-        await request(getApp())
-            .post('/security/register')
-            .send({
-                userName: 'sysAdminAddTest',
-                password: 'password',
-                name: {
-                    firstName: 'System',
-                    lastName: 'Admin'
-                },
-                emailAddress: 'sysAdminAddTest@requisite.dev',
-                termsAgreement: true
-            })
-            .then((res) => {
-                const { id } = res.body as RegistrationResponse;
-                newUserId = id as number;
-            });
-
-        // Then assign that user as an admin
-        return request(app)
+        return request(getApp())
             .post('/system/admins')
-            .set('Authorization', 'Bearer valid|local|sysadmin')
-            .send({ id: newUserId })
+            .set('Authorization', requestorBearer)
+            .send({ id: user.id })
             .expect(200)
             .then(async (res) => {
                 const results = res.body as SystemAdmin;
                 expect(results.id).toBeGreaterThanOrEqual(0);
-                expect(results.user.id).toBe(newUserId);
+                expect(results.user.id).toBe(user.id);
                 const updatedAdmins = await getMockedSystemAdminMemberships();
                 const updatedAdminCount = updatedAdmins.length;
                 expect(updatedAdminCount).toEqual(initialAdminCount + 1);

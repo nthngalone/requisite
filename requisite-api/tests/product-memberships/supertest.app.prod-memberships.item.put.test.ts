@@ -5,8 +5,8 @@ import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import Organization from '@requisite/model/lib/org/Organization';
-import Membership, { OrganizationRole } from '@requisite/model/lib/user/Membership';
-import { getMockedUserForSystemAdmin, getMockedUser, getMockedUserForProductMembership, getMockedProduct, getMockedProductMembership } from '../mockUtils';
+import Membership, { OrganizationRole, ProductRole } from '@requisite/model/lib/user/Membership';
+import { getMockedProduct, getMockedProductMembership, getMockedAuthBearerForProductMembership, getMockedAuthBearerSystemAdmin, getMockedAuthBearerForUser } from '../mockUtils';
 import Product from '@requisite/model/lib/product/Product';
 
 configure('ERROR');
@@ -35,36 +35,36 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const membership = await getMockedProductMembership({ entity: product });
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
-            .set('Authorization', 'Bearer valid|local|unknown')
+            .set('Authorization', await getMockedAuthBearerForUser({ unknown: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for a revoked user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const revokedUser = await getMockedUser({ revoked: true });
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
-            .set('Authorization', `Bearer valid|local|${revokedUser.userName}`)
+            .set('Authorization', await getMockedAuthBearerForUser({ revoked: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 403 Not Authorized when a valid auth header is present but not for a product owner', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const productMember = await getMockedUserForProductMembership({ entity: product, role: 'CONTRIBUTOR' });
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
-            .set('Authorization', `Bearer valid|local|${productMember.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.CONTRIBUTOR
+            }))
             .expect(403, 'Not Authorized');
     });
     test('returns a 400 Bad Request response when an invalid index', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/abc`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -75,20 +75,18 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
     test('returns a 404 Not Found response when an unknown index', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/12345`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(404, 'Not Found');
     });
     test('returns a 400 Bad Request response for a valid auth header for the request resource but no body', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -100,11 +98,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({ user: { id: 0 }})
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -116,11 +113,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({ entity: { id: 0 } })
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -132,11 +128,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({ role: 'OWNER' })
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -148,11 +143,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({ user: { id: 1 }, entity: { id: 0 } })
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -164,11 +158,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({ user: { id: 1 }, role: 'OWNER' })
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -180,11 +173,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({ entity: { id: 0 }, role: 'OWNER' })
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -196,52 +188,51 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 id: membership.id + 1,
                 user: membership.user,
                 entity: membership.entity,
                 role: OrganizationRole.OWNER
-            })            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            })
             .expect(409);
     });
     test('returns a 409 Conflict response for a valid auth header for the request resource but a different entity id in the body', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 id: membership.id,
                 user: membership.user,
                 entity: { id: membership.entity.id + 1 },
                 role: OrganizationRole.OWNER
-            })            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            })
             .expect(409);
     });
     test('returns a 409 Conflict response for a valid auth header for the request resource but a different user id in the body', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 id: membership.id,
                 user: { id: membership.user.id + 1 },
                 entity: membership.entity,
                 role: OrganizationRole.OWNER
-            })            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            })
             .expect(409);
     });
     test('returns a 200 with data when a valid auth header and data is present for a sys admin', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({
@@ -249,7 +240,7 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
                 entity: membership.entity,
                 role: OrganizationRole.OWNER
             })
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(200)
             .then((res) => {
                 const result = res.body as Membership<Product>;
@@ -269,7 +260,6 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const membership = await getMockedProductMembership({ entity: product });
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/memberships/${membership.id}`)
             .send({
@@ -277,7 +267,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/memberships/<productMembershipI
                 entity: membership.entity,
                 role: OrganizationRole.OWNER
             })
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .expect(200)
             .then((res) => {
                 const result = res.body as Membership<Product>;

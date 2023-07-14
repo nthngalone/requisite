@@ -2,6 +2,11 @@
 
 RESTful Web API for the Requisite platform.
 
+## Run a Single Unit Test
+```
+npm run test --workspace=requisite-api -- tests/orgs/supertest.app.orgs.list.post.test.ts
+```
+
 ## Verdaccio Setup
 This project requires a local NPM registry running.  The `requisite-verdaccio` project provides a quick way to get up and running with Verdaccio NPM Registry.  Clone the repo,
 then run:

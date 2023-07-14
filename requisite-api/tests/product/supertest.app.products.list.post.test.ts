@@ -5,45 +5,55 @@ import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import Product from '@requisite/model/lib/product/Product';
-import { getMockedOrgs, getMockedProducts } from '../mockUtils';
+import { getMockedAuthBearerForOrgMembership, getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedOrg, getMockedProducts } from '../mockUtils';
+import { OrganizationRole } from '@requisite/model/lib/user/Membership';
 
 configure('ERROR');
 
 describe('POST /org/<orgId>/products', () => {
 
     test('returns a 401 Unauthorized response when no auth header is present', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
+            .post(`/orgs/${org.id}/products`)
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when an invalid auth header is present', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
+            .post(`/orgs/${org.id}/products`)
             .set('Authorization', 'Bearer invalid')
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for an unknown user', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|unknown')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerForUser({ unknown: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for a revoked user', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|revoked')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerForUser({ revoked: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 403 Forbidden response when an auth header for a non org owner', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|org0MemberProduct0Owner')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerForOrgMembership())
             .expect(403, 'Not Authorized');
     });
     test('returns a 400 Bad Request response with 3 error when the request body is empty for an org owner', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|org0Owner')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerForOrgMembership({
+                entity: org,
+                role: OrganizationRole.OWNER
+            }))
             .send({})
             .expect(400)
             .then((res) => {
@@ -53,9 +63,13 @@ describe('POST /org/<orgId>/products', () => {
             });
     });
     test('returns a 400 Bad Request response with 2 error when the request body has only a name for an org owner', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|org0Owner')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerForOrgMembership({
+                entity: org,
+                role: OrganizationRole.OWNER
+            }))
             .send({ name: 'Test Product' })
             .expect(400)
             .then((res) => {
@@ -65,9 +79,13 @@ describe('POST /org/<orgId>/products', () => {
             });
     });
     test('returns a 400 Bad Request response with 1 error when the request body has only a name and description for an org owner', async () => {
+        const org = await getMockedOrg();
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|org0Owner')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerForOrgMembership({
+                entity: org,
+                role: OrganizationRole.OWNER
+            }))
             .send({ name: 'Test Product', description: 'Test Product Description' })
             .expect(400)
             .then((res) => {
@@ -77,15 +95,15 @@ describe('POST /org/<orgId>/products', () => {
             });
     });
     test('returns a 200 with the new record when the request body is valid for a system admin', async () => {
-        const orgs = await getMockedOrgs();
-        const products = await getMockedProducts();
+        const org = await getMockedOrg();
+        const products = await getMockedProducts({ organization: org });
         const productsCount = products.length;
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|sysadmin')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
-                name: 'Product Created by SysAdmin Test',
-                description: 'Product Created by SysAdmin Test Description',
+                name: 'New Product Created by a System Admin',
+                description: 'Description for a New Product Created by a System Admin',
                 public: true
             })
             .expect(200)
@@ -93,38 +111,41 @@ describe('POST /org/<orgId>/products', () => {
                 const result = res.body as Product;
                 expect(result).toEqual(expect.objectContaining({
                     id: expect.any(Number),
-                    name: 'Product Created by SysAdmin Test',
-                    description: 'Product Created by SysAdmin Test Description',
+                    name: 'New Product Created by a System Admin',
+                    description: 'Description for a New Product Created by a System Admin',
                     public: true,
-                    organization: orgs[0]
+                    organization: org
                 }));
-                const updatedProducts = await getMockedProducts();
+                const updatedProducts = await getMockedProducts({ organization: org });
                 expect(updatedProducts.length).toBe(productsCount+1);
             });
     });
     test('returns a 200 with the new record when the request body is valid for an org owner', async () => {
-        const orgs = await getMockedOrgs();
-        const products = await getMockedProducts();
+        const org = await getMockedOrg();
+        const products = await getMockedProducts({ organization: org });
         const productsCount = products.length;
         return request(getApp())
-            .post('/orgs/0/products')
-            .set('Authorization', 'Bearer valid|local|org0Owner')
+            .post(`/orgs/${org.id}/products`)
+            .set('Authorization', await getMockedAuthBearerForOrgMembership({
+                entity: org,
+                role: OrganizationRole.OWNER
+            }))
             .send({
-                name: 'Product Created by OrgOwner Test',
-                description: 'Product Created by OrgOwner Test Description',
-                public: false
+                name: 'New Product Created by an Org Owner',
+                description: 'Description for a New Product Created by an Org Owner',
+                public: true
             })
             .expect(200)
             .then(async (res) => {
                 const result = res.body as Product;
                 expect(result).toEqual(expect.objectContaining({
                     id: expect.any(Number),
-                    name: 'Product Created by OrgOwner Test',
-                    description: 'Product Created by OrgOwner Test Description',
-                    public: false,
-                    organization: orgs[0]
+                    name: 'New Product Created by an Org Owner',
+                    description: 'Description for a New Product Created by an Org Owner',
+                    public: true,
+                    organization: org
                 }));
-                const updatedProducts = await getMockedProducts();
+                const updatedProducts = await getMockedProducts({ organization: org });
                 expect(updatedProducts.length).toBe(productsCount+1);
             });
     });

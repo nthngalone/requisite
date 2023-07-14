@@ -5,9 +5,9 @@ import { getApp } from '../../../src/app';
 import { configure } from '../../../src/util/Logger';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import Product from '@requisite/model/lib/product/Product';
-import { getMockedPersonas, getMockedProduct, getMockedUser, getMockedUserForProductMembership, getMockedUserForSystemAdmin } from '../../mockUtils';
+import { getMockedAuthBearerForProductMembership, getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedPersonas, getMockedProduct } from '../../mockUtils';
 import Organization from '@requisite/model/lib/org/Organization';
-import Membership from '@requisite/model/lib/user/Membership';
+import Membership, { ProductRole } from '@requisite/model/lib/user/Membership';
 
 configure('ERROR');
 
@@ -33,34 +33,37 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
         const org = product.organization as Organization;
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', 'Bearer valid|local|unknown')
+            .set('Authorization', await getMockedAuthBearerForUser({ unknown: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for a revoked user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const revokedUser = await getMockedUser({ revoked: true });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${revokedUser.userName}`)
+            .set('Authorization', await getMockedAuthBearerForUser({ revoked: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 403 Forbidden response when an auth header for a non product owner', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productMember = await getMockedUserForProductMembership({ entity: product, role: 'CONTRIBUTOR' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productMember.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.CONTRIBUTOR
+            }))
             .expect(403, 'Not Authorized');
     });
     test('returns a 400 Bad Request response with 3 errors when the request body is empty for a valid user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({})
             .expect(400)
             .then((res) => {
@@ -72,10 +75,12 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
     test('returns a 400 Bad Request response with 2 errors when the request body has only a name for a valid user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({ name: 'SuperAwesomeUser' })
             .expect(400)
             .then((res) => {
@@ -87,10 +92,12 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
     test('returns a 400 Bad Request response with 2 errors when the request body has only an description for a valid user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({ description: 'This is a super awesome user' })
             .expect(400)
             .then((res) => {
@@ -102,10 +109,12 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
     test('returns a 400 Bad Request response with 2 errors when the request body has only an avatar for a for a valid user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({ avatar: 'fa-solid fa-user' })
             .expect(400)
             .then((res) => {
@@ -117,10 +126,12 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
     test('returns a 400 Bad Request response with 1 error when the request body has only a name and a description for a valid user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({
                 name: 'SuperAwesomeUser',
                 description: 'This is a super awesome user'
@@ -135,10 +146,12 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
     test('returns a 400 Bad Request response with 1 error when the request body has only a name and an avatar for a valid user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({
                 name: 'SuperAwesomeUser',
                 avatar: 'fa-solid fa-user'
@@ -153,10 +166,12 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
     test('returns a 400 Bad Request response with 1 error when the request body has only a description and an avatar for a valid user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({
                 description: 'This is a super awesome user',
                 avatar: 'fa-solid fa-user'
@@ -173,10 +188,9 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
         const org = product.organization as Organization;
         const personas = await getMockedPersonas(product);
         const personasCount = personas.length;
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 name: 'SuperAwesomeUser',
                 description: 'This is a super awesome user',
@@ -200,10 +214,12 @@ describe('POST /org/<orgId>/products/<productId>/personas', () => {
         const org = product.organization as Organization;
         const personas = await getMockedPersonas(product);
         const personasCount = personas.length;
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .post(`/orgs/${org.id}/products/${product.id}/personas`)
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: ProductRole.OWNER
+            }))
             .send({
                 name: 'SuperAwesomeUser',
                 description: 'This is a super awesome user',

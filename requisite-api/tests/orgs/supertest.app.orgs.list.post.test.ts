@@ -5,7 +5,7 @@ import { getApp } from '../../src/app';
 import { configure } from '../../src/util/Logger';
 import Organization from '@requisite/model/lib/org/Organization';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import { getMockedOrgs } from '../mockUtils';
+import { getMockedAuthBearerForUser, getMockedAuthBearerSystemAdmin, getMockedOrgs } from '../mockUtils';
 
 configure('ERROR');
 
@@ -25,25 +25,25 @@ describe('POST /orgs', () => {
     test('returns a 401 Unauthorized response when a valid auth header is present for an unknown user', async () => {
         return request(getApp())
             .post('/orgs')
-            .set('Authorization', 'Bearer valid|local|unknown')
+            .set('Authorization', await getMockedAuthBearerForUser({ unknown: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for a revoked user', async () => {
         return request(getApp())
             .post('/orgs')
-            .set('Authorization', 'Bearer valid|local|revoked')
+            .set('Authorization', await getMockedAuthBearerForUser({ revoked: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 403 Forbidden response when an auth header for a non system admin is present', async () => {
         return request(getApp())
             .post('/orgs')
-            .set('Authorization', 'Bearer valid|local|org0Owner')
+            .set('Authorization', await getMockedAuthBearerForUser())
             .expect(403, 'Not Authorized');
     });
     test('returns a 400 Bad Request response with 1 error when the request body is empty for a system admin', async () => {
         return request(getApp())
             .post('/orgs')
-            .set('Authorization', 'Bearer valid|local|sysadmin')
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({})
             .expect(400)
             .then((res) => {
@@ -57,7 +57,7 @@ describe('POST /orgs', () => {
         const orgsCount = orgs.length;
         return request(getApp())
             .post('/orgs')
-            .set('Authorization', 'Bearer valid|local|sysadmin')
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({ name: 'Organization Create Test'})
             .expect(200)
             .then(async (res) => {

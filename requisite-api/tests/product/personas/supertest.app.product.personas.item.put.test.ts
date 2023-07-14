@@ -5,7 +5,7 @@ import { getApp } from '../../../src/app';
 import { configure } from '../../../src/util/Logger';
 import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import Organization from '@requisite/model/lib/org/Organization';
-import { getMockedUserForSystemAdmin, getMockedUser, getMockedUserForProductMembership, getMockedProduct, getMockedPersona } from '../../mockUtils';
+import { getMockedProduct, getMockedPersona, getMockedAuthBearerForUser, getMockedAuthBearerForProductMembership, getMockedAuthBearerSystemAdmin } from '../../mockUtils';
 import Persona from '@requisite/model/lib/product/Persona';
 
 configure('ERROR');
@@ -34,36 +34,36 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const persona = await getMockedPersona(product);
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', 'Bearer valid|local|unknown')
+            .set('Authorization', await getMockedAuthBearerForUser({ unknown: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 401 Unauthorized response when a valid auth header is present for a revoked user', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const revokedUser = await getMockedUser({ revoked: true });
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${revokedUser.userName}`)
+            .set('Authorization', await getMockedAuthBearerForUser({ revoked: true }))
             .expect(401, 'Unauthorized');
     });
     test('returns a 403 Not Authorized when a valid auth header is present but not for a product owner', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const productMember = await getMockedUserForProductMembership({ entity: product, role: 'CONTRIBUTOR' });
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${productMember.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: 'CONTRIBUTOR'
+            }))
             .expect(403, 'Not Authorized');
     });
     test('returns a 400 Bad Request response when an invalid index', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/abc`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -74,20 +74,18 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
     test('returns a 404 Not Found response when an unknown index', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/12345`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(404, 'Not Found');
     });
     test('returns a 400 Bad Request response for a valid auth header for the request resource but no body', async () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .expect(400)
             .then((res) => {
                 const results = res.body as ValidationResult;
@@ -99,10 +97,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({ name: 'SuperAwesomeUser' })
             .expect(400)
             .then((res) => {
@@ -115,10 +112,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({ description: 'This is a super awesome user' })
             .expect(400)
             .then((res) => {
@@ -131,10 +127,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({ avatar: 'fa-solid fa-user' })
             .expect(400)
             .then((res) => {
@@ -147,10 +142,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 name: 'SuperAwesomeUser',
                 description: 'This is a super awesome user'
@@ -166,11 +160,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
             .send({ user: { id: 1 }, role: 'OWNER' })
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 name: 'SuperAwesomeUser',
                 avatar: 'fa-solid fa-user'
@@ -186,10 +179,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 description: 'This is a super awesome user',
                 avatar: 'fa-solid fa-user'
@@ -205,10 +197,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 id: persona.id + 1,
                 name: persona.name,
@@ -221,10 +212,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 id: persona.id,
                 product: { id: product.id+1 },
@@ -238,10 +228,9 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const sysAdmin = await getMockedUserForSystemAdmin();
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
-            .set('Authorization', `Bearer valid|local|${sysAdmin.userName}`)
+            .set('Authorization', await getMockedAuthBearerSystemAdmin())
             .send({
                 name: persona.name + '-updated',
                 description: persona.description + '-updated',
@@ -261,7 +250,6 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
         const product = await getMockedProduct();
         const org = product.organization as Organization;
         const persona = await getMockedPersona(product);
-        const productOwner = await getMockedUserForProductMembership({ entity: product, role: 'OWNER' });
         return request(getApp())
             .put(`/orgs/${org.id}/products/${product.id}/personas/${persona.id}`)
             .send({
@@ -269,7 +257,10 @@ describe('PUT /orgs/<orgId>/products/<productId>/personas/<personaId>', () => {
                 description: persona.description + '-updated',
                 avatar: persona.avatar + '-updated'
             })
-            .set('Authorization', `Bearer valid|local|${productOwner.userName}`)
+            .set('Authorization', await getMockedAuthBearerForProductMembership({
+                entity: product,
+                role: 'OWNER'
+            }))
             .expect(200)
             .then((res) => {
                 const result = res.body as Persona;

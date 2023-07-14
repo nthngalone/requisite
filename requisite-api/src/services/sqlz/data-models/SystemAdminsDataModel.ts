@@ -66,8 +66,8 @@ export default class SystemAdminsDataModel extends Model implements SystemAdmin 
 
     public static toSystemAdmin(model: SystemAdminsDataModel): SystemAdmin {
         const sysAdmin = model.toJSON ? model.toJSON() : model;
-        const { id, userName, emailAddress, name } = sysAdmin.user || {};
-        sysAdmin.user = { id, userName, emailAddress, name } as User;
+        const { id, domain, userName, emailAddress, name } = sysAdmin.user || {};
+        sysAdmin.user = { id, domain, userName, emailAddress, name } as User;
         delete sysAdmin.userId;
         delete sysAdmin.createdAt;
         delete sysAdmin.updatedAt;

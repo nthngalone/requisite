@@ -1,5 +1,6 @@
 import Entity from '@requisite/model/lib/Entity';
 import Organization from '@requisite/model/lib/org/Organization';
+import Feature from '@requisite/model/lib/product/Feature';
 import Persona from '@requisite/model/lib/product/Persona';
 import Product from '@requisite/model/lib/product/Product';
 import Membership from '@requisite/model/lib/user/Membership';
@@ -8,7 +9,16 @@ import User from '@requisite/model/lib/user/User';
 import { asyncForEachSerial } from '@requisite/utils/lib/lang/ArrayUtils';
 import { assertExists, assertFalse } from '@requisite/utils/lib/validation/AssertionUtils';
 import { Association, ModelAttributeColumnOptions, IndexesOptions, InitOptions } from 'sequelize/types';
-import { mockOrgMemberships, mockOrgs, mockProductMemberships, mockProducts, mockSysAdmins, mockUsers, mockPersonas } from './mockData';
+import {
+    mockOrgMemberships,
+    mockOrgs,
+    mockProductMemberships,
+    mockProducts,
+    mockSysAdmins,
+    mockUsers,
+    mockPersonas,
+    mockFeatures
+} from './mockData';
 
 jest.mock('sequelize', () => {
 
@@ -193,16 +203,25 @@ jest.mock('sequelize', () => {
                                 new MockModel<Product>(
                                     // initial product data
                                     mockProducts,
-                                    // product membership unique keys (if any)
+                                    // product unique keys (if any)
                                     uniqueKeys
                                 );
                             break;
                         case 'PersonasDataModel':
                             mockModels[this.name] =
                                 new MockModel<Persona>(
-                                    // initial product data
+                                    // initial persona data
                                     mockPersonas,
-                                    // product membership unique keys (if any)
+                                    // personaunique keys (if any)
+                                    uniqueKeys
+                                );
+                            break;
+                        case 'FeaturesDataModel':
+                            mockModels[this.name] =
+                                new MockModel<Feature>(
+                                    // initial feature data
+                                    mockFeatures,
+                                    // feature unique keys (if any)
                                     uniqueKeys
                                 );
                             break;

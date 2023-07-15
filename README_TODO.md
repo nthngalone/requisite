@@ -22,7 +22,6 @@
     - Create and test system admin apis
     - Create and test teams apis
     - Create and test team membership apis
-    - Create and test product feature apis
     - Create and test product epic apis
     - Create and test product feature stories/revisions apis
     - Create and test product story task apis

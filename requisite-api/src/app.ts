@@ -14,6 +14,7 @@ import { getProductsResourceRouter } from './resources/ProductsResourceRouter';
 import { getOrganizationMembershipsResourceRouter } from './resources/OrganizationMembershipsResourceRouter';
 import { getProductMembershipsResourceRouter } from './resources/ProductMembershipsResourceRouter';
 import { getProductPersonasResourceRouter } from './resources/ProductPersonasResourceRouter';
+import { getProductFeaturesResourceRouter } from './resources/ProductFeaturesResourceRouter';
 
 const getApp = (): Express => {
 
@@ -28,6 +29,7 @@ const getApp = (): Express => {
 
     // Resource Routers
     app.use('/orgs/:orgId/memberships', getOrganizationMembershipsResourceRouter());
+    app.use('/orgs/:orgId/products/:productId/features', getProductFeaturesResourceRouter());
     app.use('/orgs/:orgId/products/:productId/memberships', getProductMembershipsResourceRouter());
     app.use('/orgs/:orgId/products/:productId/personas', getProductPersonasResourceRouter());
     app.use('/orgs/:orgId/products', getProductsResourceRouter());

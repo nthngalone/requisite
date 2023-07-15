@@ -9,3 +9,23 @@ export default interface Feature extends Entity {
     description: string;
     stories?: Story[];
 }
+
+export const FeatureSchema: unknown = {
+    title: 'Feature',
+    description: 'Entity representing a feature',
+    type: 'object',
+    properties: {
+        id: {
+            type: 'number'
+        },
+        name: {
+            type: 'string',
+            isNotBlank: true
+        },
+        description: {
+            type: 'string',
+            isNotBlank: true
+        }
+    },
+    required: ['name', 'description']
+};

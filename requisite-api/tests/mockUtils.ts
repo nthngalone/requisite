@@ -1,9 +1,11 @@
 import Organization from '@requisite/model/lib/org/Organization';
+import Feature from '@requisite/model/lib/product/Feature';
 import Persona from '@requisite/model/lib/product/Persona';
 import Product from '@requisite/model/lib/product/Product';
 import Membership, { OrganizationRole, ProductRole, SystemRole } from '@requisite/model/lib/user/Membership';
 import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import User from '@requisite/model/lib/user/User';
+import FeaturesDataModel from '../src/services/sqlz/data-models/FeaturesDataModel';
 import OrganizationsDataModel from '../src/services/sqlz/data-models/OrganizationsDataModel';
 import OrgMembershipsDataModel from '../src/services/sqlz/data-models/OrgMembershipsDataModel';
 import PersonasDataModel from '../src/services/sqlz/data-models/PersonasDataModel';
@@ -329,6 +331,33 @@ export async function getMockedPersona(product: Product): Promise<Persona> {
         if (error.name === 'SequelizeUniqueConstraintError') {
             // if we get a constraint error, try again
             return getMockedPersona(product);
+        }
+        throw error;
+    }
+}
+
+export async function getMockedFeatures(product: Product): Promise<Feature[]> {
+    FeaturesDataModel.initialize(await getSequelize());
+    return (await FeaturesDataModel.findAll({ where: { productId: product.id }})).map(
+        f => FeaturesDataModel.toFeature(f)
+    );
+}
+
+export async function getMockedFeature(product: Product): Promise<Feature> {
+    FeaturesDataModel.initialize(await getSequelize());
+    const variant = getRandomVariant();
+    try {
+        const newFeature = await FeaturesDataModel.create({
+            productId: product.id,
+            product,
+            name: `Feature - ${variant}`,
+            description: `This is a mocked feature created for testing at ${variant}`
+        });
+        return FeaturesDataModel.toFeature(newFeature);
+    }  catch(error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            // if we get a constraint error, try again
+            return getMockedFeature(product);
         }
         throw error;
     }

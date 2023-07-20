@@ -10,8 +10,8 @@ export default (req: ResourceRequest, res: Response, next: NextFunction): void =
         try {
             logger.debug('Executing product features get resource');
             assertExists(req.securityContext, 'req.securityContext');
-            assertExists(req.entity, 'req.entity');
-            res.status(200).send(req.entity);
+            assertExists(req.feature, 'req.feature');
+            res.status(200).send(req.feature);
         } catch(error) {
             next(error);
         }

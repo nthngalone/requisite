@@ -4,89 +4,95 @@ import { getValidationHandler } from '../common/ResourceValidationHandler';
 import { getSecurityContextHandler } from '../common/ResourceSecurityContextHandler';
 import { getOrganizationHandler } from '../common/ResourceOrganizationHandler';
 import { ProductRole } from '@requisite/model/lib/user/Membership';
-import FeaturesListResource from './products/features/FeaturesListResource';
-import FeaturesUpdateResource from './products/features/FeaturesUpdateResource';
-import FeaturesGetResource from './products/features/FeaturesGetResource';
-import FeaturesCreateResource from './products/features/FeaturesCreateResource';
-import FeaturesDeleteResource from './products/features/FeaturesDeleteResource';
+import StoriesListResource from './stories/StoriesListResource';
+import StoriesUpdateResource from './stories/StoriesUpdateResource';
+import StoriesGetResource from './stories/StoriesGetResource';
+import StoriesCreateResource from './stories/StoriesCreateResource';
+import StoriesDeleteResource from './stories/StoriesDeleteResource';
 import { getProductHandler } from '../common/ResourceProductHandler';
-import { FeatureSchema } from '@requisite/model/lib/product/Feature';
+import { StorySchema } from '@requisite/model/lib/story/Story';
 import { getProductFeatureHandler } from '../common/ResourceProductFeatureHandler';
+import { getStoryHandler } from '../common/ResourceStoryHandler';
 
-export const ProductFeatureReqParamsSchema: unknown = {
-    title: 'Product Feature Id Params',
-    description: 'Request params for product features',
+export const StoriesReqParamsSchema: unknown = {
+    title: 'Stories Id Params',
+    description: 'Request params for stories',
     type: 'object',
     properties: {
-        featureId: {
+        storyId: {
             type: 'string',
             pattern: '[0-9]+'
         }
     },
-    required: ['featureId']
+    required: ['storyId']
 };
 
-const getProductFeaturesResourceRouter = (): Router => {
+const getStoriesResourceRouter = (): Router => {
 
-    const productFeaturesResourceRouter = Router({ mergeParams: true });
+    const storiesResourceRouter = Router({ mergeParams: true });
 
-    productFeaturesResourceRouter.route('')
+    storiesResourceRouter.route('')
         .get(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getOrganizationHandler(),
             getProductHandler(),
-            FeaturesListResource
+            getProductFeatureHandler(),
+            StoriesListResource
         )
         .post(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getOrganizationHandler(),
             getProductHandler(ProductRole.OWNER),
+            getProductFeatureHandler(),
             getValidationHandler({
-                bodySchema: FeatureSchema
+                bodySchema: StorySchema
             }),
-            FeaturesCreateResource
+            StoriesCreateResource
         );
 
-    productFeaturesResourceRouter.route('/:featureId')
+    storiesResourceRouter.route('/:storyId')
         .get(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getValidationHandler({
-                paramsSchema: ProductFeatureReqParamsSchema
+                paramsSchema: StoriesReqParamsSchema
             }),
             getOrganizationHandler(),
             getProductHandler(),
             getProductFeatureHandler(),
-            FeaturesGetResource
+            getStoryHandler(),
+            StoriesGetResource
         )
         .put(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getValidationHandler({
-                paramsSchema: ProductFeatureReqParamsSchema
+                paramsSchema: StoriesReqParamsSchema
             }),
             getOrganizationHandler(),
             getProductHandler(ProductRole.OWNER),
             getProductFeatureHandler(),
+            getStoryHandler(),
             getValidationHandler({
-                bodySchema: FeatureSchema
+                bodySchema: StorySchema
             }),
-            FeaturesUpdateResource
+            StoriesUpdateResource
         )
         .delete(
             getAuthenticationHandler('bearer'),
             getSecurityContextHandler(),
             getValidationHandler({
-                paramsSchema: ProductFeatureReqParamsSchema
+                paramsSchema: StoriesReqParamsSchema
             }),
             getOrganizationHandler(),
             getProductHandler(ProductRole.OWNER),
             getProductFeatureHandler(),
-            FeaturesDeleteResource
+            getStoryHandler(),
+            StoriesDeleteResource
         );
-    return productFeaturesResourceRouter;
+    return storiesResourceRouter;
 };
 
-export { getProductFeaturesResourceRouter };
+export { getStoriesResourceRouter };

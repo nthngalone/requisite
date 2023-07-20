@@ -13,9 +13,9 @@ export default (req: ResourceRequest, res: Response, next: NextFunction): void =
         try {
             logger.debug('Executing features update resource');
             assertExists(req.securityContext, 'req.securityContext');
-            assertExists(req.entity, 'req.entity');
+            assertExists(req.feature, 'req.feature');
 
-            const feature = req.entity as Feature;
+            const feature = req.feature as Feature;
             const modFeature: Feature = req.body as Feature;
 
             const featureIdConflict =

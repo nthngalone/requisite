@@ -1,6 +1,6 @@
 import CompletionState from '../common/CompletionState';
 import Entity from '../Entity';
-import StoryRevision from './StoryRevision';
+import StoryRevision from '../story/StoryRevision';
 
 export default interface Story extends Entity {
 

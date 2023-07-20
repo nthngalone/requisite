@@ -4,20 +4,12 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: ['./src/**/*.ts', '!./src/supertest.*.ts'],
     coverageReporters: [ 'text', 'html', 'lcov', 'json'],
-    // coverageThreshold: {
-    //     global: {
-    //         branches: 85,
-    //         functions: 90,
-    //         lines: 90,
-    //         statements: 90
-    //     }
-    // },
     coverageThreshold: {
         global: {
-            branches: 75,
-            functions: 75,
-            lines: 80,
-            statements: 80
+            branches: 80,
+            functions: 85,
+            lines: 85,
+            statements: 85
         }
     },
     testPathIgnorePatterns: ['dist']

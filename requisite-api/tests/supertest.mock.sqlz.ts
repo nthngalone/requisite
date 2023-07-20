@@ -17,8 +17,12 @@ import {
     mockSysAdmins,
     mockUsers,
     mockPersonas,
-    mockFeatures
+    mockFeatures,
+    mockStories,
+    mockStoryRevisions
 } from './mockData';
+import Story from '@requisite/model/lib/story/Story';
+import StoryRevision from '@requisite/model/lib/story/StoryRevision';
 
 jest.mock('sequelize', () => {
 
@@ -225,6 +229,24 @@ jest.mock('sequelize', () => {
                                     uniqueKeys
                                 );
                             break;
+                        case 'StoriesDataModel':
+                            mockModels[this.name] =
+                                new MockModel<Story>(
+                                    // initial feature data
+                                    mockStories,
+                                    // feature unique keys (if any)
+                                    uniqueKeys
+                                );
+                            break;
+                        case 'StoryRevisionsDataModel':
+                            mockModels[this.name] =
+                                new MockModel<StoryRevision>(
+                                    // initial feature data
+                                    mockStoryRevisions,
+                                    // feature unique keys (if any)
+                                    uniqueKeys
+                                );
+                            break;
                         default:
                             throw new Error(`mock init not implememented yet for ${this.name}`);
                     }
@@ -260,6 +282,7 @@ jest.mock('sequelize', () => {
                 return mockModels[this.name].destroy(opts);
             }
             static belongsTo(): void { return; }
+            static hasMany(): void { return; }
             static associations: { [key: string]: Association; } = {};
         },
         DataTypes: {}

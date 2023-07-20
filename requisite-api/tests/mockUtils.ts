@@ -14,6 +14,12 @@ import ProductsDataModel from '../src/services/sqlz/data-models/ProductsDataMode
 import SystemAdminsDataModel from '../src/services/sqlz/data-models/SystemAdminsDataModel';
 import UsersDataModel from '../src/services/sqlz/data-models/UsersDataModel';
 import { getSequelize } from '../src/services/sqlz/SqlzUtils';
+import Story from '@requisite/model/lib/story/Story';
+import StoriesDataModel from '../src/services/sqlz/data-models/StoriesDataModel';
+import StoryRevision from '@requisite/model/lib/story/StoryRevision';
+import StoryRevisionsDataModel from '../src/services/sqlz/data-models/StoryRevisionsDataModel';
+import ModificationState from '@requisite/model/lib/common/ModificationState';
+import ReleaseState from '@requisite/model/lib/common/ReleaseState';
 
 function getRandomVariant() {
     return `${new Date().getTime()}${Math.floor(Math.random() * 100)}`;
@@ -230,7 +236,10 @@ export async function getMockedProduct(
     }  catch(error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
             // if we get a constraint error, try again
-            return getMockedProduct(prodOpts);
+            return getMockedProduct({
+                ...prodOpts,
+                organization
+            });
         }
         throw error;
     }
@@ -343,9 +352,10 @@ export async function getMockedFeatures(product: Product): Promise<Feature[]> {
     );
 }
 
-export async function getMockedFeature(product: Product): Promise<Feature> {
+export async function getMockedFeature(product?: Product): Promise<Feature> {
     FeaturesDataModel.initialize(await getSequelize());
     const variant = getRandomVariant();
+    product = product || await getMockedProduct();
     try {
         const newFeature = await FeaturesDataModel.create({
             productId: product.id,
@@ -358,6 +368,73 @@ export async function getMockedFeature(product: Product): Promise<Feature> {
         if (error.name === 'SequelizeUniqueConstraintError') {
             // if we get a constraint error, try again
             return getMockedFeature(product);
+        }
+        throw error;
+    }
+}
+
+export async function getMockedStories(feature: Feature): Promise<Story[]> {
+    StoriesDataModel.initialize(await getSequelize());
+    return (await StoriesDataModel.findAll({ where: { featureId: feature.id }})).map(
+        s => StoriesDataModel.toStory(s)
+    );
+}
+
+export async function getMockedStory(feature?: Feature): Promise<Story> {
+    StoriesDataModel.initialize(await getSequelize());
+    const variant = getRandomVariant();
+    feature = feature || await getMockedFeature();
+    try {
+        const newStory = await StoriesDataModel.create({
+            featureId: feature.id,
+            feature,
+            title: `Story - ${variant}`,
+            description: `This is a mock story created for testing at ${variant}`
+        });
+        return StoriesDataModel.toStory(newStory);
+    }  catch(error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            // if we get a constraint error, try again
+            return getMockedStory(feature);
+        }
+        throw error;
+    }
+}
+
+export async function getMockedStoryRevisions(story: Story): Promise<StoryRevision[]> {
+    StoryRevisionsDataModel.initialize(await getSequelize());
+    return (await StoryRevisionsDataModel.findAll({
+        where: { storyId: story.id }
+    })).map(
+        s => StoryRevisionsDataModel.toStoryRevision(s)
+    );
+}
+
+export async function getMockedStoryRevision(
+    revisionOpts?: Record<string, unknown>
+): Promise<StoryRevision> {
+    StoryRevisionsDataModel.initialize(await getSequelize());
+    const story = revisionOpts?.story as Story || await getMockedStory();
+    const releaseState = revisionOpts?.releaseState as ReleaseState
+        || ReleaseState.BACKLOG;
+    const modificationState = revisionOpts?.modificationState as ModificationState
+        || ModificationState.NEW;
+    try {
+        const newStoryRevision = await StoryRevisionsDataModel.create({
+            storyId: story.id,
+            story,
+            revisionNumber: 1,
+            modificationState,
+            releaseState
+        });
+        return StoryRevisionsDataModel.toStoryRevision(newStoryRevision);
+    }  catch(error) {
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            // if we get a constraint error, try again
+            return getMockedStoryRevision({
+                ...revisionOpts,
+                story
+            });
         }
         throw error;
     }

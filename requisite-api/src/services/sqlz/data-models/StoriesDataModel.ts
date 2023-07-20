@@ -11,9 +11,7 @@ import {
     Association
 } from 'sequelize';
 import Story from '@requisite/model/lib/story/Story';
-import Persona from '@requisite/model/lib/product/Persona';
 import FeaturesDataModel from './FeaturesDataModel';
-import PersonasDataModel from './PersonasDataModel';
 import User from '@requisite/model/lib/user/User';
 import Feature from '@requisite/model/lib/product/Feature';
 import ProductsDataModel from './ProductsDataModel';
@@ -27,10 +25,6 @@ const columnMappings = {
         autoIncrement: true
     },
     featureId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    personaId: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -54,16 +48,13 @@ export default class StoriesDataModel extends Model implements Story {
     feature: Feature;
     title: string;
     description: string;
-    personaId: number;
-    persona: Persona;
     data: Record<string, unknown>;
     createdAt: Date;
     updatedAt: Date;
     updatedBy: User;
 
     public static associations: {
-        feature: Association<StoriesDataModel, FeaturesDataModel>,
-        persona: Association<StoriesDataModel, PersonasDataModel>
+        feature: Association<StoriesDataModel, FeaturesDataModel>
     };
 
     public static initialize(sequelize: Sequelize): void {
@@ -72,17 +63,12 @@ export default class StoriesDataModel extends Model implements Story {
             as: 'feature',
             foreignKey: 'featureId'
         });
-        StoriesDataModel.belongsTo(PersonasDataModel, {
-            as: 'persona',
-            foreignKey: 'personaId'
-        });
     }
 
     public static toDataModel(story: Story): StoriesDataModel {
         return {
             ...story,
-            featureId: story.feature.id,
-            personaId: story.persona.id
+            featureId: story.feature.id
         } as unknown as StoriesDataModel;
     }
 
@@ -92,7 +78,6 @@ export default class StoriesDataModel extends Model implements Story {
     public static toStory(model: StoriesDataModel): Story {
         const story = model.toJSON ? model.toJSON() : model;
         delete story.featureId;
-        delete story.personaId;
         delete story.data;
         delete story.createdAt;
         delete story.updatedAt;
@@ -112,8 +97,7 @@ enableFindIncludeOptions(StoriesDataModel, () => [
                 association: ProductsDataModel.associations.organization
             }]
         }]
-    },
-    { association: StoriesDataModel.associations.persona }
+    }
 ]);
 enableCreateUpdateDataModelTransformation(StoriesDataModel, (data) => {
     return StoriesDataModel.toDataModel(data);

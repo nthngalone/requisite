@@ -6,9 +6,9 @@ import { getLogger } from '../util/Logger';
 import StoriesDataModel from './sqlz/data-models/StoriesDataModel';
 import Feature from '@requisite/model/lib/product/Feature';
 import StoryRevisionsDataModel from './sqlz/data-models/StoryRevisionsDataModel';
-import CompletionState from '@requisite/model/lib/common/CompletionState';
 import ModificationState from '@requisite/model/lib/common/ModificationState';
 import { NotFoundError } from '../util/ApiErrors';
+import ReleaseState from '@requisite/model/lib/common/ReleaseState';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const logger = getLogger('services/StoriesServiceSqlzImpl');
@@ -48,8 +48,8 @@ export default class StoriesServiceSqlzImpl implements StoriesService {
                     await StoryRevisionsDataModel.create({
                         revisionNumber: 1,
                         acceptanceCriteria: [],
-                        completionState: CompletionState.REFINEMENT,
-                        modificationState: ModificationState.UPDATED,
+                        modificationState: ModificationState.NEW,
+                        releaseState: ReleaseState.BACKLOG,
                         story: { id }
                     })
                 );

@@ -12,8 +12,8 @@ export default (req: ResourceRequest, res: Response, next: NextFunction): void =
         try {
             logger.debug('Executing features delete resource');
             assertExists(req.securityContext, 'req.securityContext');
-            assertExists(req.entity, 'req.entity');
-            const feature = req.entity as Feature;
+            assertExists(req.feature, 'req.feature');
+            const feature = req.feature as Feature;
             await ServiceProvider
                 .getFeaturesService()
                 .deleteFeature(feature);

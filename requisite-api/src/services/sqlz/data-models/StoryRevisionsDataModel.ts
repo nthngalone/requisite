@@ -12,13 +12,14 @@ import {
     Association
 } from 'sequelize';
 import User from '@requisite/model/lib/user/User';
-import CompletionState from '@requisite/model/lib/common/CompletionState';
 import ModificationState from '@requisite/model/lib/common/ModificationState';
 import AcceptanceCriteria from '@requisite/model/lib/story/AcceptanceCriteria';
 import Story from '@requisite/model/lib/story/Story';
 import StoriesDataModel from './StoriesDataModel';
 import FeaturesDataModel from './FeaturesDataModel';
 import ProductsDataModel from './ProductsDataModel';
+import ReleaseState from '@requisite/model/lib/common/ReleaseState';
+import StoryPersonasDataModel from './StoryPersonasDataModel';
 
 const tableName = 'storyRevisions';
 
@@ -74,13 +75,12 @@ export default class StoryRevisionsDataModel extends Model implements StoryRevis
     storyId: number;
     story: Story;
     revisionNumber: number;
+    description: string;
     acceptanceCriteria: AcceptanceCriteria[];
-    completionState: CompletionState;
+    releaseState: ReleaseState;
     modificationState: ModificationState;
-    size: number;
     mockup: string;
     screenshot: string;
-    billingCode: string;
 
     data: Record<string, unknown>;
     createdAt: Date;
@@ -89,6 +89,7 @@ export default class StoryRevisionsDataModel extends Model implements StoryRevis
 
     public static associations: {
         story: Association<StoryRevisionsDataModel, StoriesDataModel>
+        personas: Association<StoryRevisionsDataModel, StoryPersonasDataModel>
     };
 
     public static initialize(sequelize: Sequelize): void {
@@ -96,6 +97,10 @@ export default class StoryRevisionsDataModel extends Model implements StoryRevis
         StoryRevisionsDataModel.belongsTo(StoriesDataModel, {
             as: 'story',
             foreignKey: 'storyId'
+        });
+        StoryRevisionsDataModel.hasMany(StoryPersonasDataModel, {
+            as: 'personas',
+            foreignKey: 'storyRevisionId'
         });
     }
 
@@ -134,8 +139,7 @@ enableFindIncludeOptions(StoryRevisionsDataModel, () => [
                         association: ProductsDataModel.associations.organization
                     }]
                 }]
-            },
-            { association: StoriesDataModel.associations.persona }
+            }
         ]
     }
 ]);

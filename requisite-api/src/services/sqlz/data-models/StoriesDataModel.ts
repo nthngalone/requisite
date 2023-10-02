@@ -10,10 +10,10 @@ import {
     DataTypes,
     Association
 } from 'sequelize';
-import Story from '@requisite/model/lib/story/Story';
+import type Story from '@requisite/model/lib/story/Story';
 import FeaturesDataModel from './FeaturesDataModel';
-import User from '@requisite/model/lib/user/User';
-import Feature from '@requisite/model/lib/product/Feature';
+import type User from '@requisite/model/lib/user/User';
+import type Feature from '@requisite/model/lib/product/Feature';
 import ProductsDataModel from './ProductsDataModel';
 
 const tableName = 'stories';

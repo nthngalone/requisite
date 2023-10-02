@@ -1,9 +1,9 @@
 import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import Organization from '@requisite/model/lib/org/Organization';
+import type Organization from '@requisite/model/lib/org/Organization';
 
 const logger = getLogger('resources/organizations/OrgsDeleteResource');
 

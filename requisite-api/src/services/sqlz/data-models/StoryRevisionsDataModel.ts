@@ -1,4 +1,4 @@
-import StoryRevision from '@requisite/model/lib/story/StoryRevision';
+import type StoryRevision from '@requisite/model/lib/story/StoryRevision';
 import {
     enableCreateUpdateDataModelTransformation,
     enableDataModelLogging,
@@ -11,10 +11,10 @@ import {
     DataTypes,
     Association
 } from 'sequelize';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 import ModificationState from '@requisite/model/lib/common/ModificationState';
-import AcceptanceCriteria from '@requisite/model/lib/story/AcceptanceCriteria';
-import Story from '@requisite/model/lib/story/Story';
+import type AcceptanceCriteria from '@requisite/model/lib/story/AcceptanceCriteria';
+import type Story from '@requisite/model/lib/story/Story';
 import StoriesDataModel from './StoriesDataModel';
 import FeaturesDataModel from './FeaturesDataModel';
 import ProductsDataModel from './ProductsDataModel';
@@ -97,10 +97,6 @@ export default class StoryRevisionsDataModel extends Model implements StoryRevis
         StoryRevisionsDataModel.belongsTo(StoriesDataModel, {
             as: 'story',
             foreignKey: 'storyId'
-        });
-        StoryRevisionsDataModel.hasMany(StoryPersonasDataModel, {
-            as: 'personas',
-            foreignKey: 'storyRevisionId'
         });
     }
 

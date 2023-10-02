@@ -2,7 +2,7 @@
   "name": "@requisite/model",
   "version": "0.0.1",
   "description": "Model interfaces shared between the API and UI",
-  "main": "lib/index.ts",
+  "type": "module",
   "bin": "lib",
   "scripts": {
     "build": "rm -rf dist && tsc",

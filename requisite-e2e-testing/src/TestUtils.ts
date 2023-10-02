@@ -2,12 +2,12 @@
 import { getClient, getSecuredClient } from './api/ClientUtils';
 import { asyncForEachParallel } from '@requisite/utils/lib/lang/ArrayUtils';
 import random from 'crypto-random-string';
-import User from '@requisite/model/lib/user/User';
-import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
-import Organization from '@requisite/model/lib/org/Organization';
+import type User from '@requisite/model/lib/user/User';
+import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
+import type Organization from '@requisite/model/lib/org/Organization';
 import { AxiosInstance } from 'axios';
 import { assertTrue } from '@requisite/utils/lib/validation/AssertionUtils';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Membership from '@requisite/model/lib/user/Membership';
 
 let testUserCount = 0;
 let testOrgCount = 0;

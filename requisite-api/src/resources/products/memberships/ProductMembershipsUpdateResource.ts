@@ -1,11 +1,11 @@
 import { getLogger } from '../../../util/Logger';
-import ResourceRequest from '../../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Membership from '@requisite/model/lib/user/Membership';
 import { ConflictError } from '../../../util/ApiErrors';
-import Product from '@requisite/model/lib/product/Product';
+import type Product from '@requisite/model/lib/product/Product';
 
 const logger = getLogger('resources/products/memberships/ProductMembershipsUpdateResource');
 

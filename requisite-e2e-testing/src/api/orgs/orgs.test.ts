@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getClient, getSecuredClient } from '../ClientUtils';
 import { createTestUser, afterAllDeleteCreatedUsers, testOrgNamePrefix, createTestOrg, afterAllDeleteCreatedOrgs } from '../../TestUtils';
-import Organization from '@requisite/model/lib/org/Organization';
+import type Organization from '@requisite/model/lib/org/Organization';
 
 const { SYSADMIN_DOMAIN, SYSADMIN_USERNAME, SYSADMIN_PASSWORD } = process.env;
 

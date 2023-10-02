@@ -22,12 +22,12 @@ export default class SignUpPageObject extends BaseViewPageObject {
 
     async register(regRequest: RegistrationRequest): Promise<void> {
         const registration = this.getRegistrationPageObject();
-        await registration.setUserName(regRequest.userName);
-        await registration.setPassword(regRequest.password);
-        await registration.setPasswordConfirmation(regRequest.passwordConfirmation);
-        await registration.setFirstName(regRequest.firstName);
-        await registration.setLastName(regRequest.lastName);
-        await registration.setEmailAddress(regRequest.emailAddress);
+        await registration.setUserName(regRequest.userName || '');
+        await registration.setPassword(regRequest.password || '');
+        await registration.setPasswordConfirmation(regRequest.passwordConfirmation || '');
+        await registration.setFirstName(regRequest.firstName || '');
+        await registration.setLastName(regRequest.lastName || '');
+        await registration.setEmailAddress(regRequest.emailAddress || '');
         if (regRequest.termsAgreement) {
             await registration.checkTermsAgreement();
         }

@@ -12,7 +12,7 @@ describe('./components/SystemErrorAlert.vue', () => {
             SystemErrorAlert,
             { router, propsData, global: { plugins: [ RequisitePlugin ]} }
         );
-        return new VueWrapperDriver(wrapper);
+        return new VueWrapperDriver(wrapper, router);
     }
 
     it('does NOT display the error message by default', async () => {

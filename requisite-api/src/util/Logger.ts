@@ -1,7 +1,9 @@
-import {
-    configure as configureLog4Js,
-    getLogger as getLog4JsLogger
-} from 'log4js';
+import log4js from 'log4js';
+
+const {
+    configure: configureLog4Js,
+    getLogger: getLog4JsLogger
+} = log4js;
 
 const getLogger = (name: string): Logger => {
     const log4jsLogger = getLog4JsLogger(name);
@@ -27,7 +29,7 @@ const configure = (level: string): void => {
 
 export { configure, getLogger };
 
-interface Logger {
+export default interface Logger {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     trace(message: string, data?: any): void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,5 +43,3 @@ interface Logger {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fatal(message: string, data?: any): void;
 }
-
-export default Logger;

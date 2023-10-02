@@ -1,5 +1,6 @@
-import User from './User';
-import Entity, { EntityIdentifierSchema } from '../Entity';
+import type User from './User';
+import type Entity from '../Entity';
+import { EntityIdentifierSchema } from '../Entity';
 
 export default interface Membership<T> extends Entity {
     user: User;

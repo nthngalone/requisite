@@ -1,7 +1,7 @@
-import CompletionState from '../common/CompletionState';
-import Entity from '../Entity';
-import DefinitionOfDone from './DefinitionOfDone';
-import Task from './Task';
+import type CompletionState from '../common/CompletionState';
+import type Entity from '../Entity';
+import type DefinitionOfDone from './DefinitionOfDone';
+import type Task from './Task';
 
 export default interface StoryRevision extends Entity {
 

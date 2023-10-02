@@ -1,7 +1,11 @@
-import { Express } from 'express';
+import { type Express } from 'express';
 import { getApp } from './app';
 import { init } from './initialization';
-import Logger, { configure as logConfig, getLogger } from './util/Logger';
+import type Logger from './util/Logger';
+import { configure as logConfig, getLogger } from './util/Logger';
+import { config } from 'dotenv';
+
+config({ path: '../.env' });
 
 const { API_LOG_LEVEL, API_PORT } = process.env;
 

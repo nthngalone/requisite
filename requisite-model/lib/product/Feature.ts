@@ -1,6 +1,6 @@
-import Entity from '../Entity';
-import Product from './Product';
-import Story from '../story/Story';
+import type Entity from '../Entity';
+import type Product from './Product';
+import type Story from '../story/Story';
 
 export default interface Feature extends Entity {
 

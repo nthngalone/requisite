@@ -1,4 +1,4 @@
-import { RouteRecordRaw, createRouter, createWebHistory, useRoute } from 'vue-router';
+import { type RouteRecordRaw, createRouter, createWebHistory, useRoute } from 'vue-router';
 import Login from '../views/Login.vue';
 import Home from '../views/Home.vue';
 import SignUp from '../views/SignUp.vue';
@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory('/'),
     routes
 });
 

@@ -3,6 +3,11 @@
     "include": [ "src/**/*" ],
     "exclude": [ "node_modules" ],
     "compilerOptions": {
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "target": "ESNext",
+        "verbatimModuleSyntax": false
+    },
+    "ts-node": {
+        "esm": true
     }
 }

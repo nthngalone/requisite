@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Organization from '@requisite/model/lib/org/Organization';
-import Product from '@requisite/model/lib/product/Product';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Organization from '@requisite/model/lib/org/Organization';
+import type Product from '@requisite/model/lib/product/Product';
+import type Membership from '@requisite/model/lib/user/Membership';
 import { NotFoundError } from '../util/ApiErrors';
 import { getLogger } from '../util/Logger';
-import ProductsService from './ProductsService';
+import type ProductsService from './ProductsService';
 import ProductMembershipsDataModel from './sqlz/data-models/ProductMembershipsDataModel';
 import ProductsDataModel from './sqlz/data-models/ProductsDataModel';
 import { runWithSequelize } from './sqlz/SqlzUtils';

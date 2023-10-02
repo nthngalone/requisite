@@ -1,9 +1,9 @@
 import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import Story from '@requisite/model/lib/story/Story';
+import type Story from '@requisite/model/lib/story/Story';
 import { ConflictError } from '../../util/ApiErrors';
 
 const logger = getLogger('resources/stories/StoriesUpdateResource');

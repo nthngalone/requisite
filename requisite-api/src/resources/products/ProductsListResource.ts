@@ -1,10 +1,10 @@
 import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
 import { compare } from '@requisite/utils/lib/lang/StringUtils';
-import Product from '@requisite/model/lib/product/Product';
+import type Product from '@requisite/model/lib/product/Product';
 
 const logger = getLogger('resources/products/ProductsListResource');
 

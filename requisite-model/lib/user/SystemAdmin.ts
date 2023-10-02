@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import Membership from './Membership';
+import type Membership from './Membership';
 
 export interface System { }
 

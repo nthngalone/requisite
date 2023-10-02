@@ -1,5 +1,5 @@
-import Entity from '../Entity';
-import Name from '../common/Name';
+import type Entity from '../Entity';
+import type Name from '../common/Name';
 
 export default interface User extends Entity {
     domain: string;

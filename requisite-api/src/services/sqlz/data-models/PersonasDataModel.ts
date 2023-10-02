@@ -10,10 +10,10 @@ import {
     DataTypes,
     Association
 } from 'sequelize';
-import Product from '@requisite/model/lib/product/Product';
-import Persona from '@requisite/model/lib/product/Persona';
+import type Product from '@requisite/model/lib/product/Product';
+import type Persona from '@requisite/model/lib/product/Persona';
 import ProductsDataModel from './ProductsDataModel';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 
 const tableName = 'personas';
 

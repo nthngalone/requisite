@@ -51,13 +51,17 @@ class PuppeteerPageQueryResponse implements QueryResponse {
         return this.page.evaluate(element => element.innerText, this.element);
     }
     async click(): Promise<void> {
-        await this.element.click();
+        await this.element.evaluate(b => {
+            return (b as HTMLElement).click();
+        });
     }
     async check(): Promise<void> {
-        await this.element.click();
+        await this.element.evaluate(b => {
+            return (b as HTMLElement).click();
+        });
     }
     async setValue(value: string): Promise<void> {
-        await this.element.type(value);
+        await this.element.type(value, { delay: 100 });
     }
     async getValue(): Promise<string> {
         return this.page.evaluate(element => element.value, this.element);

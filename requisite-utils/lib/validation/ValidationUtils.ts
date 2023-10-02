@@ -1,4 +1,5 @@
-import Ajv, { AnySchema } from 'ajv';
+import Ajv from 'ajv';
+import type { AnySchema } from 'ajv';
 import addFormats from 'ajv-formats';
 import { isNotBlank } from '../lang/StringUtils';
 

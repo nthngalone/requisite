@@ -1,48 +1,48 @@
 <template>
     <div class="requisite-registration">
         <r-alert
-            v-if="!validationResult.valid"
+            v-if="!isValidForm"
             type="warning"
             name="validation-warnings"
         >
             <div
-                v-if="validationResult.errors['userName']"
+                v-if="validationErrors['userName']"
                 class="user-name-warning"
             >
                 Please enter a valid user name.
             </div>
             <div
-                v-if="validationResult.errors['emailAddress']"
+                v-if="validationErrors['emailAddress']"
                 class="email-address-warning"
             >
                 Please enter a valid email address.
             </div>
             <div
-                v-if="validationResult.errors['name.firstName']"
+                v-if="validationErrors['name.firstName']"
                 class="first-name-warning"
             >
                 Please enter a valid first name.
             </div>
             <div
-                v-if="validationResult.errors['name.lastName']"
+                v-if="validationErrors['name.lastName']"
                 class="last-name-warning"
             >
                 Please enter a valid last name.
             </div>
             <div
-                v-if="validationResult.errors['password']"
+                v-if="validationErrors['password']"
                 class="password-warning"
             >
                 Please enter a valid password.
             </div>
             <div
-                v-if="validationResult.errors['passwordConfirmation']"
+                v-if="validationErrors['passwordConfirmation']"
                 class="password-confirmation-warning"
             >
                 The password confirmation must match the password.
             </div>
             <div
-                v-if="validationResult.errors['termsAgreement']"
+                v-if="validationErrors['termsAgreement']"
                 class="terms-agreement-warning"
             >
                 Please accept the terms and conditions.
@@ -117,9 +117,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, watch } from 'vue';
-import RegistrationForm from '@requisite/model/lib/user/RegistrationForm';
 import RegistrationStateManager from '../state-managers/RegistrationStateManager';
-import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 
 export default defineComponent({
 
@@ -127,7 +125,7 @@ export default defineComponent({
 
         // Reactive data
         const registrationStateManager = reactive(new RegistrationStateManager());
-        const request: RegistrationForm = reactive({
+        const request = reactive({
             domain: 'local',
             userName: '',
             emailAddress: '',
@@ -141,22 +139,26 @@ export default defineComponent({
         });
 
         // Computed getters
-        const userNameConflict = computed((): boolean => {
+        const userNameConflict = computed(() => {
             return registrationStateManager.userNameConflict;
         });
 
-        const emailAddressConflict = computed((): boolean => {
+        const emailAddressConflict = computed(() => {
             return registrationStateManager.emailAddressConflict;
         });
 
-        const validationResult = computed((): ValidationResult => {
-            return registrationStateManager.validationResult;
+        const isValidForm = computed(() => {
+            return registrationStateManager.validationResult.valid;
+        });
+
+        const validationErrors = computed(() => {
+            return registrationStateManager.validationResult.errors || {};
         });
 
         // Watchers
         watch(
             () => registrationStateManager.systemError,
-            (isSystemError: boolean): void => {
+            (isSystemError) => {
                 context.emit('system-error', isSystemError);
             }
         );
@@ -176,7 +178,8 @@ export default defineComponent({
             request,
             userNameConflict,
             emailAddressConflict,
-            validationResult,
+            isValidForm,
+            validationErrors,
             register
         };
     }

@@ -1,5 +1,5 @@
-import Organization from '@requisite/model/lib/org/Organization';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Organization from '@requisite/model/lib/org/Organization';
+import type Membership from '@requisite/model/lib/user/Membership';
 
 export default interface OrganizationsService {
     listOrgs(): Promise<Organization[]>;

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { getLogger } from '../util/Logger';
 
 const logger = getLogger('http');

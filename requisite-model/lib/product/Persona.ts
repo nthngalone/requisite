@@ -1,5 +1,5 @@
-import Entity from '../Entity';
-import Product from './Product';
+import type Entity from '../Entity';
+import type Product from './Product';
 
 export default interface Persona extends Entity {
 

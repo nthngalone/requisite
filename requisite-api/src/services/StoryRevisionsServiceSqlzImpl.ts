@@ -1,8 +1,8 @@
-import Story from '@requisite/model/lib/story/Story';
+import type Story from '@requisite/model/lib/story/Story';
 import { runWithSequelize } from './sqlz/SqlzUtils';
 import { getLogger } from '../util/Logger';
-import StoryRevisionsService from './StoryRevisionsService';
-import StoryRevision from '@requisite/model/lib/story/StoryRevision';
+import type StoryRevisionsService from './StoryRevisionsService';
+import type StoryRevision from '@requisite/model/lib/story/StoryRevision';
 import StoryRevisionsDataModel from './sqlz/data-models/StoryRevisionsDataModel';
 import ModificationState from '@requisite/model/lib/common/ModificationState';
 import CompletionState from '@requisite/model/lib/common/CompletionState';

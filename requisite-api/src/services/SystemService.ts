@@ -1,5 +1,5 @@
-import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
-import User from '@requisite/model/lib/user/User';
+import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
+import type User from '@requisite/model/lib/user/User';
 
 export default interface SystemService {
     initializeSystem(): Promise<void>;

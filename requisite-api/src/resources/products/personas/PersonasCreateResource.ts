@@ -1,9 +1,9 @@
 import { getLogger } from '../../../util/Logger';
-import ResourceRequest from '../../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import Persona from '@requisite/model/lib/product/Persona';
+import type Persona from '@requisite/model/lib/product/Persona';
 
 const logger = getLogger('resources/products/personas/PersonasCreateResource');
 

@@ -1,4 +1,4 @@
-import Organization from '@requisite/model/lib/org/Organization';
+import type Organization from '@requisite/model/lib/org/Organization';
 import {
     enableCreateUpdateDataModelTransformation,
     enableDataModelLogging,
@@ -11,8 +11,8 @@ import {
     DataTypes,
     Association
 } from 'sequelize';
-import Product from '@requisite/model/lib/product/Product';
-import User from '@requisite/model/lib/user/User';
+import type Product from '@requisite/model/lib/product/Product';
+import type User from '@requisite/model/lib/user/User';
 import OrganizationsDataModel from './OrganizationsDataModel';
 
 const tableName = 'products';

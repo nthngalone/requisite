@@ -1,6 +1,7 @@
-import ServiceError from '../services/ServiceError';
-import RegistrationForm, { RegistrationFormSchema } from '@requisite/model/lib/user/RegistrationForm';
-import { validate, ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
+import type ServiceError from '../services/ServiceError';
+import type RegistrationForm from '@requisite/model/lib/user/RegistrationForm';
+import { RegistrationFormSchema } from '@requisite/model/lib/user/RegistrationForm';
+import { validate, type ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import SecurityService from '../services/SecurityService';
 
 export default class RegistrationStateManager {

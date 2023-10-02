@@ -1,5 +1,5 @@
-import User from '@requisite/model/lib/user/User';
-import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
+import type User from '@requisite/model/lib/user/User';
+import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import { assertIsNotEmptyList } from '@requisite/utils/lib/validation/AssertionUtils';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 

@@ -1,11 +1,11 @@
-import Organization from '@requisite/model/lib/org/Organization';
+import type Organization from '@requisite/model/lib/org/Organization';
 import { enableDataModelLogging, getDataGettersAndSetters } from '../SqlzUtils';
 import {
     Sequelize,
     Model,
     DataTypes
 } from 'sequelize';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 
 const tableName = 'organizations';
 

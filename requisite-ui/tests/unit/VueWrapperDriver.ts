@@ -4,11 +4,13 @@ import { Router, RouteRecord } from 'vue-router';
 
 export default class VueWrapperDriver implements Driver {
 
-    private wrapper: VueWrapper<any>;
+    private wrapper: VueWrapper<unknown>;
+    private vueRouter: Router;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    constructor(wrapper: VueWrapper<any>) {
+    constructor(wrapper: VueWrapper<any>, router: Router) {
         this.wrapper = wrapper;
+        this.vueRouter = router;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,12 +32,12 @@ export default class VueWrapperDriver implements Driver {
     }
 
     router(): Router {
-        return this.wrapper.vm.$router;
+        return this.vueRouter;
     }
 
-    route(): RouteRecord {
-        return this.wrapper.vm.$route;
-    }
+    // route(): RouteRecord {
+    //     return this.vueRouter.currentRoute;
+    // }
 
     async getElementBySelector(selector: string): Promise<QueryResponse> {
         return new VueWrapperQueryResponse(this.wrapper.find(selector));

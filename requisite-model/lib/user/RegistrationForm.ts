@@ -1,4 +1,5 @@
-import RegistrationRequest, { RegistrationRequestSchema } from './RegistrationRequest';
+import type RegistrationRequest from './RegistrationRequest';
+import { RegistrationRequestSchema } from './RegistrationRequest';
 
 export default interface RegistrationForm extends RegistrationRequest {
     passwordConfirmation: string;

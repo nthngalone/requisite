@@ -120,7 +120,7 @@ describe('Login', () => {
             await loginPageObj.waitForPageAvailability();
             await loginPageObj.login(userName, password);
             await homePageObj.waitForPageAvailability();
-            expect(await homePageObj.getHeaderPageTitle()).toBe('Home');
+            expect(await homePageObj.getHeaderPageSubtitle()).toBe('Home');
 
         });
     });

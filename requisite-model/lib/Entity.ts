@@ -1,4 +1,4 @@
-import User from './user/User';
+import type User from './user/User';
 
 export default interface Entity {
     id: number;

@@ -8,7 +8,7 @@ import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import User from '@requisite/model/lib/user/User';
 import { asyncForEachSerial } from '@requisite/utils/lib/lang/ArrayUtils';
 import { assertExists, assertFalse } from '@requisite/utils/lib/validation/AssertionUtils';
-import { Association, ModelAttributeColumnOptions, IndexesOptions, InitOptions } from 'sequelize/types';
+import { Association, ModelAttributeColumnOptions, IndexesOptions, InitOptions } from 'sequelize';
 import {
     mockOrgMemberships,
     mockOrgs,

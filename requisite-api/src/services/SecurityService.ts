@@ -1,9 +1,9 @@
-import User from '@requisite/model/lib/user/User';
-import AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
-import RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
-import Organization from '@requisite/model/lib/org/Organization';
-import Membership from '@requisite/model/lib/user/Membership';
-import Product from '@requisite/model/lib/product/Product';
+import type User from '@requisite/model/lib/user/User';
+import type AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
+import type RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
+import type Organization from '@requisite/model/lib/org/Organization';
+import type Membership from '@requisite/model/lib/user/Membership';
+import type Product from '@requisite/model/lib/product/Product';
 
 export default interface SecurityService {
     login(authRequest: AuthenticationRequest): Promise<User>;

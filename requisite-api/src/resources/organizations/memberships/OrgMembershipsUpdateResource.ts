@@ -1,10 +1,10 @@
 import { getLogger } from '../../../util/Logger';
-import ResourceRequest from '../../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../../services/ServiceProvider';
-import Organization from '@requisite/model/lib/org/Organization';
+import type Organization from '@requisite/model/lib/org/Organization';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Membership from '@requisite/model/lib/user/Membership';
 import { ConflictError } from '../../../util/ApiErrors';
 
 const logger = getLogger('resources/organizations/memberships/OrgMembershipsUpdateResource');

@@ -1,8 +1,8 @@
-import AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
-import AuthenticationResponse from '@requisite/model/lib/user/AuthenticationResponse';
-import RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
-import RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
-import SecurityContext from '@requisite/model/lib/user/SecurityContext';
+import type AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
+import type AuthenticationResponse from '@requisite/model/lib/user/AuthenticationResponse';
+import type RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
+import type RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
+import type SecurityContext from '@requisite/model/lib/user/SecurityContext';
 import { getHttpClient, returnData } from '../utils/HttpClient';
 import { removeAuthToken } from '../utils/AuthTokenManager';
 import { cached, uncached } from './CacheService';

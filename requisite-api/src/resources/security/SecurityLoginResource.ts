@@ -1,9 +1,9 @@
 import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
-import AuthenticationResponse from '@requisite/model/lib/user/AuthenticationResponse';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
+import type AuthenticationResponse from '@requisite/model/lib/user/AuthenticationResponse';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 
 const logger = getLogger('resources/security/SecurityLoginResource');
 

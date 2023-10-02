@@ -1,9 +1,10 @@
 import AuthenticationPageObject from '../components/AuthenticationPageObject';
+import { linkSelector } from '../utils/selectorUtil';
 import BaseViewPageObject from './BaseViewPageObject';
 import HomePageObject from './HomePageObject';
 
 const selectorRootElement = '.requisite-login';
-const selectorSignUpLink = `${selectorRootElement} .sign-up`;
+const selectorSignUpLink = linkSelector(selectorRootElement, 'sign-up');
 
 export default class LoginPageObject extends BaseViewPageObject {
 

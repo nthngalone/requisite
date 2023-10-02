@@ -1,0 +1,9 @@
+{
+    "extends": "@requisite/tsconfig",
+    "include": [ "src/**/*", "test/**/*" ],
+    "exclude": [ "node_modules" ],
+    "compilerOptions": {
+        "outDir": "./dist",
+        "verbatimModuleSyntax": false
+    }
+}

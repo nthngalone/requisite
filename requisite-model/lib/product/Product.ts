@@ -1,8 +1,8 @@
-import Entity from '../Entity';
-import Organization from '../org/Organization';
-import Feature from './Feature';
-import Membership from '../user/Membership';
-import Persona from './Persona';
+import type Entity from '../Entity';
+import type Organization from '../org/Organization';
+import type Feature from './Feature';
+import type Membership from '../user/Membership';
+import type Persona from './Persona';
 
 export default interface Product extends Entity {
 

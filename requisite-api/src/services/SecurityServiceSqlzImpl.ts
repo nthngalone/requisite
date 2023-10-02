@@ -1,13 +1,14 @@
-import User from '@requisite/model/lib/user/User';
-import AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
-import SecurityService from './SecurityService';
-import Logger, { getLogger } from '../util/Logger';
-import RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
-import Organization from '@requisite/model/lib/org/Organization';
+import type User from '@requisite/model/lib/user/User';
+import type AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
+import type SecurityService from './SecurityService';
+import type Logger from '../util/Logger';
+import { getLogger } from '../util/Logger';
+import type RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
+import type Organization from '@requisite/model/lib/org/Organization';
 import { NotAuthenticatedError } from '../util/ApiErrors';
-import Product from '@requisite/model/lib/product/Product';
-import Membership from '@requisite/model/lib/user/Membership';
-import { hashSync, compareSync } from 'bcryptjs';
+import type Product from '@requisite/model/lib/product/Product';
+import type Membership from '@requisite/model/lib/user/Membership';
+import bcryptjs from 'bcryptjs';
 import { runWithSequelize } from './sqlz/SqlzUtils';
 import UsersDataModel from './sqlz/data-models/UsersDataModel';
 import SystemAdminsDataModel from './sqlz/data-models/SystemAdminsDataModel';
@@ -15,6 +16,8 @@ import OrgMembershipsDataModel from './sqlz/data-models/OrgMembershipsDataModel'
 import ProductMembershipsDataModel from './sqlz/data-models/ProductMembershipsDataModel';
 
 const logger: Logger = getLogger('services/SecurityServiceSqlzImpl');
+
+const { hashSync, compareSync } = bcryptjs;
 
 export default class SecurityServiceSqlzImpl implements SecurityService {
 

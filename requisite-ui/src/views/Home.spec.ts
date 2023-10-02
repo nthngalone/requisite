@@ -4,7 +4,7 @@ import router from '../router';
 import Home from '../views/Home.vue';
 import HomePageObject from '@requisite/page-objects/lib/views/HomePageObject';
 import VueWrapperDriver from '../../tests/unit/VueWrapperDriver';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 
 jest.mock('../services/SecurityService', () => {
     return class {
@@ -19,7 +19,7 @@ describe('./views/Home.vue', () => {
 
     function getDriver(): VueWrapperDriver {
         const wrapper = mount(Home, { router, global: { plugins: [ RequisitePlugin ]} });
-        return new VueWrapperDriver(wrapper);
+        return new VueWrapperDriver(wrapper, router);
     }
 
     it('displays a system error alert when a system error event is received', async () => {

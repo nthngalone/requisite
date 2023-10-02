@@ -1,10 +1,10 @@
-import Persona from '@requisite/model/lib/product/Persona';
-import Story from '@requisite/model/lib/story/Story';
-import StoriesService from './StoriesService';
+import type Persona from '@requisite/model/lib/product/Persona';
+import type Story from '@requisite/model/lib/story/Story';
+import type StoriesService from './StoriesService';
 import { runWithSequelize } from './sqlz/SqlzUtils';
 import { getLogger } from '../util/Logger';
 import StoriesDataModel from './sqlz/data-models/StoriesDataModel';
-import Feature from '@requisite/model/lib/product/Feature';
+import type Feature from '@requisite/model/lib/product/Feature';
 import StoryRevisionsDataModel from './sqlz/data-models/StoryRevisionsDataModel';
 import ModificationState from '@requisite/model/lib/common/ModificationState';
 import { NotFoundError } from '../util/ApiErrors';

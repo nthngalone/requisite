@@ -1,6 +1,6 @@
-import Entity from '../Entity';
-import Product from '../product/Product';
-import Membership from '../user/Membership';
+import type Entity from '../Entity';
+import type Product from '../product/Product';
+import type Membership from '../user/Membership';
 
 export default interface Organization extends Entity {
 

@@ -1,10 +1,10 @@
 import { NotFoundError } from '../util/ApiErrors';
-import OrganizationsService from './OrganizationsService';
-import Organization from '@requisite/model/lib/org/Organization';
+import type OrganizationsService from './OrganizationsService';
+import type Organization from '@requisite/model/lib/org/Organization';
 import OrganizationsDataModel from './sqlz/data-models/OrganizationsDataModel';
 import { runWithSequelize } from './sqlz/SqlzUtils';
 import { getLogger } from '../util/Logger';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Membership from '@requisite/model/lib/user/Membership';
 import OrgMembershipsDataModel from './sqlz/data-models/OrgMembershipsDataModel';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

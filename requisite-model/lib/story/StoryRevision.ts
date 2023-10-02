@@ -1,9 +1,9 @@
-import ModificationState from '../common/ModificationState';
-import ReleaseState from '../common/ReleaseState';
-import Entity from '../Entity';
-import Persona from '../product/Persona';
-import AcceptanceCriteria from './AcceptanceCriteria';
-import Story from './Story';
+import type ModificationState from '../common/ModificationState';
+import type ReleaseState from '../common/ReleaseState';
+import type Entity from '../Entity';
+import type Persona from '../product/Persona';
+import type AcceptanceCriteria from './AcceptanceCriteria';
+import type Story from './Story';
 
 export default interface StoryRevision extends Entity {
 

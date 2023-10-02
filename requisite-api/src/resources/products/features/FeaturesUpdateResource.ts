@@ -1,10 +1,10 @@
 import { getLogger } from '../../../util/Logger';
-import ResourceRequest from '../../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
 import { ConflictError } from '../../../util/ApiErrors';
-import Feature from '@requisite/model/lib/product/Feature';
+import type Feature from '@requisite/model/lib/product/Feature';
 
 const logger = getLogger('resources/products/features/FeaturesUpdateResource');
 

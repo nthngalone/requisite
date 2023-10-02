@@ -1,5 +1,5 @@
-import User from '@requisite/model/lib/user/User';
-import { Request, RequestHandler, Response } from 'express';
+import type User from '@requisite/model/lib/user/User';
+import type { Request, RequestHandler, Response } from 'express';
 import { jwtSign } from '../util/JwtUtil';
 import { getLogger } from '../util/Logger';
 import mung from 'express-mung';

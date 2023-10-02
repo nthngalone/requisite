@@ -1,5 +1,5 @@
-import Product from '@requisite/model/lib/product/Product';
-import Persona from '@requisite/model/lib/product/Persona';
+import type Product from '@requisite/model/lib/product/Product';
+import type Persona from '@requisite/model/lib/product/Persona';
 
 export default interface PersonasService {
     listPersonas(product: Product): Promise<Persona[]>;

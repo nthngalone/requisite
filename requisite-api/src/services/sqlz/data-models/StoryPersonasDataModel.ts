@@ -9,10 +9,10 @@ import {
     DataTypes,
     Association
 } from 'sequelize';
-import User from '@requisite/model/lib/user/User';
-import StoryRevision from '@requisite/model/lib/story/StoryRevision';
-import StoryPersona from '@requisite/model/lib/story/StoryPersona';
-import Persona from '@requisite/model/lib/product/Persona';
+import type User from '@requisite/model/lib/user/User';
+import type StoryRevision from '@requisite/model/lib/story/StoryRevision';
+import type StoryPersona from '@requisite/model/lib/story/StoryPersona';
+import type Persona from '@requisite/model/lib/product/Persona';
 import StoryRevisionsDataModel from './StoryRevisionsDataModel';
 import PersonasDataModel from './PersonasDataModel';
 

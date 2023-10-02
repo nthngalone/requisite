@@ -1,4 +1,4 @@
-import Organization from '@requisite/model/lib/org/Organization';
+import type Organization from '@requisite/model/lib/org/Organization';
 import { getHttpClient, returnData } from '../utils/HttpClient';
 
 export default class UserService {

@@ -1,9 +1,9 @@
 import PersonasDataModel from './sqlz/data-models/PersonasDataModel';
 import { runWithSequelize } from './sqlz/SqlzUtils';
-import Product from '@requisite/model/lib/product/Product';
+import type Product from '@requisite/model/lib/product/Product';
 import { getLogger } from '../util/Logger';
-import PersonasService from './PersonasService';
-import Persona from '@requisite/model/lib/product/Persona';
+import type PersonasService from './PersonasService';
+import type Persona from '@requisite/model/lib/product/Persona';
 import { NotFoundError } from '../util/ApiErrors';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

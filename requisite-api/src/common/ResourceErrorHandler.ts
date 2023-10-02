@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { ApiError, SystemError, BadRequestError, ConflictError } from '../util/ApiErrors';
+import type { Request, Response, NextFunction } from 'express';
+import type { ApiError } from '../util/ApiErrors';
+import { SystemError, BadRequestError, ConflictError } from '../util/ApiErrors';
 import { getLogger } from '../util/Logger';
 
 const logger = getLogger('ResourceErrorHandler');

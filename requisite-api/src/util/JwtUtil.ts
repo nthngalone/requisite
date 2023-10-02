@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import random from 'crypto-random-string';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 import { getLogger } from './Logger';
 
 const logger = getLogger('common/ResourceAuthenticationHandler');

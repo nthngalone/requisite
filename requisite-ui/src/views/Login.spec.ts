@@ -34,7 +34,7 @@ describe('./views/Login.vue', () => {
 
     function getDriver(): VueWrapperDriver {
         const wrapper = mount(Login, { router, global: { plugins: [ RequisitePlugin ]} });
-        return new VueWrapperDriver(wrapper);
+        return new VueWrapperDriver(wrapper, router);
     }
 
     it('routes to /home when an authenticated event is received', async () => {

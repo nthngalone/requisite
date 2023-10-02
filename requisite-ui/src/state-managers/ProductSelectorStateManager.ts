@@ -1,5 +1,5 @@
-import Organization from '@requisite/model/lib/org/Organization';
-import Product from '@requisite/model/lib/product/Product';
+import type Organization from '@requisite/model/lib/org/Organization';
+import type Product from '@requisite/model/lib/product/Product';
 import ProductService from '../services/ProductService';
 import UserService from '../services/UserService';
 

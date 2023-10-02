@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { afterAllDeleteCreatedUsers, createTestUser } from '../../TestUtils';
 import { getClient, getSecuredClient, getSystemAdminUser } from '../ClientUtils';
-import User from '@requisite/model/lib/user/User';
-import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
+import type User from '@requisite/model/lib/user/User';
+import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 
 describe('/system/admins', () => {
     afterAll(afterAllDeleteCreatedUsers);

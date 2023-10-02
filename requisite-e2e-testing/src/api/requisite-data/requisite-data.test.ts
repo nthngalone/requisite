@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Organization from '@requisite/model/lib/org/Organization';
+import type Organization from '@requisite/model/lib/org/Organization';
 import { getSecuredClient } from '../ClientUtils';
-import reqData from '../../../../requisite-api/requisite-data.json';
-import User from '@requisite/model/lib/user/User';
+import reqData from '../../../../requisite-api/requisite-data';
+import type User from '@requisite/model/lib/user/User';
 
 const reqOrgData = (reqData as unknown as Record<string, Organization>).organization;
 const usersData = (reqData as unknown as Record<string, User[]>).users;

@@ -1,20 +1,20 @@
-import OrganizationsService from './OrganizationsService';
+import type OrganizationsService from './OrganizationsService';
 import OrganizationsServiceSqlzImpl from './OrganizationsServiceSqlzImpl';
-import SecurityService from './SecurityService';
+import type SecurityService from './SecurityService';
 import SecurityServiceSqlzImpl from './SecurityServiceSqlzImpl';
-import UsersService from './UsersService';
+import type UsersService from './UsersService';
 import UsersServiceSqlzImpl from './UsersServiceSqlzImpl';
-import SystemService from './SystemService';
+import type SystemService from './SystemService';
 import SystemServiceSqlzImpl from './SystemServiceSqlzImpl';
-import ProductsService from './ProductsService';
+import type ProductsService from './ProductsService';
 import ProductsServiceSqlzImpl from './ProductsServiceSqlzImpl';
-import FeaturesService from './FeaturesService';
+import type FeaturesService from './FeaturesService';
 import FeaturesServiceSqlzImpl from './FeaturesServiceSqlzImpl';
-import StoriesService from './StoriesService';
+import type StoriesService from './StoriesService';
 import StoriesServiceSqlzImpl from './StoriesServiceSqlzImpl';
 import StoryRevisionsServiceSqlzImpl from './StoryRevisionsServiceSqlzImpl';
-import StoryRevisionsService from './StoryRevisionsService';
-import PersonasService from './PersonasService';
+import type StoryRevisionsService from './StoryRevisionsService';
+import type PersonasService from './PersonasService';
 import PersonasServiceSqlzImpl from './PersonasServiceSqlzImpl';
 
 export default {

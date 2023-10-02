@@ -1,4 +1,5 @@
-import Membership, { ProductRole } from '@requisite/model/lib/user/Membership';
+import type Membership from '@requisite/model/lib/user/Membership';
+import { ProductRole } from '@requisite/model/lib/user/Membership';
 import {
     Sequelize,
     Model,
@@ -6,8 +7,8 @@ import {
     Association,
 } from 'sequelize';
 import UsersDataModel from './UsersDataModel';
-import User from '@requisite/model/lib/user/User';
-import Product from '@requisite/model/lib/product/Product';
+import type User from '@requisite/model/lib/user/User';
+import type Product from '@requisite/model/lib/product/Product';
 import ProductsDataModel from './ProductsDataModel';
 import {
     enableCreateUpdateDataModelTransformation,

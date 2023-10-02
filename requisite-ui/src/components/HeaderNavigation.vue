@@ -30,9 +30,7 @@
 </template>
 
 <script lang="ts">
-import User from '@requisite/model/lib/user/User';
 import HeaderNavigationStateManager from '../state-managers/HeaderNavigationStateManager';
-import { isNotBlank } from '@requisite/utils/lib/lang/StringUtils';
 import { reactive, computed, onMounted, watch, defineComponent } from 'vue';
 import { $getCurrentRouteName, $routeByName } from '../router';
 
@@ -45,47 +43,43 @@ export default defineComponent({
         }
     },
     emits: ['system-error'],
-    setup(props, context): Record<string, unknown> {
+    setup(props, context) {
 
         // Reactive data
         const headerNavigationStateManager = reactive(new HeaderNavigationStateManager());
 
         // Computed getters
-        const user = computed((): User => {
+        const user = computed(() => {
             return headerNavigationStateManager.user;
         });
-        const viewName = computed((): string | undefined => {
+        const viewName = computed(() => {
             return $getCurrentRouteName();
         });
-        const name = computed((): string => {
-            return headerNavigationStateManager.user &&
-                   headerNavigationStateManager.user.name
-                ? `${headerNavigationStateManager.user.name.firstName} ${headerNavigationStateManager.user.name.lastName}`
-                : '';
+        const name = computed(() => {
+            const firstName = headerNavigationStateManager?.user?.name?.firstName || '';
+            const lastName = headerNavigationStateManager?.user?.name?.lastName || '';
+            return `${firstName} ${lastName}`.trim();
         });
-        const initials = computed((): string => {
-            return headerNavigationStateManager.user &&
-                headerNavigationStateManager.user.name &&
-                isNotBlank(headerNavigationStateManager.user.name.firstName) &&
-                isNotBlank(headerNavigationStateManager.user.name.lastName)
-                ? `${headerNavigationStateManager.user.name.firstName[0]}${headerNavigationStateManager.user.name.lastName[0]}`
-                : '';
+        const initials = computed(() => {
+            const firstName = headerNavigationStateManager?.user?.name?.firstName || ' ';
+            const lastName = headerNavigationStateManager?.user?.name?.lastName || ' ';
+            return `${firstName[0]}${lastName[0]}`.trim();
         });
 
         // Watchers
         watch(
             () => headerNavigationStateManager.systemError,
-            (isSystemError: boolean) => {
+            (isSystemError) => {
                 context.emit('system-error', isSystemError);
             }
         );
 
         // Methods
-        const profile = (): void => {
+        const profile = () => {
             $routeByName('Profile');
         };
 
-        const logout = async (): Promise<void> => {
+        const logout = async () => {
             await headerNavigationStateManager.logout();
             $routeByName('Login');
         };
@@ -95,7 +89,6 @@ export default defineComponent({
         });
 
         return {
-            headerNavigationStateManager,
             user,
             viewName,
             name,

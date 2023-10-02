@@ -1,6 +1,6 @@
 import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
-import { NextFunction, Response } from 'express';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { NextFunction, Response } from 'express';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
 
 const logger = getLogger('resources/security/SecurityStatusResource');

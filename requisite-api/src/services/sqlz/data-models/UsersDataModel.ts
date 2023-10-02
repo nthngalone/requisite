@@ -1,5 +1,5 @@
-import Name from '@requisite/model/lib/common/Name';
-import User from '@requisite/model/lib/user/User';
+import type Name from '@requisite/model/lib/common/Name';
+import type User from '@requisite/model/lib/user/User';
 import {
     Sequelize,
     Model,

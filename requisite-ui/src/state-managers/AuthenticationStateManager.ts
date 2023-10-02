@@ -1,6 +1,7 @@
-import AuthenticationRequest, { AuthenticationRequestSchema } from '@requisite/model/lib/user/AuthenticationRequest';
+import type AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
+import { AuthenticationRequestSchema } from '@requisite/model/lib/user/AuthenticationRequest';
 import SecurityService from '../services/SecurityService';
-import { validate, ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
+import { validate, type ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 
 export default class AuthenticationStateManager {
 

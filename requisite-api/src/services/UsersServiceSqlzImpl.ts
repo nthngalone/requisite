@@ -1,9 +1,10 @@
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 import { NotFoundError } from '../util/ApiErrors';
-import UsersService, { UserSearchCriteria } from './UsersService';
+import type UsersService from './UsersService';
+import type { UserSearchCriteria } from './UsersService';
 import UsersDataModel from './sqlz/data-models/UsersDataModel';
 import { runWithSequelize } from './sqlz/SqlzUtils';
-import { WhereOptions } from 'sequelize/types';
+import { type WhereOptions } from 'sequelize';
 import { assertIsNotBlank } from '@requisite/utils/lib/validation/AssertionUtils';
 
 export default class UsersServiceSqlzImpl implements UsersService {

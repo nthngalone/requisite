@@ -3,6 +3,11 @@
     "include": [ "src/**/*", "test/**/*" ],
     "exclude": [ "node_modules" ],
     "compilerOptions": {
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "module": "ESNext"
+    },
+    "ts-node": {
+        "esm": true,
+        "experimentalSpecifierResolution": "node"
     }
 }

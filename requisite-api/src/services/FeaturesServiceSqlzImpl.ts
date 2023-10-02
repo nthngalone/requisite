@@ -1,8 +1,8 @@
-import FeaturesService from './FeaturesService';
+import type FeaturesService from './FeaturesService';
 import { runWithSequelize } from './sqlz/SqlzUtils';
-import Product from '@requisite/model/lib/product/Product';
+import type Product from '@requisite/model/lib/product/Product';
 import { getLogger } from '../util/Logger';
-import Feature from '@requisite/model/lib/product/Feature';
+import type Feature from '@requisite/model/lib/product/Feature';
 import FeaturesDataModel from './sqlz/data-models/FeaturesDataModel';
 import { NotFoundError } from '../util/ApiErrors';
 

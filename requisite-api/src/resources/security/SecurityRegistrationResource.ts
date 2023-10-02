@@ -1,8 +1,8 @@
 import { getLogger } from '../../util/Logger';
-import RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
-import RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
-import ResourceRequest from '../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
+import type RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../services/ServiceProvider';
 import { SystemError } from '../../util/ApiErrors';
 

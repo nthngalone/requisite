@@ -1,6 +1,7 @@
 import { SystemRole } from '@requisite/model/lib/user/Membership';
-import SystemAdmin, { System } from '@requisite/model/lib/user/SystemAdmin';
-import User from '@requisite/model/lib/user/User';
+import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
+import type { System } from '@requisite/model/lib/user/SystemAdmin';
+import type User from '@requisite/model/lib/user/User';
 import {
     Sequelize,
     Model,

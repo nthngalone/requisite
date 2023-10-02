@@ -1,4 +1,4 @@
-import axios, { AxiosInstance as HttpClient, AxiosResponse as Response } from 'axios';
+import axios, { type AxiosInstance as HttpClient, type AxiosResponse as Response } from 'axios';
 import {
     getRequestHandler,
     getResponseSuccessHandler,
@@ -25,5 +25,5 @@ export function returnData<T>() {
     };
 }
 
-export { AxiosInstance as default } from 'axios';
-export { AxiosRequestConfig as Request, AxiosResponse as Response } from 'axios';
+export type { AxiosInstance as default } from 'axios';
+export type { AxiosRequestConfig as Request, AxiosResponse as Response } from 'axios';

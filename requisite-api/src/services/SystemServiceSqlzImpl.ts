@@ -1,17 +1,17 @@
-import SystemService from './SystemService';
+import type SystemService from './SystemService';
 import UsersDataModel from './sqlz/data-models/UsersDataModel';
 import { runWithSequelize } from './sqlz/SqlzUtils';
 import OrganizationsDataModel from './sqlz/data-models/OrganizationsDataModel';
 import SystemAdminsDataModel from './sqlz/data-models/SystemAdminsDataModel';
 import { NotFoundError } from '../util/ApiErrors';
-import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
+import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import ProductsDataModel from './sqlz/data-models/ProductsDataModel';
 import { getLogger } from '../util/Logger';
 import PersonasDataModel from './sqlz/data-models/PersonasDataModel';
 import StoriesDataModel from './sqlz/data-models/StoriesDataModel';
 import StoryRevisionsDataModel from './sqlz/data-models/StoryRevisionsDataModel';
 import FeaturesDataModel from './sqlz/data-models/FeaturesDataModel';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 import OrgMembershipsDataModel from './sqlz/data-models/OrgMembershipsDataModel';
 import ProductMembershipsDataModel from './sqlz/data-models/ProductMembershipsDataModel';
 

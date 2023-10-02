@@ -1,10 +1,10 @@
 import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
-import { Response, NextFunction } from 'express';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { Response, NextFunction } from 'express';
 import ServiceProvider from '../../services/ServiceProvider';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
-import User from '@requisite/model/lib/user/User';
-import SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
+import type User from '@requisite/model/lib/user/User';
+import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 
 const logger = getLogger('resources/system/SystemAdminsCreateResource');
 

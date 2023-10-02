@@ -4,6 +4,7 @@ import { navElementLinkSelector, navElementSelector, navElementTextSelector } fr
 const selectorRootElement = 'requisite-header-navigation';
 const selectorTitle = navElementSelector(selectorRootElement, 'title');
 const selectorSubtitle =  navElementSelector(selectorRootElement, 'subtitle');
+const selectorAvatarMenu = navElementSelector(selectorRootElement, 'avatar-menu');
 const selectorAvatarMenuAvatar = navElementSelector(selectorRootElement, 'avatar-menu-avatar');
 const selectorMenuItemUserName = navElementTextSelector(selectorRootElement, 'avatar-menu-option-user-name');
 const selectorMenuItemProfileLink = navElementLinkSelector(selectorRootElement, 'avatar-menu-option-profile-link');
@@ -34,6 +35,13 @@ export default class HeaderNavigationPageObject extends BasePageObject {
             this.parentSelector
         );
         return element.getInnerText();
+    }
+    async avatarMenuExists(): Promise<boolean> {
+        const element = await this.driver.getElementBySelector(
+            selectorAvatarMenu,
+            this.parentSelector
+        );
+        return element.exists();
     }
     async getAvatarMenuAvatar(): Promise<string> {
         const element = await this.driver.getElementBySelector(

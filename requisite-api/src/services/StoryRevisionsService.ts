@@ -1,5 +1,5 @@
-import Story from '@requisite/model/lib/story/Story';
-import StoryRevision from '@requisite/model/lib/story/StoryRevision';
+import type Story from '@requisite/model/lib/story/Story';
+import type StoryRevision from '@requisite/model/lib/story/StoryRevision';
 
 export default interface StoryRevisionsService {
     listStoryRevisions(story: Story): Promise<StoryRevision[]>;

@@ -41,7 +41,7 @@ export default defineComponent({
     setup(props) {
         const { name: btnName, class: className, type, rounded } = toRefs(props);
         const variant = computed((): string => typeVariants[type.value]);
-        const pill = computed((): string => rounded ? 'rounded-pill' : '');
+        const pill = computed((): string => rounded.value ? 'rounded-pill' : '');
         const styleClass = computed((): string => ['btn', `btn-${variant.value}`, pill.value, className.value].join(' '));
         return { btnName, styleClass };
     }

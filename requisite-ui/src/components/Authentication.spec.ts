@@ -49,7 +49,7 @@ describe('./components/Authentication.vue', () => {
             Authentication,
             { router, global: { plugins: [ RequisitePlugin ]} }
         );
-        return new VueWrapperDriver(wrapper);
+        return new VueWrapperDriver(wrapper, router);
     }
 
     it('displays no warnings or errors on mount', async () => {

@@ -1,6 +1,6 @@
 import { getLogger } from '../../util/Logger';
-import ResourceRequest from '../../common/ResourceRequest';
-import { Response } from 'express';
+import type ResourceRequest from '../../common/ResourceRequest';
+import type { Response } from 'express';
 
 const logger = getLogger('resources/system/SystemEchoResource');
 

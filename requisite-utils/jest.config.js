@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     preset: 'ts-jest',
     testEnvironment: 'node',
     collectCoverage: true,
@@ -12,5 +12,14 @@ module.exports = {
             statements: 95
         }
     },
-    testPathIgnorePatterns: ['dist']
+    testPathIgnorePatterns: ['dist'],
+    transform: {
+        '^.+\\.tsx?$': [
+            'ts-jest',
+            // override tsconfig to turn off verbatimModuleSyntax just for jest runs
+            // can't figure out how to get ts-jest to run esm modules otherwise and tired
+            // of fighting with it
+            { tsconfig: './tsconfig-jest.json' }
+        ]
+    }
 };

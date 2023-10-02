@@ -52,7 +52,7 @@ describe('./components/Registration.vue', () => {
             Registration,
             { router, global: { plugins: [ RequisitePlugin ]} }
         );
-        return new VueWrapperDriver(wrapper);
+        return new VueWrapperDriver(wrapper, router);
     }
 
     it('displays no warnings or errors on mount', async () => {

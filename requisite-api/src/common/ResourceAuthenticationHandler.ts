@@ -1,12 +1,12 @@
-import User from '@requisite/model/lib/user/User';
-import { Request, Response, NextFunction } from 'express';
+import type User from '@requisite/model/lib/user/User';
+import type { Request, Response, NextFunction } from 'express';
 import { getLogger } from '../util/Logger';
 import { jwtVerify } from '../util/JwtUtil';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
 import ServiceProvider from '../services/ServiceProvider';
-import SecurityService from '../services/SecurityService';
+import type SecurityService from '../services/SecurityService';
 import { NotAuthenticatedError } from '../util/ApiErrors';
 
 const logger = getLogger('common/ResourceAuthenticationHandler');

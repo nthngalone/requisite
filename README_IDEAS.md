@@ -90,3 +90,8 @@ These are ideas that I have or technologies that I come across that I think are 
 - look at vale.sh - looks like linting for markdown files
 - Look at BlockSuite for creating content editors - https://github.com/toeverything/blocksuite
 - look at [inkline](https://www.inkline.io/) for a design/component library option
+- look at [winded](https://winded.inttodouble.com/) for testing multiple viewport sizes
+- [typescript + esm docs](https://www.typescriptlang.org/docs/handbook/esm-node.html)
+- look at building a guided tours of requisite with [drive.js](https://driverjs.com/)
+- [maildev](https://maildev.github.io/maildev/) - test email server
+- look at [infisical](https://github.com/Infisical/infisical) for secret management

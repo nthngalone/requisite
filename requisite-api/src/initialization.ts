@@ -1,16 +1,16 @@
 /* eslint-disable max-len */
 import ServiceProvider from './services/ServiceProvider';
 import { getLogger } from './util/Logger';
-import requisiteData from '../requisite-data.json';
+import requisiteData from '../requisite-data';
 import { asyncForEachSerial } from '@requisite/utils/lib/lang/ArrayUtils';
-import Organization from '@requisite/model/lib/org/Organization';
-import Product from '@requisite/model/lib/product/Product';
-import Feature from '@requisite/model/lib/product/Feature';
-import Story from '@requisite/model/lib/story/Story';
-import StoryRevision from '@requisite/model/lib/story/StoryRevision';
-import Persona from '@requisite/model/lib/product/Persona';
-import User from '@requisite/model/lib/user/User';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Organization from '@requisite/model/lib/org/Organization';
+import type Product from '@requisite/model/lib/product/Product';
+import type Feature from '@requisite/model/lib/product/Feature';
+import type Story from '@requisite/model/lib/story/Story';
+import type StoryRevision from '@requisite/model/lib/story/StoryRevision';
+import type Persona from '@requisite/model/lib/product/Persona';
+import type User from '@requisite/model/lib/user/User';
+import type Membership from '@requisite/model/lib/user/Membership';
 
 const logger = getLogger('initialization');
 

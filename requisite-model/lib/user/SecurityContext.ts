@@ -1,7 +1,7 @@
-import Membership from './Membership';
-import Organization from '../org/Organization';
-import Product from '../product/Product';
-import User from './User';
+import type Membership from './Membership';
+import type Organization from '../org/Organization';
+import type Product from '../product/Product';
+import type User from './User';
 
 export default interface SecurityContext {
     user: User;

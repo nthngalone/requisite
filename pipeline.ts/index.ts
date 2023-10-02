@@ -1,4 +1,4 @@
-import { series, parallel, TaskFunctionCallback as Callback } from 'gulp';
+import { series, parallel, type TaskFunctionCallback as Callback } from 'gulp';
 import { npmRun } from './commands/npm';
 import { dockerPrune, dockerBuild } from './commands/docker';
 import { k8sPodsExist, k8sGetPods, k8sGetServices, k8sGetConfigMaps, k8sGetSecrets, k8sGetIngress, k8sCopyFileToPods, k8sRunCommandOnPods, k8sCleanTmpResources } from './commands/kubernetes';

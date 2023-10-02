@@ -34,7 +34,7 @@ describe('./components/HeaderNavigation.vue', () => {
             HeaderNavigation,
             { router, propsData, global: { plugins: [ RequisitePlugin ]} }
         );
-        return new VueWrapperDriver(wrapper);
+        return new VueWrapperDriver(wrapper, router);
     }
 
     it('displays the current route name as the subtitle', async () => {
@@ -46,20 +46,43 @@ describe('./components/HeaderNavigation.vue', () => {
         expect(await pageObj.getPageSubtitle()).toBe('Home');
     });
 
-    it('displays the user name if the secured property is true', async () => {
-        const driver = getDriver({ secured: true });
+    it('does not display the user avatar menu if the secured property is false', async () => {
+        const driver = getDriver({ secured: false });
         const pageObj = new HeaderNavigationPageObject(driver);
         await driver.nextRender();
         await driver.nextRender();
-        expect(await pageObj.getUserName()).toBe('First Last');
+        expect(await pageObj.avatarMenuExists()).toBeFalsy();
     });
 
-    it('displays the user avatar menu if the secured property is true', async () => {
+    it('does not display the user avatar menu if the secured property is true but a user does not exist', async () => {
+        jest.spyOn(SecurityService.prototype, 'getContext').mockImplementation((): Promise<SecurityContext> => {
+            return Promise.resolve({
+                user: {}
+            } as unknown as SecurityContext);
+        });
         const driver = getDriver({ secured: true });
         const pageObj = new HeaderNavigationPageObject(driver);
         await driver.nextRender();
         await driver.nextRender();
+        expect(await pageObj.avatarMenuExists()).toBeFalsy();
+    });
+
+    it('displays the user avatar menu if the secured property is true and a user exists', async () => {
+        const driver = getDriver({ secured: true });
+        const pageObj = new HeaderNavigationPageObject(driver);
+        await driver.nextRender();
+        await driver.nextRender();
+        expect(await pageObj.avatarMenuExists()).toBeTruthy();
         expect(await pageObj.getAvatarMenuAvatar()).toBe('FL');
+    });
+
+    it('displays the user name in the avatar menu if the secured property is true and a user exists', async () => {
+        const driver = getDriver({ secured: true });
+        const pageObj = new HeaderNavigationPageObject(driver);
+        await driver.nextRender();
+        await driver.nextRender();
+        expect(await pageObj.avatarMenuExists()).toBeTruthy();
+        expect(await pageObj.getUserName()).toBe('First Last');
     });
 
     it('navigates the secured user to the profile view if the profile menu item is clicked', async () => {

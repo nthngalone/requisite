@@ -1,6 +1,6 @@
-import Persona from '@requisite/model/lib/product/Persona';
-import Story from '@requisite/model/lib/story/Story';
-import Feature from '@requisite/model/lib/product/Feature';
+import type Persona from '@requisite/model/lib/product/Persona';
+import type Story from '@requisite/model/lib/story/Story';
+import type Feature from '@requisite/model/lib/product/Feature';
 
 export default interface StoriesService {
     listStories(feature: Feature): Promise<Story[]>;

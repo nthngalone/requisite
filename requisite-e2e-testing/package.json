@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "End-to-end testing scripts for the requisite platform",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint . --fix --max-warnings 0 --ext .ts",
     "test:api": "DOTENV_CONFIG_PATH=../.env jest --testPathPattern=src/api",

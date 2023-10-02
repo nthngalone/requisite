@@ -1,11 +1,12 @@
-import { Response, NextFunction } from 'express';
+import type { Response, NextFunction } from 'express';
 import { getLogger } from '../util/Logger';
 import ServiceProvider from '../services/ServiceProvider';
-import ResourceRequest from './ResourceRequest';
+import type ResourceRequest from './ResourceRequest';
 import { assertExists } from '@requisite/utils/lib/validation/AssertionUtils';
 import { NotAuthorizedError, NotFoundError } from '../util/ApiErrors';
-import Membership, { ProductRole } from '@requisite/model/lib/user/Membership';
-import Product from '@requisite/model/lib/product/Product';
+import type Membership from '@requisite/model/lib/user/Membership';
+import type { ProductRole } from '@requisite/model/lib/user/Membership';
+import type Product from '@requisite/model/lib/product/Product';
 
 const logger = getLogger('common/ResourceProductHandler');
 

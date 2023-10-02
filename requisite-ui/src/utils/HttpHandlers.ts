@@ -1,9 +1,9 @@
 import { getAuthToken, setAuthToken } from './AuthTokenManager';
-import {
+import type {
     AxiosRequestConfig as Request,
-    AxiosResponse as Response,
-    AxiosError as HttpError
+    AxiosResponse as Response
 } from 'axios';
+import { AxiosError as HttpError } from 'axios';
 
 export function getRequestHandler(): (req: Request) => Request {
     return (req: Request) => {

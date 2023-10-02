@@ -1,5 +1,6 @@
-import Membership, { OrganizationRole } from '@requisite/model/lib/user/Membership';
-import Organization from '@requisite/model/lib/org/Organization';
+import type Membership from '@requisite/model/lib/user/Membership';
+import { OrganizationRole } from '@requisite/model/lib/user/Membership';
+import type Organization from '@requisite/model/lib/org/Organization';
 import {
     Sequelize,
     Model,
@@ -8,7 +9,7 @@ import {
 } from 'sequelize';
 import UsersDataModel from './UsersDataModel';
 import OrganizationsDataModel from './OrganizationsDataModel';
-import User from '@requisite/model/lib/user/User';
+import type User from '@requisite/model/lib/user/User';
 import {
     enableCreateUpdateDataModelTransformation,
     enableDataModelLogging,

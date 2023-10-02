@@ -1,6 +1,6 @@
-import Organization from '@requisite/model/lib/org/Organization';
-import Product from '@requisite/model/lib/product/Product';
-import Membership from '@requisite/model/lib/user/Membership';
+import type Organization from '@requisite/model/lib/org/Organization';
+import type Product from '@requisite/model/lib/product/Product';
+import type Membership from '@requisite/model/lib/user/Membership';
 
 export default interface ProductsService {
     listProducts(org: Organization): Promise<Product[]>;

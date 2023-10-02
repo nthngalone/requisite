@@ -37,7 +37,7 @@ describe('./views/SignUp.vue', () => {
             SignUp,
             { router, global: { plugins: [ RequisitePlugin ]} }
         );
-        return new VueWrapperDriver(wrapper);
+        return new VueWrapperDriver(wrapper, router);
     }
 
     it('routes to /home when a registered event is received', async () => {

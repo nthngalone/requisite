@@ -1,5 +1,5 @@
-import Feature from '@requisite/model/lib/product/Feature';
-import Product from '@requisite/model/lib/product/Product';
+import type Feature from '@requisite/model/lib/product/Feature';
+import type Product from '@requisite/model/lib/product/Product';
 
 export default interface FeaturesService {
     listFeatures(product: Product): Promise<Feature[]>;

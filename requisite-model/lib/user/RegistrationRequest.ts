@@ -1,4 +1,4 @@
-import Name from '../common/Name';
+import type Name from '../common/Name';
 
 export default interface RegistrationRequest {
     domain: string;

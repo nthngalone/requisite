@@ -11,6 +11,12 @@
             "./**/src/types",
             "./**/node_modules/@types",
             "./**/node_modules/**/types"
-        ],
+        ]
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "commonjs",
+            "verbatimModuleSyntax": false
+        }
     }
 }

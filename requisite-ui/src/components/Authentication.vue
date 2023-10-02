@@ -45,46 +45,41 @@
 </template>
 
 <script lang="ts">
-import AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
 import AuthenticationStateManager from '../state-managers/AuthenticationStateManager';
-import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
-import { reactive, computed, SetupContext, watch, defineComponent } from 'vue';
+import { reactive, computed, watch, defineComponent } from 'vue';
 
 export default defineComponent({
-    setup(
-        props: Record<string, unknown>,
-        context: SetupContext
-    ): Record<string, unknown> {
+    setup(props, context) {
 
         // Reactive data
         const authenticationStateManager = reactive(new AuthenticationStateManager());
-        const credentials: AuthenticationRequest = reactive({
+        const credentials = reactive({
             domain: 'local',
             userName: '',
             password: ''
         });
 
         // Computed getters
-        const invalidCredentials = computed((): boolean => {
+        const invalidCredentials = computed(() => {
             return authenticationStateManager.invalidCredentials;
         });
-        const expiredCredentials = computed((): boolean => {
+        const expiredCredentials = computed(() => {
             return authenticationStateManager.expiredCredentials;
         });
-        const validationResult = computed((): ValidationResult => {
+        const validationResult = computed(() => {
             return authenticationStateManager.validationResult;
         });
 
         // Watchers
         watch(
             () => authenticationStateManager.systemError,
-            (isSystemError: boolean) => {
+            (isSystemError) => {
                 context.emit('system-error', isSystemError);
             }
         );
 
         // Methods
-        const login = async (): Promise<void> => {
+        const login = async () => {
             authenticationStateManager.reset();
             await authenticationStateManager.authenticate(credentials);
             if (authenticationStateManager.authenticated) {

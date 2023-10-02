@@ -38,7 +38,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue';
+import { defineComponent, ref, toRefs } from 'vue';
+import type { Ref } from 'vue';
+
+interface MenuOptions {
+    name: string,
+    text: string,
+    separator: boolean;
+    path: string,
+    method: () => void
+}
+
 export default defineComponent({
     props: {
         name: {
@@ -61,9 +71,9 @@ export default defineComponent({
         // TODO... lots
         const {
             name: avatarMenuName,
-            menuOptions: avatarMenuOptions,
             avatarText: avatarMenuText
         } = toRefs(props);
+        const avatarMenuOptions = ref(props.menuOptions) as Ref<MenuOptions[]>;
         return {
             avatarMenuName,
             avatarMenuOptions,

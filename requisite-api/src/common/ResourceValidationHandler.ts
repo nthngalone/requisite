@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { getLogger } from '../util/Logger';
-import { validate, ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
+import { validate, type ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 import { BadRequestError } from '../util/ApiErrors';
 
 const logger = getLogger('common/ResourceValidationHandler');

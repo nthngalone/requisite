@@ -1,4 +1,4 @@
-import { ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
+import { type ValidationResult } from '@requisite/utils/lib/validation/ValidationUtils';
 
 export interface ApiError {
     statusCode: number;

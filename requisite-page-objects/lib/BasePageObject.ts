@@ -1,4 +1,4 @@
-import Driver from './Driver';
+import type Driver from './Driver';
 
 export default abstract class BasePageObject {
 

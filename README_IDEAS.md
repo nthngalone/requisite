@@ -95,3 +95,25 @@ These are ideas that I have or technologies that I come across that I think are 
 - look at building a guided tours of requisite with [drive.js](https://driverjs.com/)
 - [maildev](https://maildev.github.io/maildev/) - test email server
 - look at [infisical](https://github.com/Infisical/infisical) for secret management
+
+Color palette possibilities:
+https://venngage.com/tools/accessible-color-palette-generator
+- Primary #D2AD97
+  - Vibrant Palette
+    #c3bdc1, #000000
+    #d2cccd, #000000
+    #d2ad97, #000000
+    #cfba86, #000000
+    #a2ab82, #000000
+  - Pastel Contrasting Palette 1
+    #bbd0dd, #000000
+    #cee0eb, #000000
+    #fcebe2, #000000
+    #f1dbd0, #000000
+    #e6ccbd, #000000
+  - Pastel Contrasting Palette 2
+    #d7d5e2, #000000
+    #e4e2ee, #000000
+    #f1dbd0, #000000
+    #c2d8cc, #000000
+    #a7c3b5, #000000

@@ -101,7 +101,7 @@ export default class RegistrationPageObject extends BasePageObject {
             selectorPasswordConfirmationInput,
             this.parentSelector
         );
-        input.setValue(password);
+        await input.setValue(password);
     }
     async getPasswordConfirmation(): Promise<string> {
         const input = await this.driver.getElementBySelector(

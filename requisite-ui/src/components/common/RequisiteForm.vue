@@ -1,7 +1,10 @@
 <template>
-    <form :class="className" :data-name="formName">
+    <IForm
+        :data-name="formName"
+        class="r-form"
+    >
         <slot />
-    </form>
+    </IForm>
 </template>
 
 <script lang="ts">
@@ -13,16 +16,11 @@ export default defineComponent({
             type: String,
             required: false,
             default: ''
-        },
-        class: {
-            type: String,
-            required: false,
-            default: ''
         }
     },
     setup(props) {
-        const { name: formName, class: className } = toRefs(props);
-        return { formName, className };
+        const { name: formName } = toRefs(props);
+        return { formName };
     }
 });
 </script>

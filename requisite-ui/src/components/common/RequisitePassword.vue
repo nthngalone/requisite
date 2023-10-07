@@ -1,15 +1,17 @@
 <template>
-    <div :class="passClass" :data-name="passName">
-        <label :for="passId" class="form-label">{{ passLabel }}</label>
-        <input
+    <IFormGroup
+        :data-name="passName"
+        class="r-password"
+    >
+        <IFormLabel :for="passId">{{ passLabel }}</IFormLabel>
+        <IInput
             v-model="passValue"
             :id="passId"
             :name="passName"
+            :placeholder="passPlaceholder"
             type="password"
-            class="form-control"
-            :placeholder="placeholder"
         />
-    </div>
+    </IFormGroup>
 </template>
 
 <script lang="ts">
@@ -51,7 +53,6 @@ export default defineComponent({
     setup(props, ctx) {
         const {
             name: passName,
-            class: className,
             label: passLabel,
             modelValue,
             placeholder: passPlaceholder
@@ -65,11 +66,9 @@ export default defineComponent({
         watch(passValue, (newPassValue) => {
             ctx.emit('update:modelValue', newPassValue);
         });
-        const passClass = computed((): string => ['mb-3', className.value].join(' '));
         return {
             passId,
             passName,
-            passClass,
             passLabel,
             passValue,
             passPlaceholder

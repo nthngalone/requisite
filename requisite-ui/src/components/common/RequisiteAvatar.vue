@@ -1,33 +1,19 @@
-<!--
-TODO what should be the bootstrap 5 equivalent of this?
-
-bootstrap-vue version
 <template>
-    <b-avatar :class="className" :text="displayText" variant="primary" />
-</template>
-
-prime vue version
-<template>
-    <Avatar :class="className" :label="displayTxt" />
-</template>
--->
-
-<template>
-    <div :class="styleClass" :data-name="avatarName">
+    <IButton
+        :data-name="avatarName"
+        color="primary"
+        class="r-avatar"
+        circle
+    >
         {{ displayTxt }}
-    </div>
+    </IButton>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from 'vue';
+import { defineComponent, toRefs } from 'vue';
 export default defineComponent({
     props: {
         name: {
-            type: String,
-            required: false,
-            default: ''
-        },
-        class: {
             type: String,
             required: false,
             default: ''
@@ -38,11 +24,9 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const { name: avatarName, class: className, text: displayTxt } = toRefs(props);
-        const styleClass = computed((): string => ['avatar', 'bg-primary', 'rounded-circle', className.value].join(' '));
+        const { name: avatarName, text: displayTxt } = toRefs(props);
         return {
             avatarName,
-            styleClass,
             displayTxt
         };
     }

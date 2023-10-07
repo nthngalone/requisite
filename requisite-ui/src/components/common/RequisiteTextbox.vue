@@ -1,15 +1,17 @@
 <template>
-    <div :class="txtClass" :data-name="txtName">
-        <label :for="txtId" class="form-label">{{ txtLabel }}</label>
-        <input
+    <IFormGroup
+        :data-name="txtName"
+        class="r-textbox"
+    >
+        <IFormLabel :for="txtId">{{ txtLabel }}</IFormLabel>
+        <IInput
             v-model="txtValue"
             :id="txtId"
             :name="txtName"
-            class="form-control"
             :type="txtType"
-            :placeholder="placeholder"
+            :placeholder="txtPlaceholder"
         />
-    </div>
+    </IFormGroup>
 </template>
 
 <script lang="ts">
@@ -21,11 +23,6 @@ export default defineComponent({
         name: {
             type: String,
             required: true
-        },
-        class: {
-            type: String,
-            required: false,
-            default: ''
         },
         label: {
             type: String,
@@ -52,16 +49,13 @@ export default defineComponent({
     setup(props, ctx) {
         const {
             name: txtName,
-            class: className,
             label: txtLabel,
             modelValue,
             type: txtType,
             placeholder: txtPlaceholder
         } = toRefs(props);
-        const txtClass = computed((): string => ['mb-3', className.value].join(' '));
         const id = uid();
         const txtId = computed((): string => `${txtName.value}-${id}`);
-        // TODO what is mb-3 boostrap style?
         const txtValue = ref(`${modelValue.value}`);
         watch(txtValue, (newTxtValue) => {
             ctx.emit('update:modelValue', newTxtValue);
@@ -69,7 +63,6 @@ export default defineComponent({
         return {
             txtId,
             txtName,
-            txtClass,
             txtLabel,
             txtValue,
             txtType,

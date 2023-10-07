@@ -2,7 +2,7 @@
     <div class="requisite-system-error">
         <r-alert
             v-if="display"
-            type="danger"
+            type="error"
             name="system-error"
         >
             The system is experiencing technical difficulties.

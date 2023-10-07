@@ -22,7 +22,7 @@ const buildContext: Record<string, boolean> = {
     deployHelmResourceUiEnabled: true,
     reportDeployedResourcesEnabled: true,
     e2eApiTestsEnabled: true,
-    e2eWebTestsEnabled: false // web e2e tests are currently broken (not kept up to date)
+    e2eWebTestsEnabled: true
 };
 
 // Helpers!

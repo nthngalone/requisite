@@ -1,7 +1,11 @@
 <template>
-    <div :class="styleClass" :data-name="alertName">
+    <IAlert
+        :color="alertType"
+        :data-name="alertName"
+        class="r-alert"
+    >
         <slot />
-    </div>
+    </IAlert>
 </template>
 
 <script lang="ts">
@@ -12,14 +16,10 @@ const typeVariants: Record<string, string> = {
     warning: 'warning',
     error: 'danger'
 };
+// TODO add icon support
 export default defineComponent({
     props: {
         name: {
-            type: String,
-            required: false,
-            default: ''
-        },
-        class: {
             type: String,
             required: false,
             default: ''
@@ -30,11 +30,9 @@ export default defineComponent({
         }
     },
     setup(props) {
-        // TODO support individual (and named) alert messages
-        const { name: alertName, class: className, type } = toRefs(props);
-        const variant = computed((): string => typeVariants[type.value]);
-        const styleClass = computed((): string => ['alert', `alert-${variant.value}`, className.value].join(' '));
-        return { alertName, styleClass };
+        const { name: alertName, type } = toRefs(props);
+        const alertType = computed((): string => typeVariants[type.value]);
+        return { alertName, alertType };
     }
 });
 </script>

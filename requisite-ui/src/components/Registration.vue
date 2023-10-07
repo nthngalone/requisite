@@ -5,48 +5,48 @@
             type="warning"
             name="validation-warnings"
         >
-            <div
+            <r-alert-message
                 v-if="validationErrors['userName']"
-                class="user-name-warning"
+                name="user-name-warning"
             >
                 Please enter a valid user name.
-            </div>
-            <div
+            </r-alert-message>
+            <r-alert-message
                 v-if="validationErrors['emailAddress']"
-                class="email-address-warning"
+                name="email-address-warning"
             >
                 Please enter a valid email address.
-            </div>
-            <div
+            </r-alert-message>
+            <r-alert-message
                 v-if="validationErrors['name.firstName']"
-                class="first-name-warning"
+                name="first-name-warning"
             >
                 Please enter a valid first name.
-            </div>
-            <div
+            </r-alert-message>
+            <r-alert-message
                 v-if="validationErrors['name.lastName']"
-                class="last-name-warning"
+                name="last-name-warning"
             >
                 Please enter a valid last name.
-            </div>
-            <div
+            </r-alert-message>
+            <r-alert-message
                 v-if="validationErrors['password']"
-                class="password-warning"
+                name="password-warning"
             >
                 Please enter a valid password.
-            </div>
-            <div
+            </r-alert-message>
+            <r-alert-message
                 v-if="validationErrors['passwordConfirmation']"
-                class="password-confirmation-warning"
+                name="password-confirmation-warning"
             >
                 The password confirmation must match the password.
-            </div>
-            <div
+            </r-alert-message>
+            <r-alert-message
                 v-if="validationErrors['termsAgreement']"
-                class="terms-agreement-warning"
+                name="terms-agreement-warning"
             >
                 Please accept the terms and conditions.
-            </div>
+            </r-alert-message>
         </r-alert>
         <r-alert
             v-if="userNameConflict"
@@ -105,12 +105,14 @@
                 name="terms-agreement"
                 label="I accept the terms and conditions."
             />
-            <r-button
-                name="register"
-                @click="register()"
-            >
-                Register
-            </r-button>
+            <r-form-controls>
+                <r-button
+                    name="register"
+                    @click="register()"
+                >
+                    Register
+                </r-button>
+            </r-form-controls>
         </r-form>
     </div>
 </template>

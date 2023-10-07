@@ -1,25 +1,20 @@
 <template>
-    <a
-        href="javascript:void(0);"
-        :class="btnClass"
+    <IButton
         :data-name="btnName"
-        @click="clickHandler()"
-    >
+        color="primary"
+        class="r-link"
+        link
+        @click="clickHandler">
         <slot />
-    </a>
+    </IButton>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs } from 'vue';
+import { defineComponent, toRefs } from 'vue';
 import { $routeByPath } from '../../router';
 export default defineComponent({
     props: {
         name: {
-            type: String,
-            required: false,
-            default: ''
-        },
-        class: {
             type: String,
             required: false,
             default: ''
@@ -36,8 +31,7 @@ export default defineComponent({
         }
     },
     setup(props) {
-        const { name: btnName, class: className, to: btnTo, action } = toRefs(props);
-        const btnClass = computed(() => ['link', className.value].join(' '));
+        const { name: btnName, to: btnTo, action } = toRefs(props);
         const clickHandler = () => {
             if (btnTo.value) {
                 $routeByPath(btnTo.value);
@@ -47,8 +41,6 @@ export default defineComponent({
         };
         return {
             btnName,
-            className,
-            btnClass,
             clickHandler
         };
     }

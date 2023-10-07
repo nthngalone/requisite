@@ -1,15 +1,22 @@
 <template>
-    <nav class="navbar navbar-expand navbar-dark bg-info" :data-name="name">
-        <div class="navbar-brand" data-name="title">{{ navBarTitle }}</div>
-        <div class="navbar-text" data-name="subtitle">{{ navBarSubtitle }}</div>
-        <ul class="navbar-nav justify-content-end" data-name="nav">
-            <slot />
-        </ul>
-    </nav>
+    <INavbar
+        :data-name="name"
+        class="r-navbar"
+    >
+        <INavbarBrand>
+            <span class="r-nav-element" data-name="title">{{ navBarTitle }}</span>
+        </INavbarBrand>
+        <span class="r-nav-element" data-name="subtitle">{{ navBarSubtitle }}</span>
+        <INavbarCollapsible class="_justify-content:flex-end">
+            <INav>
+                <slot />
+            </INav>
+        </INavbarCollapsible>
+    </INavbar>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs } from 'vue';
+import { defineComponent, toRefs } from 'vue';
 export default defineComponent({
     props: {
         name: {
@@ -35,28 +42,11 @@ export default defineComponent({
             title: navBarTitle,
             subtitle: navBarSubtitle
         } = toRefs(props);
-        const userName = ref('NthngAlone');
-        const initials = ref('DW');
         return {
             navBarName,
             navBarTitle,
-            navBarSubtitle,
-            userName,
-            initials
+            navBarSubtitle
         };
     }
 });
 </script>
-
-<style>
-.navbar {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-.navbar-expand .navbar-nav {
-    width: 100%;
-}
-.dropdown-toggle::after {
-    content: none;
-}
-</style>

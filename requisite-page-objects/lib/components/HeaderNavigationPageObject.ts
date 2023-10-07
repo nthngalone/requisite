@@ -1,14 +1,14 @@
 import BasePageObject from '../BasePageObject';
-import { navElementLinkSelector, navElementSelector, navElementTextSelector } from '../utils/selectorUtil';
+import { avatarSelector, dropDownMenuLinkSelector, dropDownMenuSelector, dropDownMenuTextSelector, navBarSelector, navElementSelector } from '../utils/selectorUtil';
 
-const selectorRootElement = 'requisite-header-navigation';
+const selectorRootElement = navBarSelector('', 'requisite-header-navigation');
 const selectorTitle = navElementSelector(selectorRootElement, 'title');
 const selectorSubtitle =  navElementSelector(selectorRootElement, 'subtitle');
-const selectorAvatarMenu = navElementSelector(selectorRootElement, 'avatar-menu');
-const selectorAvatarMenuAvatar = navElementSelector(selectorRootElement, 'avatar-menu-avatar');
-const selectorMenuItemUserName = navElementTextSelector(selectorRootElement, 'avatar-menu-option-user-name');
-const selectorMenuItemProfileLink = navElementLinkSelector(selectorRootElement, 'avatar-menu-option-profile-link');
-const selectorMenuItemLogoutLink = navElementLinkSelector(selectorRootElement, 'avatar-menu-option-signout-link');
+const selectorAvatarMenu = dropDownMenuSelector(selectorRootElement, 'avatar-menu');
+const selectorAvatarMenuAvatar = avatarSelector(selectorAvatarMenu, 'avatar-menu-avatar');
+const selectorMenuItemUserName = dropDownMenuTextSelector(selectorAvatarMenu, 'user-name');
+const selectorMenuItemProfileLink = dropDownMenuLinkSelector(selectorAvatarMenu, 'profile-link');
+const selectorMenuItemLogoutLink = dropDownMenuLinkSelector(selectorAvatarMenu, 'signout-link');
 
 export default class HeaderNavigationPageObject extends BasePageObject {
 
@@ -36,6 +36,9 @@ export default class HeaderNavigationPageObject extends BasePageObject {
         );
         return element.getInnerText();
     }
+    async waitForAvatarMenuToBeAvailable(timeoutMs: number): Promise<void> {
+        return this.waitForElementAvailability(selectorAvatarMenu, timeoutMs);
+    }
     async avatarMenuExists(): Promise<boolean> {
         const element = await this.driver.getElementBySelector(
             selectorAvatarMenu,
@@ -50,12 +53,13 @@ export default class HeaderNavigationPageObject extends BasePageObject {
         );
         return element.getInnerText();
     }
-    async clickAvatarMenu(): Promise<void> {
+    async openAvatarMenu(): Promise<void> {
         const element = await this.driver.getElementBySelector(
             selectorAvatarMenuAvatar,
             this.parentSelector
         );
         await element.click();
+        await this.waitForElementAvailability(selectorAvatarMenu);
     }
     async clickMenuItemProfile(): Promise<void> {
         const link = await this.driver.getElementBySelector(

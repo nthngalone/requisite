@@ -1,16 +1,58 @@
 import Driver, { QueryResponse, QueryAllResponse } from '@requisite/page-objects/lib/Driver';
-import { VueWrapper, DOMWrapper } from '@vue/test-utils';
-import { Router, RouteRecord } from 'vue-router';
+import { mount, VueWrapper, DOMWrapper } from '@vue/test-utils';
+import axe, { RunOptions, AxeResults } from 'axe-core';
+import { Router } from 'vue-router';
+import RequisitePlugin from '../../src/plugins/RequisitePlugin';
+
+export interface VueWrapperDriverOptions {
+    component: unknown,
+    router: Router,
+    props?: Record<string, unknown>,
+    debug?: boolean
+}
+
+export function getMountedDriver(
+    options: VueWrapperDriverOptions
+): VueWrapperDriver {
+    const wrapper = mount(
+        options.component,
+        {
+            router: options.router,
+            propsData: options.props,
+            attachTo: document.body,
+            global: { plugins: [ RequisitePlugin ] }
+        }
+    );
+    return new VueWrapperDriver(wrapper, options.router, options.debug);
+}
 
 export default class VueWrapperDriver implements Driver {
 
     private wrapper: VueWrapper<unknown>;
     private vueRouter: Router;
+    private debug: boolean;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    constructor(wrapper: VueWrapper<any>, router: Router) {
+    constructor(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        wrapper: VueWrapper<any>,
+        router: Router,
+        debug?: boolean
+    ) {
         this.wrapper = wrapper;
         this.vueRouter = router;
+        this.debug = debug || false;
+    }
+
+    async searchForAccessibilityErrors(options: RunOptions): Promise<AxeResults> {
+        const element = await this.getRootElement();
+        return axe.run(
+            element as unknown as axe.ElementContext,
+            options
+        );
+    }
+
+    getRootElement(): Promise<HTMLElement> {
+        return Promise.resolve(this.wrapper.element as HTMLElement);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,11 +82,22 @@ export default class VueWrapperDriver implements Driver {
     // }
 
     async getElementBySelector(selector: string): Promise<QueryResponse> {
-        return new VueWrapperQueryResponse(this.wrapper.find(selector));
+        const queryResponse = this.wrapper.find(selector);
+        if (this.debug) {
+            console.log(
+                `query response for selector:\n\n${selector}\n\n`,
+                queryResponse.exists() ? queryResponse.element : 'not found'
+            );
+        }
+        return new VueWrapperQueryResponse(queryResponse);
     }
 
     async getElementsBySelector(selector: string): Promise<QueryAllResponse> {
-        return new VueWrapperQueryAllResponse(this.wrapper.findAll(selector));
+        const queryResponse = this.wrapper.findAll(selector);
+        if (this.debug) {
+            console.log(`query response for selector:\n\n${selector}\n\n`, queryResponse);
+        }
+        return new VueWrapperQueryAllResponse(queryResponse);
     }
 
 }

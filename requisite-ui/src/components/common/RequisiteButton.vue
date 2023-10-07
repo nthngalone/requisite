@@ -1,7 +1,12 @@
 <template>
-    <button type="button" :class="styleClass" :data-name="btnName">
+    <IButton
+        :color="btnType"
+        :data-name="btnName"
+        type="button"
+        class="r-button"
+    >
         <slot />
-    </button>
+    </IButton>
 </template>
 
 <script lang="ts">
@@ -15,14 +20,10 @@ const typeVariants: Record<string, string> = {
     warning: 'warning',
     danger: 'danger'
 };
+// TODO add icon support
 export default defineComponent({
     props: {
         name: {
-            type: String,
-            required: false,
-            default: ''
-        },
-        class: {
             type: String,
             required: false,
             default: ''
@@ -31,19 +32,12 @@ export default defineComponent({
             type: String,
             required: false,
             default: 'primary'
-        },
-        rounded: {
-            type: Boolean,
-            required: false,
-            default: false
         }
     },
     setup(props) {
-        const { name: btnName, class: className, type, rounded } = toRefs(props);
-        const variant = computed((): string => typeVariants[type.value]);
-        const pill = computed((): string => rounded.value ? 'rounded-pill' : '');
-        const styleClass = computed((): string => ['btn', `btn-${variant.value}`, pill.value, className.value].join(' '));
-        return { btnName, styleClass };
+        const { name: btnName, type } = toRefs(props);
+        const btnType = computed((): string => typeVariants[type.value]);
+        return { btnName, btnType };
     }
 });
 </script>

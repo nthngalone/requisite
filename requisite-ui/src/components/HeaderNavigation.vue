@@ -5,10 +5,10 @@
             :subtitle="viewName"
             name="requisite-header-navigation"
         >
-            <r-avatar-menu
+            <r-dropdown-menu
                 v-if="user.userName"
                 name="avatar-menu"
-                :avatar-text="initials"
+                :button-text="initials"
                 :menu-options="[{
                     name: 'user-name',
                     text: name
@@ -23,8 +23,10 @@
                     name: 'signout-link',
                     method: logout,
                     text: 'Sign Out'
-                }]">
-            </r-avatar-menu>
+                }]"
+                avatar
+            >
+            </r-dropdown-menu>
         </r-navbar>
     </div>
 </template>

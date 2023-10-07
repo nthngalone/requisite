@@ -1,12 +1,12 @@
-import RequisitePlugin from '../plugins/RequisitePlugin';
-import { mount } from '@vue/test-utils';
 import router from '../router';
 import Authentication from '../components/Authentication.vue';
 import AuthenticationPageObject from '@requisite/page-objects/lib/components/AuthenticationPageObject';
-import VueWrapperDriver from '../../tests/unit/VueWrapperDriver';
+import { getMountedDriver } from '../../tests/unit/VueWrapperDriver';
 import RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
 import AuthenticationResponse from '@requisite/model/lib/user/AuthenticationResponse';
 import AuthenticationRequest from '@requisite/model/lib/user/AuthenticationRequest';
+import '../../tests/unit/matchMediaShim';
+import '../../tests/unit/consoleOverrides';
 
 jest.mock('../services/SecurityService', () => {
     return class {
@@ -44,35 +44,29 @@ jest.mock('../services/SecurityService', () => {
 
 describe('./components/Authentication.vue', () => {
 
-    function getDriver(): VueWrapperDriver {
-        const wrapper = mount(
-            Authentication,
-            { router, global: { plugins: [ RequisitePlugin ]} }
-        );
-        return new VueWrapperDriver(wrapper, router);
-    }
-
     it('displays no warnings or errors on mount', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         expect(await pageObj.requiredFieldsValidationWarningExists()).toBeFalsy();
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('captures user input for the user name and password', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setUserName('user');
         await pageObj.setPassword('pass');
         const data = driver.data();
         expect(data.credentials.userName).toMatch('user');
         expect(data.credentials.password).toMatch('pass');
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when login is clicked if a username and password are not provided', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.clickLogin();
         await pageObj.waitForRequiredFieldsValidationWarning(4000);
@@ -80,10 +74,11 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when login is clicked if only a username is provided', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setUserName('user');
         await pageObj.clickLogin();
@@ -92,10 +87,11 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when login is clicked if only a password is provided', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setPassword('pass');
         await pageObj.clickLogin();
@@ -104,10 +100,11 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when login is clicked with invalid credentials', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setUserName('invalid');
         await pageObj.setPassword('pass');
@@ -117,10 +114,11 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeTruthy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when login is clicked with expired credentials', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setUserName('expired');
         await pageObj.setPassword('pass');
@@ -130,13 +128,14 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeTruthy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('emits an error message when login is clicked and the server fails', async () => {
         // override console.error to keep output clean
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         jest.spyOn(console, 'error').mockImplementation(() => {});
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setUserName('error');
         await pageObj.setPassword('pass');
@@ -146,13 +145,14 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('emits an error message when login is clicked and an unknown response is received', async () => {
         // override console.error to keep output clean
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         jest.spyOn(console, 'error').mockImplementation(() => {});
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setUserName('unknown');
         await pageObj.setPassword('pass');
@@ -162,10 +162,11 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('emits an authenticated event when authentication is successful', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);
         await pageObj.setUserName('valid');
         await pageObj.setPassword('pass');
@@ -176,5 +177,6 @@ describe('./components/Authentication.vue', () => {
         expect(await pageObj.expiredCredentialsWarningExists()).toBeFalsy();
         expect(await pageObj.invalidCredentialsWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 });

@@ -1,5 +1,7 @@
 import Driver, { QueryResponse, QueryAllResponse } from '@requisite/page-objects/lib/Driver';
+import { RunOptions, AxeResults } from 'axe-core';
 import { Page, ElementHandle } from 'puppeteer';
+import { AxePuppeteer } from '@axe-core/puppeteer';
 
 export default class PuppeteerPageDriver implements Driver {
 
@@ -7,6 +9,12 @@ export default class PuppeteerPageDriver implements Driver {
 
     constructor(page: Page) {
         this.page = page;
+    }
+    searchForAccessibilityErrors(options: RunOptions): Promise<AxeResults> {
+        return new AxePuppeteer(this.page).options(options).analyze();
+    }
+    getRootElement(): Promise<HTMLElement> {
+        return this.page.evaluate(() => document.body);
     }
     async getElementBySelector(
         selector: string,
@@ -48,7 +56,9 @@ class PuppeteerPageQueryResponse implements QueryResponse {
         return this.page.evaluate(element => element.innerHTML, this.element);
     }
     async getInnerText(): Promise<string> {
-        return this.page.evaluate(element => element.innerText, this.element);
+        return this.page.evaluate(
+            element => (element as HTMLElement).innerText, this.element
+        );
     }
     async click(): Promise<void> {
         await this.element.evaluate(b => {
@@ -61,10 +71,12 @@ class PuppeteerPageQueryResponse implements QueryResponse {
         });
     }
     async setValue(value: string): Promise<void> {
-        await this.element.type(value, { delay: 100 });
+        await this.element.type(value, { delay: 50 });
     }
     async getValue(): Promise<string> {
-        return this.page.evaluate(element => element.value, this.element);
+        return this.page.evaluate(
+            element => (element as HTMLInputElement).value, this.element
+        );
     }
 
 }

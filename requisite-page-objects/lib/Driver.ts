@@ -1,5 +1,8 @@
+import axe from 'axe-core';
+
 export default interface Driver {
 
+    getRootElement(): Promise<HTMLElement>;
     getElementBySelector(
         selector: string,
         parentSelector?: string
@@ -9,6 +12,8 @@ export default interface Driver {
         selector: string,
         parentSelector: string
     ): Promise<QueryAllResponse>;
+
+    searchForAccessibilityErrors(options: axe.RunOptions): Promise<axe.AxeResults>;
 
 // not sure why this is being flagged as a linting error but nowhere else,
 // disabling for now

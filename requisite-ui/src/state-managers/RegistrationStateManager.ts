@@ -32,8 +32,10 @@ export default class RegistrationStateManager {
             }
         } catch (error) {
             const { message, data } = (error as ServiceError);
-            this.userNameConflict = (message === 'conflict') && (data.conflictReason === 'userName');
-            this.emailAddressConflict = (message === 'conflict') && (data.conflictReason === 'emailAddress');
+            this.userNameConflict = (message.toLowerCase() === 'conflict') &&
+                ((data.conflictReason as string).includes('userName'));
+            this.emailAddressConflict = (message.toLowerCase() === 'conflict') &&
+                ((data.conflictReason as string).includes('emailAddress'));
             this.systemError = (
                 !this.registered &&
                 !this.userNameConflict &&

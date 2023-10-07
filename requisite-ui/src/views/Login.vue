@@ -3,14 +3,16 @@
         <HeaderNavigation
             @system-error="handleSystemErrorChange"
         />
-        <SystemErrorAlert
-            :display="systemError"
-        />
-        <Authentication
-            @authenticated="authenticated"
-            @system-error="handleSystemErrorChange"
-        />
-        <r-link name="sign-up" to="/sign-up">Sign Up</r-link>
+        <r-card>
+            <SystemErrorAlert
+                :display="systemError"
+            />
+            <Authentication
+                @authenticated="authenticated"
+                @system-error="handleSystemErrorChange"
+            />
+            <r-link name="sign-up" to="/sign-up">Sign Up</r-link>
+        </r-card>
     </div>
 </template>
 

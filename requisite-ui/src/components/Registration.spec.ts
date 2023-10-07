@@ -1,12 +1,12 @@
-import RequisitePlugin from '../plugins/RequisitePlugin';
-import { mount } from '@vue/test-utils';
 import router from '../router';
 import Registration from '../components/Registration.vue';
 import RegistrationPageObject from '@requisite/page-objects/lib/components/RegistrationPageObject';
-import VueWrapperDriver from '../../tests/unit/VueWrapperDriver';
+import { getMountedDriver } from '../../tests/unit/VueWrapperDriver';
 import RegistrationResponse from '@requisite/model/lib/user/RegistrationResponse';
 import AuthenticationResponse from '@requisite/model/lib/user/AuthenticationResponse';
 import RegistrationRequest from '@requisite/model/lib/user/RegistrationRequest';
+import '../../tests/unit/matchMediaShim';
+import '../../tests/unit/consoleOverrides';
 
 jest.mock('../services/SecurityService', () => {
     class ConflictError extends Error {
@@ -47,16 +47,8 @@ jest.mock('../services/SecurityService', () => {
 
 describe('./components/Registration.vue', () => {
 
-    function getDriver(): VueWrapperDriver {
-        const wrapper = mount(
-            Registration,
-            { router, global: { plugins: [ RequisitePlugin ]} }
-        );
-        return new VueWrapperDriver(wrapper, router);
-    }
-
     it('displays no warnings or errors on mount', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         expect(await pageObj.emailAddressConflictWarningExists()).toBeFalsy();
         expect(await pageObj.emailAddressValidationWarningExists()).toBeFalsy();
@@ -68,10 +60,11 @@ describe('./components/Registration.vue', () => {
         expect(await pageObj.userNameConflictWarningExists()).toBeFalsy();
         expect(await pageObj.userNameValidationWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('captures user input for the registration fields', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setUserName('user');
         await pageObj.setPassword('pass');
@@ -88,10 +81,11 @@ describe('./components/Registration.vue', () => {
         expect(data.request.name.firstName).toMatch('first');
         expect(data.request.name.lastName).toMatch('last');
         expect(data.request.termsAgreement).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when register is clicked if the required fields are not provided', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.clickRegister();
         await pageObj.waitForValidationWarnings(4000);
@@ -102,48 +96,53 @@ describe('./components/Registration.vue', () => {
         expect(await pageObj.passwordValidationWarningExists()).toBeTruthy();
         expect(await pageObj.termsAgreementValidationWarningExists()).toBeTruthy();
         expect(await pageObj.userNameValidationWarningExists()).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when the email address is not a valid format', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setEmailAddress('email');
         await pageObj.clickRegister();
         await pageObj.waitForValidationWarnings(4000);
         expect(await pageObj.emailAddressValidationWarningExists()).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('does not display a warning message when the email address is a valid format', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setEmailAddress('email@address.com');
         await pageObj.clickRegister();
         await pageObj.waitForValidationWarnings(4000);
         expect(await pageObj.emailAddressValidationWarningExists()).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when the password and confirmation do not match', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setPassword('password');
         await pageObj.setPasswordConfirmation('password-doesnt-match');
         await pageObj.clickRegister();
         await pageObj.waitForValidationWarnings(4000);
         expect(await pageObj.passwordConfirmationValidationWarningExists()).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('does not display a warning message when the password and confirmation do match', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setPassword('password-matches');
         await pageObj.setPasswordConfirmation('password-matches');
         await pageObj.clickRegister();
         await pageObj.waitForValidationWarnings(4000);
         expect(await pageObj.passwordConfirmationValidationWarningExists()).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when the user name is already registered', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setUserName('user-name-conflict');
         await pageObj.setPassword('pass');
@@ -155,10 +154,11 @@ describe('./components/Registration.vue', () => {
         await pageObj.clickRegister();
         await pageObj.waitForUserNameConflictWarning(4000);
         expect(await pageObj.userNameConflictWarningExists()).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('displays a warning message when the email address is already registered', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setUserName('email-address-conflict');
         await pageObj.setPassword('pass');
@@ -170,13 +170,14 @@ describe('./components/Registration.vue', () => {
         await pageObj.clickRegister();
         await pageObj.waitForEmailAddressConflictWarning(4000);
         expect(await pageObj.emailAddressConflictWarningExists()).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('emits a system error when an unrecognized response is received', async () => {
         // override console.error to keep output clean
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         jest.spyOn(console, 'error').mockImplementation(() => {});
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setUserName('unknown');
         await pageObj.setPassword('pass');
@@ -188,13 +189,14 @@ describe('./components/Registration.vue', () => {
         await pageObj.clickRegister();
         await driver.nextRender();
         expect(driver.emitted()['system-error']).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('emits a system error when the server fails', async () => {
         // override console.error to keep output clean
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         jest.spyOn(console, 'error').mockImplementation(() => {});
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setUserName('error');
         await pageObj.setPassword('pass');
@@ -206,10 +208,11 @@ describe('./components/Registration.vue', () => {
         await pageObj.clickRegister();
         await driver.nextRender();
         expect(driver.emitted()['system-error']).toBeTruthy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
     it('emits a registered event when registration is successful', async () => {
-        const driver = getDriver();
+        const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);
         await pageObj.setUserName('valid');
         await pageObj.setPassword('pass');
@@ -224,6 +227,7 @@ describe('./components/Registration.vue', () => {
         expect(await pageObj.userNameConflictWarningExists()).toBeFalsy();
         expect(await pageObj.emailAddressConflictWarningExists()).toBeFalsy();
         expect(driver.emitted()['system-error']).toBeFalsy();
+        await pageObj.assertNoAccessibilityErrors();
     });
 
 });

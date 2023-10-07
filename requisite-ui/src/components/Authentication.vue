@@ -34,12 +34,14 @@
                 placeholder="Enter password"
                 name="password"
             ></r-password>
-            <r-button
-                name="login"
-                @click="login()"
-            >
-                Login
-            </r-button>
+            <r-form-controls>
+                <r-button
+                    name="login"
+                    @click="login()"
+                >
+                    Login
+                </r-button>
+            </r-form-controls>
         </r-form>
     </div>
 </template>

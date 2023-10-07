@@ -8,12 +8,33 @@ import type Organization from '@requisite/model/lib/org/Organization';
 import { AxiosInstance } from 'axios';
 import { assertTrue } from '@requisite/utils/lib/validation/AssertionUtils';
 import type Membership from '@requisite/model/lib/user/Membership';
+import { Page } from 'puppeteer';
 
 let testUserCount = 0;
 let testOrgCount = 0;
 
 export const testUserNamePrefix = 'E2ETestUser';
 export const testOrgNamePrefix = 'E2ETestOrg';
+
+export async function executeTest(
+    pageName: string,
+    page: Page,
+    test: () => Promise<void>
+) {
+    const ts = new Date().getTime();
+    let result = '';
+    try {
+        await test();
+        result = 'success';
+    } catch(err) {
+        result = 'error';
+        throw err;
+    } finally {
+        const path = `screenshots/${pageName}-${ts}-${result}.png`;
+        await page.screenshot({ path, fullPage: true });
+        await page.browser().close();
+    }
+}
 
 export async function createTestUser(): Promise<User> {
     testUserCount++;

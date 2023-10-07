@@ -3,13 +3,16 @@
         <HeaderNavigation
             @system-error="handleSystemErrorChange"
         />
-        <SystemErrorAlert
-            :display="systemError"
-        />
-        <Registration
-            @registered="registered()"
-            @system-error="handleSystemErrorChange"
-        />
+        <r-card>
+            <SystemErrorAlert
+                :display="systemError"
+            />
+            <Registration
+                @registered="registered()"
+                @system-error="handleSystemErrorChange"
+            />
+            Already registered?  Click <r-link to="/">here</r-link> to login instead.
+        </r-card>
     </div>
 </template>
 

@@ -1,11 +1,11 @@
 import { getAuthToken, setAuthToken } from './AuthTokenManager';
 import type {
-    AxiosRequestConfig as Request,
+    InternalAxiosRequestConfig as Request,
     AxiosResponse as Response
 } from 'axios';
 import { AxiosError as HttpError } from 'axios';
 
-export function getRequestHandler(): (req: Request) => Request {
+export function getRequestHandler(): (req: Request<unknown>) => Request<unknown> {
     return (req: Request) => {
         const authToken = getAuthToken();
         if (authToken) {
@@ -30,7 +30,7 @@ export function getResponseSuccessHandler(): (res: Response) => Response {
 
 export function getResponseErrorHandler(): (error: HttpError) => Promise<ResponseError> {
     return ({ config, response, code }: HttpError) => {
-        const { method = '', url = '' } = config;
+        const { method = '', url = '' } = config as Request<unknown>;
         const { status = 999, data = null } =
             (response ? (response as Response) : {});
         let message = null;

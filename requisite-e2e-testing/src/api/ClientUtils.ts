@@ -1,7 +1,7 @@
 import type User from '@requisite/model/lib/user/User';
 import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import { assertIsNotEmptyList } from '@requisite/utils/lib/validation/AssertionUtils';
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 export function getClient(): AxiosInstance {
     const { E2E_TESTS_REQUISITE_BASE_URL } = process.env;
@@ -27,7 +27,7 @@ export function getSecuredClient(
         }).then(({ headers }) => {
             const token = headers['x-authorization'];
             client.interceptors.request.use(
-                (req: AxiosRequestConfig) => {
+                (req: InternalAxiosRequestConfig<unknown>) => {
                     req.headers.Authorization = `Bearer ${token}`;
                     return req;
                 }

@@ -7,7 +7,6 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "build:container": "sudo docker-compose build",
-    "dep-graph": "depcruise --include-only \"^src\" --exclude \"\\.test\\.ts$\" --output-type dot src | dot -T svg > dependencygraph.svg",
     "deploy": "sudo docker stack deploy requisite -c docker-compose.yml",
     "docs": "typedoc --out docs --module commonjs --target ES6 --theme markdown src --readme none",
     "lint": "eslint ./src --fix --max-warnings 0 --ext .ts",
@@ -31,10 +30,9 @@
     "crypto-random-string": "^3.3.1",
     "express": "^4.18.1",
     "express-mung": "^0.5.1",
-    "jsonwebtoken": "^8.5.1",
-    "ldapjs": "^2.3.3",
+    "jsonwebtoken": "^9.0.2",
     "log4js": "^6.5.2",
-    "passport": "^0.5.3",
+    "passport": "^0.6.0",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
@@ -46,15 +44,13 @@
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.18",
     "@types/express-mung": "^0.5.3",
-    "@types/jsonwebtoken": "^8.5.8",
-    "@types/ldapjs": "^2.2.2",
+    "@types/jsonwebtoken": "^9.0.3",
     "@types/lodash": "^4.14.199",
     "@types/passport": "^1.0.13",
     "@types/passport-http-bearer": "^1.0.38",
     "@types/passport-local": "^1.0.36",
-    "@types/supertest": "^2.0.13",
+    "@types/supertest": "^2.0.14",
     "@types/validator": "^13.11.2",
-    "dependency-cruiser": "^11.9.0",
     "supertest": "^6.2.4"
   }
 }

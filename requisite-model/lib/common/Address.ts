@@ -3,4 +3,4 @@ export default interface Address {
     city: string;
     state: string;
     zipCode: string;
-};
+}

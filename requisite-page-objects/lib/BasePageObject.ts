@@ -47,7 +47,7 @@ export default abstract class BasePageObject {
         const results = await this.driver.searchForAccessibilityErrors({
             runOnly: {
                 type: 'tag',
-                values: ['wcag2a', 'wcag2aa', 'section508', 'best-practice'] // 'wcag2a', 'wcag2aa',
+                values: ['wcag2a', 'wcag2aa', 'section508', 'best-practice']
             }
         });
         if (results.violations.length > 0) {
@@ -79,6 +79,7 @@ export default abstract class BasePageObject {
                 });
             });
             if (violations.length > 0) {
+                // eslint-disable-next-line max-len
                 throw new Error(`${violations.length} accessibility violations(s) found.\n${JSON.stringify(violations, null, 4)}`);
             }
         }

@@ -5,6 +5,7 @@ module.exports = {
     },
     extends: [
         'plugin:vue/vue3-essential',
+        '@vue/eslint-config-typescript',
         '@requisite/eslint-config'
     ],
     parser: 'vue-eslint-parser',

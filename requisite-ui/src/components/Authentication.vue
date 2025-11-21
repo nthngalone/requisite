@@ -1,5 +1,5 @@
 <template>
-    <div class="requisite-authentication">
+    <r-card class="requisite-authentication" header="Authentication">
         <r-alert
             v-if="!validationResult.valid"
             type="warning"
@@ -25,15 +25,14 @@
             <r-textbox
                 v-model="credentials.userName"
                 label="User Name"
-                placeholder="Enter user name"
                 name="user-name"
             ></r-textbox>
-            <r-password
+            <r-textbox-sensitive
                 v-model="credentials.password"
                 label="Password"
-                placeholder="Enter password"
                 name="password"
-            ></r-password>
+                reveal
+            ></r-textbox-sensitive>
             <r-form-controls>
                 <r-button
                     name="login"
@@ -43,7 +42,7 @@
                 </r-button>
             </r-form-controls>
         </r-form>
-    </div>
+    </r-card>
 </template>
 
 <script lang="ts">
@@ -100,18 +99,3 @@ export default defineComponent({
     }
 });
 </script>
-
-<style lang="scss">
-
-.requisite-authentication {
-    width: 350px;
-    margin-top: 25px;
-    margin-left: auto;
-    margin-right: auto;
-
-    fieldset legend {
-        text-align: left;
-    }
-}
-
-</style>

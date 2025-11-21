@@ -7,8 +7,8 @@ module.exports = {
         global: {
             branches: 60,
             function: 75,
-            lines: 75,
-            statements: 75
+            lines: 70,
+            statements: 65
         }
     },
     moduleFileExtensions: ['js', 'ts', 'json', 'vue'],

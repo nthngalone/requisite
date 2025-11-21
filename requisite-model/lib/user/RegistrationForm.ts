@@ -6,9 +6,9 @@ export default interface RegistrationForm extends RegistrationRequest {
 }
 
 const schema = {
-    ...RegistrationRequestSchema as { [key: string]: unknown }
+    ...RegistrationRequestSchema as Record<string, unknown>
 };
-(schema.properties as { [key: string]: unknown }).passwordConfirmation = {
+(schema.properties as Record<string, unknown>).passwordConfirmation = {
     type: 'string',
     isNotBlank: true,
     matchesProperty: {

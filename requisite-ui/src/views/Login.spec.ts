@@ -32,6 +32,10 @@ jest.mock('../services/SecurityService', () => {
 
 describe('./views/Login.vue', () => {
 
+    beforeAll(() => {
+        HTMLCanvasElement.prototype.getContext = jest.fn();
+    });
+
     it('routes to /home when an authenticated event is received', async () => {
         const driver = getMountedDriver({
             component: Login,

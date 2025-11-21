@@ -14,9 +14,10 @@
   "license": "MIT",
   "dependencies": {
     "@axe-core/puppeteer": "^4.7.3",
-    "axe-core": "^4.8.2",
+    "@types/chance": "^1.1.4",
+    "axe-core": "^4.10.3",
     "axios": "^1.5.1",
-    "crypto-random-string": "^3.3.1",
+    "chance": "^1.1.11",
     "dotenv": "^16.0.1",
     "puppeteer": "^21.3.8"
   }

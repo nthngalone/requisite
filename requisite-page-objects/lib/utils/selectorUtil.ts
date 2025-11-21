@@ -26,11 +26,11 @@ export function dropDownMenuSelector(rootSelector: string, menuName: string) {
 }
 
 export function dropDownMenuTextSelector(rootSelector: string, itemName: string) {
-    return `${rootSelector} .r-dropdown-menu-item[data-name=${itemName}] span`;
+    return `${rootSelector} .r-dropdown-menu-item[data-name=${itemName}]`;
 }
 
 export function dropDownMenuLinkSelector(rootSelector: string, itemName: string) {
-    return `${rootSelector} .r-dropdown-menu-item[data-name=${itemName}] .r-link`;
+    return `${rootSelector} .r-dropdown-menu-item[data-name=${itemName}].r-link`;
 }
 
 export function avatarSelector(rootSelector: string, avatarName: string) {
@@ -50,7 +50,7 @@ export function textboxInputSelector(rootSelector: string, textboxName: string) 
 }
 
 export function passwordInputSelector(rootSelector: string, passwordName: string) {
-    return `${rootSelector} .r-password[data-name=${passwordName}] input[type=password]`;
+    return `${rootSelector} .r-textbox-sensitive[data-name=${passwordName}] input[type=password]`;
 }
 
 export function checkboxInputSelector(rootSelector: string, checkboxName: string) {

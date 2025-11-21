@@ -1,12 +1,16 @@
 name: Requisite Basic Pipeline
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   Pipeline:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 22
     - run: npm ci
     - run: npm run pipeline -- --basic
+    env:
+      # Puppeteer downloads hangs up the build
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+      PUPPETEER_SKIP_DOWNLOAD: "true"

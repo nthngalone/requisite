@@ -2,7 +2,7 @@
     <div>
         <r-navbar
             title="Requisite"
-            :subtitle="viewName"
+            :subtitle="currentRouteName"
             name="requisite-header-navigation"
         >
             <r-dropdown-menu
@@ -11,20 +11,24 @@
                 :button-text="initials"
                 :menu-options="[{
                     name: 'user-name',
-                    text: name
+                    type: 'text',
+                    label: name
                 }, {
                     name: 'separator-1',
-                    separator: true
+                    type: 'separator'
                 }, {
                     name: 'profile-link',
+                    type: 'link',
                     method: profile,
-                    text: 'Profile'
+                    label: 'Profile'
                 }, {
                     name: 'signout-link',
+                    type: 'link',
                     method: logout,
-                    text: 'Sign Out'
+                    label: 'Sign Out'
                 }]"
                 avatar
+                right-justified
             >
             </r-dropdown-menu>
         </r-navbar>
@@ -34,7 +38,7 @@
 <script lang="ts">
 import HeaderNavigationStateManager from '../state-managers/HeaderNavigationStateManager';
 import { reactive, computed, onMounted, watch, defineComponent } from 'vue';
-import { $getCurrentRouteName, $routeByName } from '../router';
+import useRouterUtils from '../router/useRouterUtils';
 
 export default defineComponent({
     props: {
@@ -50,13 +54,13 @@ export default defineComponent({
         // Reactive data
         const headerNavigationStateManager = reactive(new HeaderNavigationStateManager());
 
+        const { currentRouteName, routeByName } = useRouterUtils();
+
         // Computed getters
         const user = computed(() => {
             return headerNavigationStateManager.user;
         });
-        const viewName = computed(() => {
-            return $getCurrentRouteName();
-        });
+
         const name = computed(() => {
             const firstName = headerNavigationStateManager?.user?.name?.firstName || '';
             const lastName = headerNavigationStateManager?.user?.name?.lastName || '';
@@ -78,12 +82,12 @@ export default defineComponent({
 
         // Methods
         const profile = () => {
-            $routeByName('Profile');
+            routeByName('Profile');
         };
 
         const logout = async () => {
             await headerNavigationStateManager.logout();
-            $routeByName('Login');
+            routeByName('Login');
         };
 
         onMounted(() => {
@@ -92,7 +96,7 @@ export default defineComponent({
 
         return {
             user,
-            viewName,
+            currentRouteName,
             name,
             initials,
             profile,

@@ -47,6 +47,10 @@ jest.mock('../services/SecurityService', () => {
 
 describe('./components/Registration.vue', () => {
 
+    beforeAll(() => {
+        HTMLCanvasElement.prototype.getContext = jest.fn();
+    });
+
     it('displays no warnings or errors on mount', async () => {
         const driver = getMountedDriver({ component: Registration, router });
         const pageObj = new RegistrationPageObject(driver);

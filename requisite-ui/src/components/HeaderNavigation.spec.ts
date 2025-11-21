@@ -29,6 +29,10 @@ jest.mock('../services/SecurityService', () => {
 
 describe('./components/HeaderNavigation.vue', () => {
 
+    beforeAll(() => {
+        HTMLCanvasElement.prototype.getContext = jest.fn();
+    });
+
     it('displays the current route name as the subtitle', async () => {
         const driver = getMountedDriver({
             component: HeaderNavigation,

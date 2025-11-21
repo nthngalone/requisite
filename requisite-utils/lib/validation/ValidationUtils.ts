@@ -9,17 +9,13 @@ export interface ValidationResult {
     message?: string;
 }
 
-export interface ValidationErrors {
-    [index: string]: ValidationFieldErrors;
-}
+export type ValidationErrors = Record<string, ValidationFieldErrors>;
 
 export interface ValidationFieldErrors {
     failed: ValidationErrorGroup;
 }
 
-export interface ValidationErrorGroup {
-    [index: string]: boolean;
-}
+export type ValidationErrorGroup = Record<string, boolean>;
 
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);

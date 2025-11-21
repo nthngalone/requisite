@@ -1,5 +1,5 @@
 <template>
-    <div class="requisite-registration">
+    <r-card class="requisite-registration" header="Registration">
         <r-alert
             v-if="!isValidForm"
             type="warning"
@@ -87,19 +87,21 @@
                 placeholder="Enter last name"
                 name="last-name"
             ></r-textbox>
-            <r-password
+            <r-textbox-sensitive
                 v-model="request.password"
                 label="Password"
                 placeholder="Enter password"
                 name="password"
                 :strengthMeter="true"
-            ></r-password>
-            <r-password
+                reveal
+            ></r-textbox-sensitive>
+            <r-textbox-sensitive
                 v-model="request.passwordConfirmation"
                 label="Confirm Password"
                 placeholder="Confirm password"
                 name="password-confirmation"
-            ></r-password>
+                reveal
+            ></r-textbox-sensitive>
             <r-checkbox
                 v-model="request.termsAgreement"
                 name="terms-agreement"
@@ -114,7 +116,7 @@
                 </r-button>
             </r-form-controls>
         </r-form>
-    </div>
+    </r-card>
 </template>
 
 <script lang="ts">
@@ -192,7 +194,7 @@ export default defineComponent({
 <style lang="scss">
 
 .requisite-registration {
-    width: 350px;
+    width: 500px;
     margin-top: 25px;
     margin-left: auto;
     margin-right: auto;

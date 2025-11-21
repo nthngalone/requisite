@@ -44,6 +44,10 @@ jest.mock('../services/SecurityService', () => {
 
 describe('./components/Authentication.vue', () => {
 
+    beforeAll(() => {
+        HTMLCanvasElement.prototype.getContext = jest.fn();
+    });
+
     it('displays no warnings or errors on mount', async () => {
         const driver = getMountedDriver({ component: Authentication, router });
         const pageObj = new AuthenticationPageObject(driver);

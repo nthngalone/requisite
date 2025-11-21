@@ -29,3 +29,5 @@ lerna-*.log
 
 # Dependency graphs
 **/dependencygraph.svg
+*storybook.log
+storybook-static

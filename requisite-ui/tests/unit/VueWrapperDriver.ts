@@ -3,6 +3,7 @@ import { mount, VueWrapper, DOMWrapper } from '@vue/test-utils';
 import axe, { RunOptions, AxeResults } from 'axe-core';
 import { Router } from 'vue-router';
 import RequisitePlugin from '../../src/plugins/RequisitePlugin';
+import router from '../../src/router';
 
 export interface VueWrapperDriverOptions {
     component: unknown,
@@ -20,7 +21,7 @@ export function getMountedDriver(
             router: options.router,
             propsData: options.props,
             attachTo: document.body,
-            global: { plugins: [ RequisitePlugin ] }
+            global: { plugins: [ router, RequisitePlugin ] }
         }
     );
     return new VueWrapperDriver(wrapper, options.router, options.debug);

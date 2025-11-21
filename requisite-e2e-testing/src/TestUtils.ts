@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getClient, getSecuredClient } from './api/ClientUtils';
 import { asyncForEachParallel } from '@requisite/utils/lib/lang/ArrayUtils';
-import random from 'crypto-random-string';
+import Chance from 'chance';
 import type User from '@requisite/model/lib/user/User';
 import type SystemAdmin from '@requisite/model/lib/user/SystemAdmin';
 import type Organization from '@requisite/model/lib/org/Organization';
@@ -38,7 +38,7 @@ export async function executeTest(
 
 export async function createTestUser(): Promise<User> {
     testUserCount++;
-    const password = random({ length: 10 });
+    const password = new Chance().string({ length: 10 });
 
     const ts = getTs();
     const userName = `${testUserNamePrefix}${getTs()}${testUserCount}`;

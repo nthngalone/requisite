@@ -9,7 +9,7 @@ export function get(obj: unknown, property: string): unknown {
     if (obj !== null && obj !== undefined && isNotBlank(property)) {
         const props = property.split('.');
         props.every((prop) => {
-            val = (val as { [key:string]: unknown })[prop];
+            val = (val as Record<string, unknown>)[prop];
             return val;
         });
     }
